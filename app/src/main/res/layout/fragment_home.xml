@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment"
+    android:background="#1c5c75">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="64dp"
+                android:fontFamily="@font/font"
+                android:text="Hi, user"
+                android:textColor="#E7E9EA"
+                android:textSize="27sp" />
+
+            <TextView
+                android:id="@+id/tv_intro"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_welcome"
+                android:layout_alignStart="@id/tv_welcome"
+                android:fontFamily="@font/font"
+                android:text="What do you want to cook today?"
+                android:textColor="#fbffff"
+                android:textSize="35sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="350dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/tv_intro"
+                android:layout_alignStart="@id/tv_intro"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/round_shape"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="5dp"
+                android:hint="Search recipes"
+                android:paddingStart="10dp"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tv_popular"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_search"
+                android:layout_alignStart="@id/tv_welcome"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/font"
+                android:text="Popular Recipes"
+                android:textColor="#E7E9EA"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_popular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_popular"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"/>
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+
+
+
+</RelativeLayout>
