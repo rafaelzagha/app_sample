@@ -2,9 +2,13 @@ package com.example.app_sample.utils;
 
 import android.util.Log;
 
+import com.example.app_sample.R;
 import com.example.app_sample.api.FoodApi;
 import com.example.app_sample.api.FoodService;
+import com.example.app_sample.models.Category;
 import com.example.app_sample.models.Recipes;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,5 +41,17 @@ public class Utils {
             }
         });
 
+    }
+
+    public static ArrayList<Category> getCategories(){
+        ArrayList<Category> categories = new ArrayList<>();
+        categories.add(new Category(R.drawable.breakfast, "Breakfast"));
+        categories.add(new Category(R.drawable.dinner, "Dinner"));
+        categories.add(new Category(R.drawable.lunch, "Lunch"));
+        categories.add(new Category(R.drawable.vegan, "Vegan"));
+        categories.add(new Category(R.drawable.soup, "Soup"));
+        categories.add(new Category(R.drawable.pasta, "Pasta"));
+
+        return categories;
     }
 }

@@ -14,24 +14,23 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class HomeFragment extends Fragment {
     RecyclerView rv;
     TestAdapter ta;
+    GridView gv;
+    ArrayList<String> words;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<String> words = new ArrayList<>();
-        words.add("");
-        words.add("");
-        words.add("");
-        words.add("");
-        words.add("");
-        words.add("");
+        words = new ArrayList<>(Collections.nCopies(10, ""));
 
+        gv = view.findViewById(R.id.grid);
         rv = view.findViewById(R.id.rv_popular);
         ta = new TestAdapter(getContext(), words);
         rv.setAdapter(ta);
@@ -40,7 +39,14 @@ public class HomeFragment extends Fragment {
         SnapHelper helper = new LinearSnapHelper();
         helper.attachToRecyclerView(rv);
 
+        setupGrid();
 
+
+    }
+
+    private void setupGrid() {
+        GridAdapter ga = new GridAdapter(getContext());
+        gv.setAdapter(ga);
     }
 
     @Override

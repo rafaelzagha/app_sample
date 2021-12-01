@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
-        Utils.getRandomRecipes(1);
     }
 
     @Override

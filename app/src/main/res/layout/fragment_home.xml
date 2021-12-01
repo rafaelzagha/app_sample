@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeFragment"
-    android:background="#1c5c75">
+    android:background="#fff"
+    tools:ignore="HardcodedText,ContentDescription,Autofill">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,31 +19,31 @@
 
             <TextView
                 android:id="@+id/tv_welcome"
-                android:layout_width="350dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/font"
                 android:text="Hi, user"
-                android:textColor="#E7E9EA"
+                android:textColor="#000"
                 android:textSize="27sp" />
 
             <TextView
                 android:id="@+id/tv_intro"
-                android:layout_width="350dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_welcome"
                 android:layout_alignStart="@id/tv_welcome"
                 android:fontFamily="@font/font"
                 android:text="What do you want to cook today?"
-                android:textColor="#fbffff"
+                android:textColor="#000"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/et_search"
-                android:layout_width="350dp"
+                android:layout_width="360dp"
                 android:layout_height="45dp"
                 android:layout_below="@id/tv_intro"
                 android:layout_alignStart="@id/tv_intro"
@@ -51,20 +52,50 @@
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="5dp"
                 android:hint="Search recipes"
+                android:inputType="textAutoComplete"
                 android:paddingStart="10dp"
-                tools:ignore="RtlSymmetry" />
+                android:paddingEnd="10dp" />
 
             <TextView
-                android:id="@+id/tv_popular"
-                android:layout_width="350dp"
+                android:id="@+id/tv_quick"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_search"
                 android:layout_alignStart="@id/tv_welcome"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/font"
+                android:text="Quick search"
+                android:textColor="#000"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <GridView
+                android:id="@+id/grid"
+                android:layout_width="360dp"
+                android:layout_height="299dp"
+                android:layout_below="@id/tv_quick"
+                android:layout_alignStart="@id/tv_quick"
+                android:layout_alignEnd="@id/tv_quick"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:horizontalSpacing="15dp"
+                android:numColumns="3"
+                android:paddingStart="2dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="2dp"
+                android:verticalSpacing="15dp" />
+
+            <TextView
+                android:id="@+id/tv_popular"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid"
+                android:layout_alignStart="@id/tv_welcome"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/font"
                 android:text="Popular Recipes"
-                android:textColor="#E7E9EA"
-                android:textSize="20sp"
+                android:textColor="#000"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -73,14 +104,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_popular"
                 android:layout_marginTop="16dp"
-                android:clipToPadding="false"/>
+                android:clipToPadding="false" />
 
         </RelativeLayout>
 
 
     </ScrollView>
-
-
 
 
 </RelativeLayout>
