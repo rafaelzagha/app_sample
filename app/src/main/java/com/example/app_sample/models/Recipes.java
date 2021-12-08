@@ -40,7 +40,7 @@ public class Recipes {
         private Boolean cheap;
         @SerializedName("extendedIngredients")
         @Expose
-        private List<ExtendedIngredient> extendedIngredients = null;
+        private List<Ingredient> ingredients = null;
         @SerializedName("id")
         @Expose
         private Integer id;
@@ -121,12 +121,12 @@ public class Recipes {
             this.cheap = cheap;
         }
 
-        public List<ExtendedIngredient> getIngredients() {
-            return extendedIngredients;
+        public List<Ingredient> getIngredients() {
+            return ingredients;
         }
 
-        public void setIngredients(List<ExtendedIngredient> extendedIngredients) {
-            this.extendedIngredients = extendedIngredients;
+        public void setIngredients(List<Ingredient> ingredients) {
+            this.ingredients = ingredients;
         }
 
         public Integer getId() {

@@ -1,4 +1,4 @@
-package com.example.app_sample;
+package com.example.app_sample.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.app_sample.R;
 import com.example.app_sample.models.Category;
 import com.example.app_sample.utils.Utils;
 
@@ -20,7 +21,7 @@ public class GridAdapter extends BaseAdapter {
 
     public GridAdapter(Context context) {
         this.context = context;
-        this.categories = Utils.getCategories();
+        this.categories = Utils.getCuisines();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.grid_item, parent, false);
+        convertView = LayoutInflater.from(context).inflate(R.layout.cuisine_item, parent, false);
         ImageView img = convertView.findViewById(R.id.img_dish);
         TextView name = convertView.findViewById(R.id.category_name);
         img.setImageResource(getItem(position).getImgId());

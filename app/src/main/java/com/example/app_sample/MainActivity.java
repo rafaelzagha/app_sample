@@ -3,26 +3,14 @@ package com.example.app_sample;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.FragmentContainer;
-import androidx.fragment.app.FragmentContainerView;
-import androidx.navigation.NavController;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.app_sample.api.FoodApi;
-import com.example.app_sample.api.FoodService;
-import com.example.app_sample.models.Recipes;
-import com.example.app_sample.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -47,12 +35,16 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
                 return true;
 
-            case R.id.explore_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new ExploreFragment()).commit();
+            case R.id.search_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new SearchFragment()).commit();
                 return true;
 
             case R.id.shopping_menu:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new ShoppingFragment()).commit();
+                return true;
+
+            case R.id.profile_menu:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new ProfileFragment()).commit();
                 return true;
         }
         return false;

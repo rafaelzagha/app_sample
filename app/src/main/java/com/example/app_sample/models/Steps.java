@@ -29,18 +29,6 @@ public class Steps {
         @Expose
         private String step;
 
-        @SerializedName("ingredients")
-        @Expose
-        List<Ingredient> ingredients;
-
-        public List<Ingredient> getIngredients() {
-            return ingredients;
-        }
-
-        public void setIngredients(List<Ingredient> ingredients) {
-            this.ingredients = ingredients;
-        }
-
         public Integer getNumber() {
             return number;
         }

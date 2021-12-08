@@ -11,13 +11,18 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/exploreFragment"
-        android:name="com.example.app_sample.ExploreFragment"
-        android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore" />
+        android:id="@+id/searchFragment"
+        android:name="com.example.app_sample.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/shoppingFragment"
         android:name="com.example.app_sample.ShoppingFragment"
         android:label="fragment_shopping"
         tools:layout="@layout/fragment_shopping" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.app_sample.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

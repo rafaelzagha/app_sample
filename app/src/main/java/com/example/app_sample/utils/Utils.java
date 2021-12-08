@@ -43,15 +43,30 @@ public class Utils {
 
     }
 
-    public static ArrayList<Category> getCategories(){
+    public static ArrayList<Category> getCuisines(){
         ArrayList<Category> categories = new ArrayList<>();
-        categories.add(new Category(R.drawable.breakfast, "Breakfast"));
-        categories.add(new Category(R.drawable.dinner, "Dinner"));
-        categories.add(new Category(R.drawable.lunch, "Lunch"));
-        categories.add(new Category(R.drawable.vegan, "Vegan"));
-        categories.add(new Category(R.drawable.soup, "Soup"));
-        categories.add(new Category(R.drawable.pasta, "Pasta"));
+        categories.add(new Category(R.drawable.cui_thai, "Thai"));
+        categories.add(new Category(R.drawable.cui_japanese, "Japanese"));
+        categories.add(new Category(R.drawable.cui_italian, "Italian"));
+        categories.add(new Category(R.drawable.cui_indian, "Indian"));
+        categories.add(new Category(R.drawable.cui_turkish, "Turkish"));
+        categories.add(new Category(R.drawable.cui_french, "French"));
 
         return categories;
     }
+
+    public static ArrayList<Category> getCategories(){
+        ArrayList<Category> categories = new ArrayList<>();
+        categories.add(new Category(R.drawable.cat_salad, "Salad"));
+        categories.add(new Category(R.drawable.cat_soup, "Soup"));
+        categories.add(new Category(R.drawable.cat_breakfast, "Breakfast"));
+        categories.add(new Category(R.drawable.cat_dessert, "Dessert"));
+        categories.add(new Category(R.drawable.cat_main_dish, "MainDish"));
+        categories.add(new Category(R.drawable.cat_snack, "Snack"));
+        categories.add(new Category(R.drawable.cat_beverage, "Beverage"));
+
+        return categories;
+    }
+
+
 }

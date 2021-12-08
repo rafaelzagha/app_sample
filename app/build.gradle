@@ -48,5 +48,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$version"
     annotationProcessor "android.arch.lifecycle:compiler:$version"
 
+    //swipe
+    implementation "com.daprlabs.aaron:cardstack:0.3.1-beta0"
+
 
 }

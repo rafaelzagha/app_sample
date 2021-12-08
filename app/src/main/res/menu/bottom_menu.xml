@@ -4,13 +4,22 @@
 
     <item android:title="Home"
         android:id="@+id/home_menu"
-        android:icon="@drawable/ic_home"/>
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        />
 
-    <item android:title="Explore"
-        android:id="@+id/explore_menu"
-        android:icon="@drawable/ic_explore"/>
+    <item android:title="Search"
+        android:id="@+id/search_menu"
+        android:enabled="true"
+        android:icon="@drawable/ic_search"/>
 
     <item android:title="Groceries"
         android:id="@+id/shopping_menu"
-        android:icon="@drawable/ic_basket"/>
+        android:enabled="true"
+        android:icon="@drawable/ic_list"/>
+
+    <item android:title="Profile"
+        android:id="@+id/profile_menu"
+        android:enabled="true"
+        android:icon="@drawable/ic_person"/>
 </menu>
