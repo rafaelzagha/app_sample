@@ -8,7 +8,7 @@ import java.util.List;
 public class Recipes {
 
     @SerializedName("recipes")
-    @Expose
+    
     private List<Recipe> recipes;
 
     public List<Recipe> getRecipes(){
@@ -21,56 +21,56 @@ public class Recipes {
     public class Recipe {
 
         @SerializedName("vegetarian")
-        @Expose
+        
         private Boolean vegetarian;
         @SerializedName("vegan")
-        @Expose
+        
         private Boolean vegan;
         @SerializedName("glutenFree")
-        @Expose
+        
         private Boolean glutenFree;
         @SerializedName("dairyFree")
-        @Expose
+        
         private Boolean dairyFree;
         @SerializedName("veryHealthy")
-        @Expose
+        
         private Boolean veryHealthy;
         @SerializedName("cheap")
-        @Expose
+        
         private Boolean cheap;
         @SerializedName("extendedIngredients")
-        @Expose
+        
         private List<Ingredient> ingredients = null;
         @SerializedName("id")
-        @Expose
+        
         private Integer id;
         @SerializedName("title")
-        @Expose
+        
         private String title;
         @SerializedName("readyInMinutes")
-        @Expose
+        
         private Integer readyInMinutes;
         @SerializedName("servings")
-        @Expose
+        
         private Integer servings;
         @SerializedName("sourceUrl")
-        @Expose
+        
         private String sourceUrl;
         @SerializedName("image")
-        @Expose
+        
         private String image;
         @SerializedName("summary")
-        @Expose
+        
         private String summary;
         @SerializedName("cuisines")
-        @Expose
+        
         private List<Object> cuisines = null;
         @SerializedName("dishTypes")
-        @Expose
+        
         private List<String> dishTypes = null;
 
         @SerializedName("analyzedInstructions")
-        @Expose
+        
         private List<Steps> instructions = null;
 
         public Boolean getVegetarian() {

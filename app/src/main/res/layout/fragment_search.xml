@@ -14,15 +14,15 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="180dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/sf"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/sf_pro_medium"
             android:gravity="center"
             android:text="Search"
             android:textColor="#000"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/et_search"
@@ -50,11 +50,10 @@
             android:layout_alignStart="@id/et_search"
             android:layout_alignEnd="@id/et_search"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/dm_serif"
+            android:fontFamily="@font/sf_pro_semibold"
             android:text="Recommended"
             android:textColor="#000"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="25sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_popular"
@@ -72,7 +71,7 @@
             android:layout_alignStart="@id/et_search"
             android:layout_alignEnd="@id/et_search"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/dm_serif"
+            android:fontFamily="@font/sf_pro_semibold"
             android:text="Cuisines"
             android:textColor="#000"
             android:textSize="25sp" />
@@ -102,7 +101,7 @@
             android:layout_alignStart="@id/tv_popular"
             android:layout_alignEnd="@id/et_search"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/dm_serif"
+            android:fontFamily="@font/sf_pro_semibold"
             android:text="Categories"
             android:textColor="@color/black"
             android:textSize="25sp" />

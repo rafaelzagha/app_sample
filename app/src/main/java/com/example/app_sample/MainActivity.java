@@ -15,6 +15,11 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
     BottomNavigationView bottomNavigationView;
+    HomeFragment homeFragment;
+    SearchFragment searchFragment;
+    ShoppingFragment shoppingFragment;
+    ProfileFragment profileFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
+
+        homeFragment = new HomeFragment();
+        searchFragment = new SearchFragment();
+        shoppingFragment = new ShoppingFragment();
+        profileFragment = new ProfileFragment();
     }
 
     @Override
@@ -32,19 +42,19 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         switch (item.getItemId()) {
             case R.id.home_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new HomeFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, homeFragment).commit();
                 return true;
 
             case R.id.search_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new SearchFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, searchFragment).commit();
                 return true;
 
             case R.id.shopping_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new ShoppingFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, shoppingFragment).commit();
                 return true;
 
             case R.id.profile_menu:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, new ProfileFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, profileFragment).commit();
                 return true;
         }
         return false;

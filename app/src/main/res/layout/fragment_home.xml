@@ -9,25 +9,21 @@
     android:background="#fff"
     tools:ignore="HardcodedText,ContentDescription,Autofill">
 
-    <com.daprlabs.cardstack.SwipeFrameLayout
-        xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.daprlabs.cardstack.SwipeDeck
-            android:id="@+id/swipe_deck"
-            android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:padding="20dp"
-            swipedeck:card_spacing="10dp"
-            swipedeck:max_visible="2"
-            swipedeck:render_above="true"
-            swipedeck:rotation_degrees="15" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/sf_pro_medium"
+        android:text="Murad Ragimli"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
 
-    </com.daprlabs.cardstack.SwipeFrameLayout>
-
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_centerInParent="true" />
 
 
 </RelativeLayout>
