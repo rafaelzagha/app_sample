@@ -8,12 +8,12 @@ import java.util.List;
 public class Recipes {
 
     @SerializedName("recipes")
-    
     private List<Recipe> recipes;
 
-    public List<Recipe> getRecipes(){
+    public List<Recipe> getRecipes() {
         return recipes;
     }
+
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
@@ -21,56 +21,54 @@ public class Recipes {
     public class Recipe {
 
         @SerializedName("vegetarian")
-        
         private Boolean vegetarian;
+
         @SerializedName("vegan")
-        
         private Boolean vegan;
+
         @SerializedName("glutenFree")
-        
         private Boolean glutenFree;
+
         @SerializedName("dairyFree")
-        
         private Boolean dairyFree;
+
         @SerializedName("veryHealthy")
-        
         private Boolean veryHealthy;
+
         @SerializedName("cheap")
-        
         private Boolean cheap;
+
         @SerializedName("extendedIngredients")
-        
         private List<Ingredient> ingredients = null;
+
         @SerializedName("id")
-        
         private Integer id;
+
         @SerializedName("title")
-        
         private String title;
+
         @SerializedName("readyInMinutes")
-        
         private Integer readyInMinutes;
+
         @SerializedName("servings")
-        
         private Integer servings;
+
         @SerializedName("sourceUrl")
-        
         private String sourceUrl;
+
         @SerializedName("image")
-        
         private String image;
+
         @SerializedName("summary")
-        
         private String summary;
+
         @SerializedName("cuisines")
-        
         private List<Object> cuisines = null;
+
         @SerializedName("dishTypes")
-        
         private List<String> dishTypes = null;
 
         @SerializedName("analyzedInstructions")
-        
         private List<Steps> instructions = null;
 
         public Boolean getVegetarian() {

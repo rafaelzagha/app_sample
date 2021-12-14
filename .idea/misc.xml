@@ -30,6 +30,8 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_time.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_type.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/round_shape.xml" value="0.2203125" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/shape_round.xml" value="0.2203125" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/shape_round_square.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/font/crete_round.xml" value="0.234375" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/font/dm_serif.xml" value="0.234375" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/font/sf.xml" value="0.234375" />
@@ -40,7 +42,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item_small.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/cuisine_item.xml" value="0.33" />
-        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_search.xml" value="0.23596938775510204" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/grid_item.xml" value="0.67" />

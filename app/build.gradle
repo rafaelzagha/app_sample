@@ -53,6 +53,12 @@ dependencies {
     //Viewpager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
+    //Swipe View
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+
+    //Round ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
 
 
 

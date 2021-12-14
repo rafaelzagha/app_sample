@@ -22,11 +22,9 @@ public class Steps {
     public class Step {
 
         @SerializedName("number")
-        @Expose
         private Integer number;
 
         @SerializedName("step")
-        @Expose
         private String step;
 
         public Integer getNumber() {
