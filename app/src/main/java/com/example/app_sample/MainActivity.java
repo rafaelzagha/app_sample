@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         searchFragment = new SearchFragment();
         shoppingFragment = new ShoppingFragment();
         profileFragment = new ProfileFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, homeFragment).commit();
     }
 
     @Override
