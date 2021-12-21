@@ -30,7 +30,7 @@
             android:layout_alignStart="@id/tv_type"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
-            android:fontFamily="@font/sf_pro_medium"
+
             android:maxLines="1"
             android:text="Recipe Name"
             android:textColor="@color/black"
@@ -44,7 +44,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:drawablePadding="8dp"
-            android:fontFamily="@font/sf_pro_medium"
+
             android:text="20 mins"
             android:textColor="#9C9C9C"
             android:textSize="12sp"
@@ -58,7 +58,7 @@
             android:layout_alignStart="@id/tv_time"
             android:layout_marginTop="4dp"
             android:drawablePadding="8dp"
-            android:fontFamily="@font/sf_pro_medium"
+
             android:text="2 servings"
             android:textColor="#9C9C9C"
             android:textSize="12sp"
@@ -72,7 +72,7 @@
             android:layout_alignStart="@id/tv_time"
             android:layout_marginTop="4dp"
             android:drawablePadding="8dp"
-            android:fontFamily="@font/sf_pro_medium"
+
             android:text="Breakfast"
             android:textColor="#9C9C9C"
             android:textSize="12sp"

@@ -18,8 +18,8 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="12dp"
-            android:src="@drawable/cat_salad"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside"
+            android:src="@drawable/cat_salad" />
 
         <TextView
             android:id="@+id/tv_cat"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/img_cat"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/sf_pro_medium"
+
             android:text="Soup"
             android:textColor="@color/white" />
 

@@ -41,7 +41,7 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.cuisine_item, parent, false);
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_cuisine, parent, false);
         ImageView img = convertView.findViewById(R.id.img_dish);
         TextView name = convertView.findViewById(R.id.category_name);
         img.setImageResource(getItem(position).getImgId());

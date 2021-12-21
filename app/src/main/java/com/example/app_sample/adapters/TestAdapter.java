@@ -15,7 +15,6 @@ import com.example.app_sample.models.Category;
 import com.example.app_sample.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestViewHolder> {
 
@@ -39,7 +38,7 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull TestViewHolder holder, int position) {
-        if(layout == R.layout.category_item){
+        if(layout == R.layout.item_category){
             holder.tv.setText(items.get(position).getName());
             holder.img.setImageResource(items.get(position).getImgId());
         }

@@ -18,6 +18,7 @@ public class Utils {
 
     public final static String BASE_URL = "https://api.spoonacular.com/";
     public final static String API_KEY = "0140582cb9c243598bb4d22d159fda84";
+    public final static String IMAGE_URL = "https://spoonacular.com/recipeImages/";
 
     public static void getRandomRecipes(int i) {
         FoodApi foodapi = FoodService.getFoodApi();
@@ -29,6 +30,7 @@ public class Utils {
                 if(response.code() == 200){
                     for (Recipes.Recipe r : response.body().getRecipes()) {
                         Log.d("tag", r.getTitle());
+
                     }
                 }
             }

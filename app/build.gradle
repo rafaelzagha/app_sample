@@ -50,16 +50,17 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$version"
     annotationProcessor "android.arch.lifecycle:compiler:$version"
 
-    //Viewpager2
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
-
     //Swipe View
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
     //Round ImageView
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
+    //BlurLayout
+    implementation 'com.eightbitlab:blurview:1.6.6'
 
+    implementation 'io.alterac.blurkit:blurkit:1.1.0'
 
+    implementation 'jp.wasabeef:blurry:4.0.1'
 
 }

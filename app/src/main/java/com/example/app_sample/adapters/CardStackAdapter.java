@@ -1,5 +1,6 @@
 package com.example.app_sample.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,25 +8,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.app_sample.R;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.models.Category;
 
 import java.util.List;
 
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
+import io.alterac.blurkit.BlurKit;
+import io.alterac.blurkit.BlurLayout;
+import jp.wasabeef.blurry.Blurry;
+
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.CardViewHolder>   {
 
     List<Category> categoryList;
+    Context context;
 
-    public CardStackAdapter(List<Category> categoryList) {
+
+    public CardStackAdapter(List<Category> categoryList, Context context) {
         this.categoryList = categoryList;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public CardStackAdapter.CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewpager_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_stack, parent, false);
         /*
         ViewGroup.LayoutParams p = view.getLayoutParams();
         p.height = 450;
@@ -38,7 +49,6 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
     @Override
     public void onBindViewHolder(@NonNull CardStackAdapter.CardViewHolder holder, int position) {
         holder.txt.setText(categoryList.get(position).getName());
-        holder.img.setImageResource(categoryList.get(position).getImgId());
     }
 
     @Override

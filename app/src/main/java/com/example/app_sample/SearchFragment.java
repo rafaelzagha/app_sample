@@ -16,8 +16,6 @@ import android.widget.GridView;
 import com.example.app_sample.adapters.GridAdapter;
 import com.example.app_sample.adapters.TestAdapter;
 
-import java.util.ArrayList;
-
 public class SearchFragment extends Fragment {
 
     RecyclerView rv, rv2;
@@ -31,7 +29,7 @@ public class SearchFragment extends Fragment {
         gv = view.findViewById(R.id.grid);
         rv = view.findViewById(R.id.rv_popular);
         rv2 = view.findViewById(R.id.rv_categories);
-        ta = new TestAdapter(getContext(), R.layout.recipes_card);
+        ta = new TestAdapter(getContext(), R.layout.item_popular);
         rv.setAdapter(ta);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false);
@@ -42,7 +40,7 @@ public class SearchFragment extends Fragment {
 
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        ta2 =  new TestAdapter(getContext(), R.layout.category_item);
+        ta2 =  new TestAdapter(getContext(), R.layout.item_category);
         rv2.setAdapter(ta2);
         rv2.setLayoutManager(layoutManager2);
 
