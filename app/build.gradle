@@ -56,11 +56,7 @@ dependencies {
     //Round ImageView
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    //BlurLayout
-    implementation 'com.eightbitlab:blurview:1.6.6'
-
-    implementation 'io.alterac.blurkit:blurkit:1.1.0'
-
-    implementation 'jp.wasabeef:blurry:4.0.1'
+    //ViewPager2
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
 }

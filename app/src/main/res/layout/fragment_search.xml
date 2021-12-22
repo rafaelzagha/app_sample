@@ -4,43 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/light_grey"
     tools:context=".SearchFragment"
     tools:ignore="HardcodedText,ContentDescription,Autofill,NestedScrolling">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-
-        android:gravity="center"
-        android:text="Search"
-        android:textColor="#000"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/et_search"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_below="@id/tv_title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/shape_round"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="5dp"
-        android:hint="What are you craving?"
-        android:inputType="textAutoComplete"
-        android:paddingHorizontal="10dp" />
-
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/et_search"
-        android:layout_marginTop="16dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"

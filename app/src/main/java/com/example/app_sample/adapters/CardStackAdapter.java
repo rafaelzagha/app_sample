@@ -15,13 +15,6 @@ import com.example.app_sample.models.Category;
 
 import java.util.List;
 
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
-import io.alterac.blurkit.BlurKit;
-import io.alterac.blurkit.BlurLayout;
-import jp.wasabeef.blurry.Blurry;
-
-
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.CardViewHolder>   {
 
     List<Category> categoryList;

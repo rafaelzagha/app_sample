@@ -5,43 +5,66 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.app_sample.adapters.CardStackAdapter;
-import com.example.app_sample.utils.Utils;
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
-import com.yuyakaido.android.cardstackview.CardStackView;
-import com.yuyakaido.android.cardstackview.Direction;
-import com.yuyakaido.android.cardstackview.StackFrom;
+import com.example.app_sample.adapters.FragmentAdapter;
+import com.google.android.material.tabs.TabLayout;
 
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
-import io.alterac.blurkit.BlurLayout;
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    CardStackView csv;
-    CardStackAdapter cardStackAdapter;
+    TabLayout tabLayout;
+    ViewPager2 viewPager;
+    FragmentAdapter fragmentAdapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        csv = view.findViewById(R.id.csv);
+        tabLayout = view.findViewById(R.id.tab_layout);
+        viewPager = view.findViewById(R.id.view_pager);
+        FragmentManager fm = getChildFragmentManager();
 
-        cardStackAdapter = new CardStackAdapter(Utils.getCategories(), requireContext());
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(new SwipeFragment());
+        fragments.add(new SearchFragment());
+        fragmentAdapter = new FragmentAdapter(fm, getLifecycle(), fragments);
 
-        CardStackLayoutManager cardStackLayoutManager =  new CardStackLayoutManager(requireContext());
-        cardStackLayoutManager.setDirections(Direction.HORIZONTAL);
-        cardStackLayoutManager.setCanScrollVertical(false);
-        //cardStackLayoutManager.setVisibleCount(3);
-        cardStackLayoutManager.setStackFrom(StackFrom.Right);
+        viewPager.setAdapter(fragmentAdapter);
+        tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
+        tabLayout.addTab(tabLayout.newTab().setText("Popular"));
 
-        csv.setAdapter(cardStackAdapter);
-        csv.setLayoutManager(cardStackLayoutManager);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+
+        });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
 
     }
 
