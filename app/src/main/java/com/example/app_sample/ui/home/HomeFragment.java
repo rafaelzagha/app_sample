@@ -1,9 +1,12 @@
-package com.example.app_sample;
+package com.example.app_sample.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -12,16 +15,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.app_sample.R;
 import com.example.app_sample.adapters.FragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager2 viewPager;
     FragmentAdapter fragmentAdapter;
+    FragmentManager fm;
+
+    public HomeFragment(){}
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -29,18 +34,22 @@ public class HomeFragment extends Fragment {
 
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
-        FragmentManager fm = getChildFragmentManager();
+        fm = getChildFragmentManager();
 
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(new SwipeFragment());
-        fragments.add(new SearchFragment());
-        fragmentAdapter = new FragmentAdapter(fm, getLifecycle(), fragments);
+
+        fragmentAdapter = new FragmentAdapter(fm, getLifecycle());
 
         viewPager.setAdapter(fragmentAdapter);
-        tabLayout.addTab(tabLayout.newTab().setText("Swipe"));
-        tabLayout.addTab(tabLayout.newTab().setText("Popular"));
+        viewPager.setUserInputEnabled(false);  //disable swiping
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        for(int i=0; i < tabLayout.getTabCount(); i++) {
+            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+            p.setMargins(0, 0, 50, 0);
+            tab.requestLayout();
+        }
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -63,6 +72,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
+        CardView filter = view.findViewById(R.id.filter);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), FilterActivity.class));
             }
         });
 

@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/img_cat"
             android:layout_centerHorizontal="true"
-
             android:text="Soup"
             android:textColor="@color/white" />
 

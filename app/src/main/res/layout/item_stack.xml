@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="475dp"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="16dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="30dp"
     android:backgroundTint="@color/white"
     app:cardCornerRadius="15dp"
-    app:cardElevation="4dp"
+    app:cardElevation="@dimen/elevation"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
@@ -43,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="Recipe Name"
-                    android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -61,8 +61,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="20 mins"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"/>
 
                     <View
                         android:id="@+id/line1"
@@ -76,10 +75,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-
                         android:gravity="center"
                         android:text="3 servings"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
                     <View
@@ -94,10 +91,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-
                         android:gravity="center"
                         android:text="Breakfast"
-                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
                 </LinearLayout>

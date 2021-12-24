@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_grey"
+    tools:context=".ui.home.DiscoverFragment"
+    tools:ignore="HardcodedText,ContentDescription,Autofill,NestedScrolling"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:text="Recommended"
+            android:textSize="25sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_popular"
+            android:layout_marginTop="16dp"
+            android:clipToPadding="false" />
+
+        <TextView
+            android:id="@+id/tv_quick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_categories"
+            android:layout_alignStart="@id/tv_popular"
+            android:layout_alignEnd="@id/tv_popular"
+            android:layout_marginTop="24dp"
+            android:text="Cuisines"
+            android:textSize="25sp" />
+
+        <GridView
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/tv_quick"
+            android:layout_alignStart="@id/tv_popular"
+            android:layout_alignEnd="@id/tv_popular"
+            android:layout_marginTop="16dp"
+            android:clipToPadding="false"
+            android:horizontalSpacing="15dp"
+            android:numColumns="3"
+            android:paddingStart="2dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="2dp"
+            android:scrollbars="none"
+            android:verticalSpacing="15dp" />
+
+        <TextView
+            android:id="@+id/tv_categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rv_popular"
+            android:layout_alignStart="@id/tv_popular"
+            android:layout_alignEnd="@id/tv_popular"
+            android:layout_marginTop="24dp"
+            android:text="Categories"
+            android:textSize="25sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_categories"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/tv_categories"
+            android:layout_marginTop="16dp" />
+
+
+
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>

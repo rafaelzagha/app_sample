@@ -8,10 +8,10 @@
         android:icon="@drawable/ic_home"
         />
 
-    <item android:title="Search"
-        android:id="@+id/search_menu"
+    <item android:title="Favorites"
+        android:id="@+id/favorites_menu"
         android:enabled="true"
-        android:icon="@drawable/ic_search"/>
+        android:icon="@drawable/ic_favorite"/>
 
     <item android:title="Groceries"
         android:id="@+id/shopping_menu"

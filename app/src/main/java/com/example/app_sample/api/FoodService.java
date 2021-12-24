@@ -31,7 +31,7 @@ public class FoodService {
     }
 
 
-    private static OkHttpClient provideOkHttp() {
+    private static OkHttpClient provideOkHttp(){
         return new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override

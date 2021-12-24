@@ -1,4 +1,4 @@
-package com.example.app_sample;
+package com.example.app_sample.ui.home;
 
 import android.os.Bundle;
 
@@ -13,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import com.example.app_sample.R;
 import com.example.app_sample.adapters.GridAdapter;
 import com.example.app_sample.adapters.TestAdapter;
 
-public class SearchFragment extends Fragment {
+public class DiscoverFragment extends Fragment {
 
     RecyclerView rv, rv2;
     TestAdapter ta, ta2;
@@ -58,6 +59,6 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        return inflater.inflate(R.layout.fragment_discover, container, false);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.app_sample;
+package com.example.app_sample.ui.home;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.app_sample.R;
 import com.example.app_sample.adapters.CardStackAdapter;
 import com.example.app_sample.utils.Utils;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;

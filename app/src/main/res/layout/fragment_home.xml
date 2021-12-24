@@ -1,109 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey"
-    tools:context=".HomeFragment"
-    tools:ignore="HardcodedText,ContentDescription,Autofill,UnusedAttribute">
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="HardcodedText,ContentDescription,Autofill,UnusedAttribute"
+    android:background="@color/light_grey">
 
-
-    <TextView
-        android:id="@+id/user_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/product_sans"
-        android:text="Hi, username"
-        android:textColor="@color/dark_grey"
-        android:textFontWeight="300"
-        android:textSize="20sp" />
-
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user_welcome"
-        android:layout_alignStart="@id/user_welcome"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/product_sans"
-        android:gravity="center_horizontal"
-        android:text="What are you craving?"
-        android:textColor="@color/black"
-        android:textFontWeight="400"
-        android:textSize="35sp" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@id/et_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_alignStart="@id/title"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="@dimen/elevation">
-
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="300dp"
-            android:layout_height="45dp"
-            android:backgroundTint="@color/almost_white"
-            android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="5dp"
-            android:hint="Search for Recipes"
-            android:inputType="text"
-            android:paddingHorizontal="10dp" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/filter"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:backgroundTint="@color/almost_white"
-        android:layout_alignEnd="@id/title"
-        android:layout_marginEnd="15dp"
-        android:layout_alignTop="@id/et_search"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="@dimen/elevation">
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_filter"
-            app:tint="@color/blue" />
-
-    </androidx.cardview.widget.CardView>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_search"
-        android:layout_margin="8dp"
-        app:tabGravity="center"
-        app:tabIndicator="@drawable/item_indicator"
-        app:tabIndicatorAnimationMode="elastic"
-        app:tabIndicatorGravity="stretch"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/white"
-        android:backgroundTint="@color/transparent"
-        app:tabPaddingStart="20dp"
-        app:tabPaddingEnd="20dp"
-        app:tabMinWidth="100dp"/>
+        android:backgroundTint="@color/transparent">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tab_layout"/>
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:expandedTitleMarginEnd="56dp"
+            app:expandedTitleMarginStart="40dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <!-- Put your top content here -->
+
+            <RelativeLayout
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Hi, username"
+                    android:textColor="@color/dark_grey"
+                    android:textFontWeight="300"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/username"
+                    android:layout_marginTop="5dp"
+                    android:text="What are you craving?"
+                    android:textFontWeight="400"
+                    android:textSize="33sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="@dimen/elevation"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginHorizontal="2dp">
+
+                    <EditText
+                        android:id="@+id/et_search"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/almost_white"
+                        android:drawableStart="@drawable/ic_search"
+                        android:textFontWeight="400"
+                        android:drawablePadding="5dp"
+                        android:hint="Search for Recipes"
+                        android:inputType="text"
+                        android:paddingHorizontal="10dp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/filter"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/card_search"
+                    android:layout_alignTop="@id/card_search"
+                    android:backgroundTint="@color/almost_white"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="@dimen/elevation">
+
+                    <ImageView
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_filter"
+                        app:tint="@color/blue" />
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:elevation="10dp">
 
-</RelativeLayout>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/transparent"
+                app:tabGravity="center"
+                app:tabIndicator="@drawable/item_indicator"
+                app:tabIndicatorAnimationMode="elastic"
+                app:tabIndicatorGravity="stretch"
+                app:tabSelectedTextColor="@color/white">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/top"
+                    android:text="Swipe"/>
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recent"
+                    android:text="Popular"/>
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/view_pager" />
+
+        </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
