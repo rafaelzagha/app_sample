@@ -1,44 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.FilterActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_margin="0dp"
-            android:theme="?attr/actionBarTheme"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="test"
-            app:titleTextColor="@color/white"/>
+    tools:context=".ui.home.FilterActivity"
+    tools:ignore="HardcodedText,ContentDescription,Autofill,UnusedAttribute">
 
 
-    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_margin="0dp"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:titleTextColor="@color/white" >
+
+        <TextView
+            android:id="@+id/clear_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear All"
+            android:textColor="@color/blue"
+            android:textSize="18dp"
+            android:textFontWeight="500"
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="20dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_below="@id/toolbar"
+        android:paddingHorizontal="20dp">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Filter"
-            android:textSize="40sp" />
+            android:textFontWeight="500"
+            android:textSize="40sp"/>
+
+        <TextView
+            android:id="@+id/dish_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginTop="40dp"
+            android:text="Dish Types"
+            android:textColor="@color/dark_grey"
+            android:textFontWeight="400"
+            android:textSize="20sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_dish_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dish_type"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/diets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chip_group_dish_type"
+            android:layout_marginTop="30dp"
+            android:text="Diets"
+            android:textColor="@color/dark_grey"
+            android:textFontWeight="400"
+            android:textSize="20sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_diets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/diets"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/intolerances"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/chip_group_diets"
+            android:layout_marginTop="30dp"
+            android:text="Intolerances"
+            android:textColor="@color/dark_grey"
+            android:textFontWeight="400"
+            android:textSize="20sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_intolerances"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/intolerances"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/show_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/shape_round"
+            android:text="Show Results"
+            android:visibility="invisible"
+            android:layout_marginBottom="20dp"/>
+
     </RelativeLayout>
 
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

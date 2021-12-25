@@ -70,5 +70,44 @@ public class Utils {
         return categories;
     }
 
+    public static ArrayList<String> getDishTypes(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Salad");
+        list.add("Soup");
+        list.add("Breakfast");
+        list.add("Dessert");
+        list.add("Main Course");
+        list.add("Snack");
+        list.add("Beverage");
+        list.add("Sauce");
+        list.add("Appetizer");
+
+        return list;
+    }
+
+    public static ArrayList<String> getDiets(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Gluten Free");
+        list.add("Vegetarian");
+        list.add("Vegan");
+        list.add("Pescatarian");
+
+        return list;
+    }
+
+    public static ArrayList<String> getIntolerances(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Dairy");
+        list.add("Gluten");
+        list.add("Soy");
+        list.add("Egg");
+        list.add("Grain");
+        list.add("Wheat");
+
+        return list;
+    }
+
+
+
 
 }
