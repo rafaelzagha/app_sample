@@ -71,7 +71,8 @@
                         android:drawablePadding="5dp"
                         android:hint="Search for Recipes"
                         android:inputType="text"
-                        android:paddingHorizontal="10dp" />
+                        android:paddingHorizontal="10dp"
+                        android:imeOptions="actionSearch"/>
 
                 </androidx.cardview.widget.CardView>
 

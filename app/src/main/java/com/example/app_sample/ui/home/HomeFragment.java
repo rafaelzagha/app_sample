@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.app_sample.R;
 import com.example.app_sample.adapters.FragmentAdapter;
@@ -21,6 +22,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class HomeFragment extends Fragment {
 
+    EditText search;
     TabLayout tabLayout;
     ViewPager2 viewPager;
     FragmentAdapter fragmentAdapter;
@@ -32,8 +34,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        search = view.findViewById(R.id.et_search);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
+
         fm = getChildFragmentManager();
 
 
@@ -80,6 +84,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), FilterActivity.class));
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ResultsActivity.class));
             }
         });
 

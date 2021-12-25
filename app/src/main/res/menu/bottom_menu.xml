@@ -16,7 +16,7 @@
     <item android:title="Groceries"
         android:id="@+id/shopping_menu"
         android:enabled="true"
-        android:icon="@drawable/ic_list"/>
+        android:icon="@drawable/ic_checklist"/>
 
     <item android:title="Profile"
         android:id="@+id/profile_menu"

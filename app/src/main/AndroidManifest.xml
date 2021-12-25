@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_sample">
         <activity
+            android:name=".ui.home.ResultsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.FilterActivity"
             android:exported="false" />
         <activity

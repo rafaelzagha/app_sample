@@ -78,6 +78,7 @@ public class FilterActivity extends AppCompatActivity {
                 dishTypes.clearCheck();
                 diets.clearCheck();
                 intolerances.clearCheck();
+                checked.setValue(0);
             }
         });
 
