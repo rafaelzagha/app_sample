@@ -3,103 +3,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="475dp"
+    android:layout_height="450dp"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="30dp"
     android:backgroundTint="@color/white"
     app:cardCornerRadius="15dp"
     app:cardElevation="@dimen/elevation"
+    app:contentPadding="10dp"
     tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/img"
             android:layout_width="wrap_content"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/example_picture" />
+            android:src="@drawable/example_picture"
+            app:riv_corner_radius="15dp" />
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/details"
+        <TextView
+            android:id="@+id/meal_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/img"
-            android:layout_marginTop="-20dp"
-            android:layout_marginHorizontal="20dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_round"
+            android:backgroundTint="@color/red"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="Breakfast"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/meal_type"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/meal_type"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="20 mins."
+            android:textColor="#A6A4A5"
+            android:textSize="15sp"
+            app:drawableLeftCompat="@drawable/ic_time"
+            app:drawableTint="#A6A4A5" />
 
-                <TextView
-                    android:id="@+id/txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="Recipe Name"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+        <TextView
+            android:id="@+id/servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/meal_type"
+            android:layout_toEndOf="@id/time"
+            android:layout_marginStart="10dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="2 servings"
+            android:textColor="#A6A4A5"
+            android:textSize="15sp"
+            app:drawableLeftCompat="@drawable/ic_dish"
+            app:drawableTint="#A6A4A5" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginTop="20dp">
+        <TextView
+            android:id="@+id/recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipe Name even when its long"
+            android:maxLines="2"
+            android:layout_below="@id/meal_type"
+            android:layout_alignStart="@id/meal_type"
+            android:layout_marginTop="15dp"
+            android:textSize="25sp"
+            android:textFontWeight="700"
+            android:paddingHorizontal="10dp"/>
 
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="20 mins"
-                        android:textSize="20sp"/>
-
-                    <View
-                        android:id="@+id/line1"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="20dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/servings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="3 servings"
-                        android:textSize="20sp" />
-
-                    <View
-                        android:id="@+id/line2"
-                        android:layout_width="2dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="20dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:gravity="center"
-                        android:text="Breakfast"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
 
 
     </RelativeLayout>

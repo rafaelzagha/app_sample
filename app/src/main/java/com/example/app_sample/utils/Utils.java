@@ -107,6 +107,16 @@ public class Utils {
         return list;
     }
 
+    public static ArrayList<Integer> getColors(){
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(R.color.green);
+        list.add(R.color.red);
+        list.add(R.color.yellow);
+        list.add(R.color.flat_blue);
+
+        return list;
+    }
+
 
 
 

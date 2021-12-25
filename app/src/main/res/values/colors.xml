@@ -5,11 +5,8 @@
 
     <color name="dark_grey">#333333</color>
     <color name="grey">#8E8E93</color>
-    <color name="light_grey">#e3e6ed</color>
+    <color name="light_grey">#d3d3d3</color>
 
-    <color name="red">#FF3B30</color>
-    <color name="dark_green">#015543</color>
-    <color name="yellow">#FFAE1B</color>
 
     <color name="blue">#0685e7</color>
     <color name="almost_white">#fefefe</color>
@@ -17,4 +14,9 @@
     <color name="medium_grey">#6c7f9f</color>
 
     <color name="transparent">#00FFFFFF</color>
+
+    <color name="green">#88bc3f</color>
+    <color name="yellow">#f1c259</color>
+    <color name="red">#eb5654</color>
+    <color name="flat_blue">#5AB9F8</color>
 </resources>
