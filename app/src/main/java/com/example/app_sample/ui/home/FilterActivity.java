@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app_sample.R;
+import com.example.app_sample.models.Category;
 import com.example.app_sample.utils.Utils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -35,9 +36,7 @@ import java.util.List;
 
 public class FilterActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout;
-    ChipGroup dishTypes;
-    ChipGroup diets;
-    ChipGroup intolerances;
+    ChipGroup dishTypes, diets, intolerances, cuisines;
     Button show_results;
     TextView clear_all;
     boolean visible;
@@ -78,6 +77,7 @@ public class FilterActivity extends AppCompatActivity {
                 dishTypes.clearCheck();
                 diets.clearCheck();
                 intolerances.clearCheck();
+                cuisines.clearCheck();
                 checked.setValue(0);
             }
         });
@@ -90,6 +90,7 @@ public class FilterActivity extends AppCompatActivity {
         dishTypes = findViewById(R.id.chip_group_dish_type);
         diets = findViewById(R.id.chip_group_diets);
         intolerances = findViewById(R.id.chip_group_intolerances);
+        cuisines = findViewById(R.id.chip_group_cuisines);
 
         ColorStateList color = AppCompatResources.getColorStateList(this, R.color.chip_color);
         ColorStateList textColor = AppCompatResources.getColorStateList(this, R.color.chip_text_color);
@@ -134,6 +135,16 @@ public class FilterActivity extends AppCompatActivity {
             chip.setChipBackgroundColor(color);
             chip.setOnCheckedChangeListener(changeListener);
             intolerances.addView(chip);
+        }
+        for (Category i : Utils.getCuisines()) {
+            Chip chip = new Chip(this);
+            chip.setText(i.getName());
+            chip.setCheckable(true);
+            chip.setCheckedIconVisible(false);
+            chip.setTextColor(textColor);
+            chip.setChipBackgroundColor(color);
+            chip.setOnCheckedChangeListener(changeListener);
+            cuisines.addView(chip);
         }
 
     }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="15dp"
+    android:orientation="horizontal"
+    app:cardElevation="@dimen/elevation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/example_picture" />
+
+        <TextView
+            android:id="@+id/recipe_name"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/img"
+            android:text="Recipe Name even when its long"
+            android:textFontWeight="600"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/meal_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recipe_name"
+            android:layout_alignStart="@id/recipe_name"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_round"
+            android:backgroundTint="@color/green"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:text="Breakfast"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/meal_type"
+            android:layout_marginTop="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/meal_type"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="20 mins."
+            android:textColor="@color/another_grey"
+            android:textSize="15sp"
+            app:drawableLeftCompat="@drawable/ic_time"
+            app:drawableTint="@color/another_grey" />
+
+        <TextView
+            android:id="@+id/servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meal_type"
+            android:layout_alignStart="@id/recipe_name"
+            android:layout_marginTop="5dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:text="2 servings"
+            android:textColor="#A6A4A5"
+            android:textSize="15sp"
+            app:drawableLeftCompat="@drawable/ic_dish"
+            app:drawableTint="#A6A4A5" />
+
+        <ImageView
+            android:id="@+id/go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_arrow"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:tint="@color/blue" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/go"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_favorite"
+            app:tint="@color/pink" />
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

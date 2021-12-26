@@ -15,102 +15,126 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_margin="0dp"
         app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:titleTextColor="@color/white" >
+        app:titleTextColor="@color/white">
 
         <TextView
             android:id="@+id/clear_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
             android:text="Clear All"
             android:textColor="@color/blue"
-            android:textSize="18dp"
             android:textFontWeight="500"
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"/>
+            android:textSize="18dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
 
+    <TextView
+        android:paddingHorizontal="20dp"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:textFontWeight="500"
+        android:textSize="40sp"
+        android:layout_below="@id/toolbar" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:paddingHorizontal="20dp">
+        android:layout_below="@id/title">
 
-        <TextView
-            android:id="@+id/title"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Filter"
-            android:textFontWeight="500"
-            android:textSize="40sp"/>
+            android:layout_height="match_parent"
+            android:paddingHorizontal="20dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/dish_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:layout_marginTop="40dp"
-            android:text="Dish Types"
-            android:textColor="@color/dark_grey"
-            android:textFontWeight="400"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/dish_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Dish Types"
+                android:textColor="@color/dark_grey"
+                android:textFontWeight="400"
+                android:textSize="20sp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_dish_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dish_type"
-            android:layout_marginTop="20dp" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_dish_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dish_type"
+                android:layout_marginTop="20dp" />
 
-        <TextView
-            android:id="@+id/diets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/chip_group_dish_type"
-            android:layout_marginTop="30dp"
-            android:text="Diets"
-            android:textColor="@color/dark_grey"
-            android:textFontWeight="400"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/diets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chip_group_dish_type"
+                android:layout_marginTop="30dp"
+                android:text="Diets"
+                android:textColor="@color/dark_grey"
+                android:textFontWeight="400"
+                android:textSize="20sp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_diets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/diets"
-            android:layout_marginTop="20dp" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_diets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/diets"
+                android:layout_marginTop="20dp" />
 
-        <TextView
-            android:id="@+id/intolerances"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/chip_group_diets"
-            android:layout_marginTop="30dp"
-            android:text="Intolerances"
-            android:textColor="@color/dark_grey"
-            android:textFontWeight="400"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/intolerances"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chip_group_diets"
+                android:layout_marginTop="30dp"
+                android:text="Intolerances"
+                android:textColor="@color/dark_grey"
+                android:textFontWeight="400"
+                android:textSize="20sp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_intolerances"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/intolerances"
-            android:layout_marginTop="20dp" />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_intolerances"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/intolerances"
+                android:layout_marginTop="20dp" />
 
-        <Button
-            android:id="@+id/show_results"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="30dp"
-            android:background="@drawable/shape_round"
-            android:text="Show Results"
-            android:visibility="invisible"
-            android:layout_marginBottom="20dp"/>
+            <TextView
+                android:id="@+id/cuisines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/chip_group_intolerances"
+                android:layout_marginTop="30dp"
+                android:text="Cuisines"
+                android:textColor="@color/dark_grey"
+                android:textFontWeight="400"
+                android:textSize="20sp" />
 
-    </RelativeLayout>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_cuisines"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/cuisines"
+                android:layout_marginTop="20dp" />
 
+            <Button
+                android:id="@+id/show_results"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/shape_round"
+                android:text="Show Results"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 </RelativeLayout>

@@ -11,11 +11,11 @@ import com.example.app_sample.ui.home.SwipeFragment;
 
 import java.util.ArrayList;
 
-public class FragmentAdapter extends FragmentStateAdapter {
+public class HomeAdapter extends FragmentStateAdapter {
 
     ArrayList<Fragment> fragments;
 
-    public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle ) {
+    public HomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle ) {
         super(fragmentManager, lifecycle);
         fragments = new ArrayList<>();
         fragments.add(new SwipeFragment());

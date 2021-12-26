@@ -22,89 +22,125 @@
                 android:id="@+id/et_search"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/shape_round"
                 android:backgroundTint="@color/lighter_grey"
                 android:drawableStart="@drawable/ic_search"
-                android:textFontWeight="400"
+                android:drawableEnd="@drawable/ic_filter_2"
                 android:drawablePadding="5dp"
-                android:paddingHorizontal="4dp"
-                android:layout_marginTop="10dp"
                 android:hint="Search"
+                android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:imeOptions="actionSearch"/>
+                android:paddingHorizontal="8dp"
+                android:textFontWeight="400" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
                 android:text="Cancel"
                 android:textColor="@color/blue"
-                android:textSize="18dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="20dp"/>
+                android:textSize="18dp" />
 
         </androidx.appcompat.widget.Toolbar>
 
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <com.google.android.material.chip.ChipGroup
+            <HorizontalScrollView
+                android:id="@+id/filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:text="Test"
+                        app:chipBackgroundColor="@color/transparent"
+                        app:chipStrokeColor="@color/blue"
+                        app:chipStrokeWidth="2dp"
+                        app:closeIconEnabled="true"
+                        app:closeIconTint="@color/blue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:text="Second Test"
+                        app:chipBackgroundColor="@color/transparent"
+                        app:chipStrokeColor="@color/blue"
+                        app:chipStrokeWidth="2dp"
+                        app:closeIconEnabled="true"
+                        app:closeIconTint="@color/blue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:text="Third Test"
+                        app:chipBackgroundColor="@color/transparent"
+                        app:chipStrokeColor="@color/blue"
+                        app:chipStrokeWidth="2dp"
+                        app:closeIconEnabled="true"
+                        app:closeIconTint="@color/blue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:text="Forth Test"
+                        app:chipBackgroundColor="@color/transparent"
+                        app:chipStrokeColor="@color/blue"
+                        app:chipStrokeWidth="2dp"
+                        app:closeIconEnabled="true"
+                        app:closeIconTint="@color/blue" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+            </HorizontalScrollView>
+
+            <com.google.android.material.tabs.TabLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp">
+                android:layout_below="@id/filters"
+                android:layout_alignParentStart="true"
+                app:tabIconTint="@color/tab_item_color"
+                app:tabIndicatorColor="@color/blue"
+                app:tabIndicatorHeight="0dp">
 
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Test"
-                    android:clickable="true"
-                    app:closeIconEnabled="true"
-                    app:closeIconTint="@color/blue"
-                    app:chipStrokeColor="@color/blue"
-                    app:chipStrokeWidth="2dp"
-                    app:chipBackgroundColor="@color/transparent"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:icon="@drawable/test" />
 
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Second Test"
-                    android:clickable="true"
-                    app:closeIconEnabled="true"
-                    app:closeIconTint="@color/blue"
-                    app:chipStrokeColor="@color/blue"
-                    app:chipStrokeWidth="2dp"
-                    app:chipBackgroundColor="@color/transparent"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:icon="@drawable/ic_list" />
 
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Third Test"
-                    android:clickable="true"
-                    app:closeIconEnabled="true"
-                    app:closeIconTint="@color/blue"
-                    app:chipStrokeColor="@color/blue"
-                    app:chipStrokeWidth="2dp"
-                    app:chipBackgroundColor="@color/transparent"/>
+            </com.google.android.material.tabs.TabLayout>
 
-                <com.google.android.material.chip.Chip
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Forth Test"
-                    android:clickable="true"
-                    app:closeIconEnabled="true"
-                    app:closeIconTint="@color/blue"
-                    app:chipStrokeColor="@color/blue"
-                    app:chipStrokeWidth="2dp"
-                    app:chipBackgroundColor="@color/transparent"/>
 
-            </com.google.android.material.chip.ChipGroup>
-
-        </HorizontalScrollView>
-
+        </RelativeLayout>
 
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

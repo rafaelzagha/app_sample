@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -17,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.app_sample.R;
-import com.example.app_sample.adapters.FragmentAdapter;
+import com.example.app_sample.adapters.HomeAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeFragment extends Fragment {
@@ -25,7 +24,7 @@ public class HomeFragment extends Fragment {
     EditText search;
     TabLayout tabLayout;
     ViewPager2 viewPager;
-    FragmentAdapter fragmentAdapter;
+    HomeAdapter homeAdapter;
     FragmentManager fm;
 
     public HomeFragment(){}
@@ -41,9 +40,9 @@ public class HomeFragment extends Fragment {
         fm = getChildFragmentManager();
 
 
-        fragmentAdapter = new FragmentAdapter(fm, getLifecycle());
+        homeAdapter = new HomeAdapter(fm, getLifecycle());
 
-        viewPager.setAdapter(fragmentAdapter);
+        viewPager.setAdapter(homeAdapter);
         viewPager.setUserInputEnabled(false);  //disable swiping
 
         for(int i=0; i < tabLayout.getTabCount(); i++) {
@@ -89,7 +88,8 @@ public class HomeFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ResultsActivity.class));
+                startActivity(new Intent(getActivity(), ResultsActivity.class
+                ));
             }
         });
 
