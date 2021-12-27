@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 
 import com.example.app_sample.R;
 import com.example.app_sample.adapters.HomeAdapter;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeFragment extends Fragment {
@@ -26,6 +28,7 @@ public class HomeFragment extends Fragment {
     ViewPager2 viewPager;
     HomeAdapter homeAdapter;
     FragmentManager fm;
+    AppBarLayout appBarLayout;
 
     public HomeFragment(){}
 
@@ -36,6 +39,7 @@ public class HomeFragment extends Fragment {
         search = view.findViewById(R.id.et_search);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
+        appBarLayout = view.findViewById(R.id.app_bar_layout);
 
         fm = getChildFragmentManager();
 
@@ -51,6 +55,8 @@ public class HomeFragment extends Fragment {
             p.setMargins(0, 0, 50, 0);
             tab.requestLayout();
         }
+
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -88,8 +94,7 @@ public class HomeFragment extends Fragment {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ResultsActivity.class
-                ));
+                startActivity(new Intent(getActivity(), ResultsActivity.class));
             }
         });
 

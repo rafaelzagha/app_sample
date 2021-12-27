@@ -3,9 +3,10 @@ package com.example.app_sample.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Recipes {
+public class Recipes implements Serializable {
 
     @SerializedName("recipes")
     private List<Recipe> recipes;

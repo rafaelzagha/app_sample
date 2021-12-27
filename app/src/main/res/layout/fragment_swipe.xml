@@ -42,12 +42,12 @@
         android:layout_marginTop="20dp">
 
         <ImageView
-            android:padding="12dp"
+            android:padding="15dp"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/almost_white"
-            android:src="@drawable/ic_clear"
-            app:tint="@color/medium_grey"/>
+            android:src="@drawable/ic_rewind"
+            app:tint="@color/medium_grey" />
 
     </androidx.cardview.widget.CardView>
 

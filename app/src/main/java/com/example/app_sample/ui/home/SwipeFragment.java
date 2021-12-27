@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.app_sample.R;
 import com.example.app_sample.adapters.CardStackAdapter;
+import com.example.app_sample.models.Recipes;
 import com.example.app_sample.utils.Utils;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -25,6 +27,9 @@ public class SwipeFragment extends Fragment {
     public SwipeFragment() {
         // Required empty public constructor
     }
+
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
