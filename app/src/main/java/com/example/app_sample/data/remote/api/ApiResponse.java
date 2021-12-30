@@ -2,7 +2,10 @@ package com.example.app_sample.data.remote.api;
 
 import androidx.annotation.Nullable;
 
+import com.example.app_sample.data.local.models.Recipes;
+
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Response;
 public class ApiResponse<T> {
@@ -59,5 +62,12 @@ public class ApiResponse<T> {
     @Nullable
     public Throwable getError() {
         return error;
+    }
+
+    public static ApiResponse<Recipes> joinRecipes(ApiResponse<Recipes> a, ApiResponse<Recipes> b){
+        List<Recipes.Recipe> list = a.getBody().getRecipes();
+        list.addAll(b.getBody().getRecipes());
+        a.getBody().setRecipes(list);
+        return a;
     }
 }

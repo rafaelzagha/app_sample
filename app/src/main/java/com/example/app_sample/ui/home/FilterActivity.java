@@ -8,34 +8,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import android.animation.ObjectAnimator;
-import android.app.Notification;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.app_sample.R;
-import com.example.app_sample.models.Category;
+import com.example.app_sample.data.local.models.Category;
+import com.example.app_sample.data.local.models.Filter;
+import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.utils.Utils;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FilterActivity extends AppCompatActivity {
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    Toolbar toolbar;
     ChipGroup dishTypes, diets, intolerances, cuisines;
     Button show_results;
     TextView clear_all;
@@ -47,7 +39,7 @@ public class FilterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -92,60 +84,10 @@ public class FilterActivity extends AppCompatActivity {
         intolerances = findViewById(R.id.chip_group_intolerances);
         cuisines = findViewById(R.id.chip_group_cuisines);
 
-        ColorStateList color = AppCompatResources.getColorStateList(this, R.color.chip_color);
-        ColorStateList textColor = AppCompatResources.getColorStateList(this, R.color.chip_text_color);
-        CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    checked.setValue(checked.getValue()+1);
-                } else {
-                    checked.setValue(checked.getValue()-1);
-
-                }
-            }
-        };
-
-        for (String i : Utils.getDishTypes()) {
-            Chip chip = new Chip(this);
-            chip.setText(i);
-            chip.setCheckable(true);
-            chip.setCheckedIconVisible(false);
-            chip.setTextColor(textColor);
-            chip.setChipBackgroundColor(color);
-            chip.setOnCheckedChangeListener(changeListener);
-            dishTypes.addView(chip);
-        }
-        for (String i : Utils.getDiets()) {
-            Chip chip = new Chip(this);
-            chip.setText(i);
-            chip.setCheckable(true);
-            chip.setCheckedIconVisible(false);
-            chip.setTextColor(textColor);
-            chip.setChipBackgroundColor(color);
-            chip.setOnCheckedChangeListener(changeListener);
-            diets.addView(chip);
-        }
-        for (String i : Utils.getIntolerances()) {
-            Chip chip = new Chip(this);
-            chip.setText(i);
-            chip.setCheckable(true);
-            chip.setCheckedIconVisible(false);
-            chip.setTextColor(textColor);
-            chip.setChipBackgroundColor(color);
-            chip.setOnCheckedChangeListener(changeListener);
-            intolerances.addView(chip);
-        }
-        for (Category i : Utils.getCuisines()) {
-            Chip chip = new Chip(this);
-            chip.setText(i.getName());
-            chip.setCheckable(true);
-            chip.setCheckedIconVisible(false);
-            chip.setTextColor(textColor);
-            chip.setChipBackgroundColor(color);
-            chip.setOnCheckedChangeListener(changeListener);
-            cuisines.addView(chip);
-        }
+        setUpChipGroup(dishTypes, Filters.MealType.values());
+        setUpChipGroup(diets, Filters.Diet.values());
+        setUpChipGroup(intolerances, Filters.Intolerance.values());
+        setUpChipGroup(cuisines, Filters.Cuisine.values());
 
     }
 
@@ -178,6 +120,33 @@ public class FilterActivity extends AppCompatActivity {
 
 
     }
+
+    public void setUpChipGroup(ChipGroup group, Filter[] list) {
+        ColorStateList color = AppCompatResources.getColorStateList(this, R.color.chip_color);
+        ColorStateList textColor = AppCompatResources.getColorStateList(this, R.color.chip_text_color);
+        CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checked.setValue(checked.getValue()+1);
+                } else {
+                    checked.setValue(checked.getValue()-1);
+
+                }
+            }
+        };
+        for (Filter i : list) {
+            Chip chip = new Chip(this);
+            chip.setText(i.name());
+            chip.setCheckable(true);
+            chip.setCheckedIconVisible(false);
+            chip.setChipBackgroundColor(color);
+            chip.setTextColor(textColor);
+            chip.setOnCheckedChangeListener(changeListener);
+            group.addView(chip);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

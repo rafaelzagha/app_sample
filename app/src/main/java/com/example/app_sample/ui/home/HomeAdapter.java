@@ -1,4 +1,4 @@
-package com.example.app_sample.adapters;
+package com.example.app_sample.ui.home;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.app_sample.ui.home.DiscoverFragment;
-import com.example.app_sample.ui.home.SwipeFragment;
+import com.example.app_sample.ui.home.discover.DiscoverFragment;
+import com.example.app_sample.ui.home.swipe.SwipeFragment;
 
 import java.util.ArrayList;
 

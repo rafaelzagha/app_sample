@@ -1,4 +1,4 @@
-package com.example.app_sample.adapters;
+package com.example.app_sample.ui.home.discover;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,21 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
-import com.example.app_sample.models.Category;
+import com.example.app_sample.data.local.models.Category;
+import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.utils.Utils;
 
 import java.util.ArrayList;
 
-public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestViewHolder> {
+public class HorizontalViewAdapter extends RecyclerView.Adapter<HorizontalViewAdapter.TestViewHolder> {
 
-    private ArrayList<Category> items;
+    private Filters.MealType[] items;
     private LayoutInflater layoutInflater;
     private int layout;
 
-    public TestAdapter(Context context, int layout) {
+    public HorizontalViewAdapter(Context context, int layout) {
         layoutInflater = LayoutInflater.from(context);
         this.layout = layout;
-        this.items = Utils.getCategories();
+        this.items = Filters.MealType.values();
 
     }
 
@@ -39,8 +40,8 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestViewHolder
     @Override
     public void onBindViewHolder(@NonNull TestViewHolder holder, int position) {
         if(layout == R.layout.item_category){
-            holder.tv.setText(items.get(position).getName());
-            holder.img.setImageResource(items.get(position).getImgId());
+            holder.tv.setText(items[position].name());
+            holder.img.setImageResource(items[position].img());
         }
     }
 
@@ -48,7 +49,7 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.TestViewHolder
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items.length;
     }
 
     public class TestViewHolder extends RecyclerView.ViewHolder{

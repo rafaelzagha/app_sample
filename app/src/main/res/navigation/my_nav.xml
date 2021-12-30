@@ -12,17 +12,17 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.app_sample.ui.home.DiscoverFragment"
+        android:name="com.example.app_sample.ui.home.discover.DiscoverFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_discover" />
     <fragment
         android:id="@+id/shoppingFragment"
-        android:name="com.example.app_sample.ui.ShoppingFragment"
+        android:name="com.example.app_sample.ui.groceries.GroceriesFragment"
         android:label="fragment_shopping"
-        tools:layout="@layout/fragment_shopping" />
+        tools:layout="@layout/fragment_groceries" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.app_sample.ui.ProfileFragment"
+        android:name="com.example.app_sample.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

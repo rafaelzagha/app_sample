@@ -1,4 +1,4 @@
-package com.example.app_sample.models;
+package com.example.app_sample.data.local.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

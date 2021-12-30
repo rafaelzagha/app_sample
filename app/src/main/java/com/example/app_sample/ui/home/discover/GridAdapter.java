@@ -1,4 +1,4 @@
-package com.example.app_sample.adapters;
+package com.example.app_sample.ui.home.discover;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,29 +9,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.app_sample.R;
-import com.example.app_sample.models.Category;
-import com.example.app_sample.utils.Utils;
-
-import java.util.ArrayList;
+import com.example.app_sample.data.local.models.Filter;
+import com.example.app_sample.data.local.models.Filters;
 
 public class GridAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Category> categories;
+    private Filters.Cuisine[] cuisines;
 
     public GridAdapter(Context context) {
         this.context = context;
-        this.categories = Utils.getCuisines();
+        this.cuisines = Filters.Cuisine.values();
     }
 
     @Override
     public int getCount() {
-        return categories.size();
+        return cuisines.length;
     }
 
     @Override
-    public Category getItem(int position) {
-        return categories.get(position);
+    public Filters.Cuisine getItem(int position) {
+        return cuisines[position];
     }
 
     @Override
@@ -44,8 +42,8 @@ public class GridAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.item_cuisine, parent, false);
         ImageView img = convertView.findViewById(R.id.img_dish);
         TextView name = convertView.findViewById(R.id.category_name);
-        img.setImageResource(getItem(position).getImgId());
-        name.setText(getItem(position).getName());
+        img.setImageResource(getItem(position).img());
+        name.setText(getItem(position).name());
         return convertView;
     }
 }

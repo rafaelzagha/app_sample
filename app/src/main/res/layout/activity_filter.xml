@@ -44,7 +44,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title">
+        android:layout_below="@id/title"
+        android:layout_marginBottom="20dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -119,22 +120,25 @@
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_cuisines"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/cuisines"
                 android:layout_marginTop="20dp" />
 
-            <Button
-                android:id="@+id/show_results"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/shape_round"
-                android:text="Show Results"
-                android:visibility="invisible" />
+
 
         </RelativeLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/show_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/shape_round"
+        android:text="Show Results"
+        android:visibility="invisible" />
+
 </RelativeLayout>

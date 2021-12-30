@@ -1,4 +1,4 @@
-package com.example.app_sample.ui;
+package com.example.app_sample.ui.favorites;
 
 import android.os.Bundle;
 
@@ -10,14 +10,18 @@ import android.view.ViewGroup;
 
 import com.example.app_sample.R;
 
-public class ShoppingFragment extends Fragment {
 
-    public ShoppingFragment() {}
+public class FavoritesFragment extends Fragment {
+
+    public FavoritesFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping, container, false);
+        return inflater.inflate(R.layout.fragment_favorites, container, false);
     }
 }

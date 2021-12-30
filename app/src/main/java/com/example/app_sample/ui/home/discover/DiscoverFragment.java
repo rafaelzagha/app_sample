@@ -1,4 +1,4 @@
-package com.example.app_sample.ui.home;
+package com.example.app_sample.ui.home.discover;
 
 import android.os.Bundle;
 
@@ -14,23 +14,21 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.example.app_sample.R;
-import com.example.app_sample.adapters.GridAdapter;
-import com.example.app_sample.adapters.TestAdapter;
 
 public class DiscoverFragment extends Fragment {
 
     RecyclerView rv, rv2;
-    TestAdapter ta, ta2;
-    GridView gv;
+    HorizontalViewAdapter ta, ta2;
+    GridView grid;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        gv = view.findViewById(R.id.grid);
+        grid = view.findViewById(R.id.grid);
         rv = view.findViewById(R.id.rv_popular);
         rv2 = view.findViewById(R.id.rv_categories);
-        ta = new TestAdapter(getContext(), R.layout.item_popular);
+        ta = new HorizontalViewAdapter(getContext(), R.layout.item_popular);
         rv.setAdapter(ta);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false);
@@ -41,7 +39,7 @@ public class DiscoverFragment extends Fragment {
 
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        ta2 =  new TestAdapter(getContext(), R.layout.item_category);
+        ta2 =  new HorizontalViewAdapter(getContext(), R.layout.item_category);
         rv2.setAdapter(ta2);
         rv2.setLayoutManager(layoutManager2);
 
@@ -52,7 +50,7 @@ public class DiscoverFragment extends Fragment {
 
     private void setupGrid() {
         GridAdapter ga = new GridAdapter(getContext());
-        gv.setAdapter(ga);
+        grid.setAdapter(ga);
     }
 
     @Override
