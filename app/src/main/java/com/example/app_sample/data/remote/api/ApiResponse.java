@@ -64,10 +64,5 @@ public class ApiResponse<T> {
         return error;
     }
 
-    public static ApiResponse<Recipes> joinRecipes(ApiResponse<Recipes> a, ApiResponse<Recipes> b){
-        List<Recipes.Recipe> list = a.getBody().getRecipes();
-        list.addAll(b.getBody().getRecipes());
-        a.getBody().setRecipes(list);
-        return a;
-    }
+
 }

@@ -62,12 +62,14 @@
         android:layout_height="500dp" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/csv"
         app:cardCornerRadius="100dp"
         app:cardElevation="@dimen/elevation"
-        android:layout_toEndOf="@id/cancel"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_toEndOf="@id/rewind"
         android:layout_marginStart="40dp"
         android:layout_marginTop="0dp">
 
@@ -82,14 +84,15 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cancel"
+        android:id="@+id/rewind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/csv"
         app:cardCornerRadius="100dp"
         app:cardElevation="@dimen/elevation"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:foreground="?android:attr/selectableItemBackground" >
 
         <ImageView
             android:padding="18dp"
@@ -108,9 +111,10 @@
         android:layout_below="@id/csv"
         app:cardCornerRadius="100dp"
         app:cardElevation="@dimen/elevation"
-        android:layout_toStartOf="@id/cancel"
+        android:layout_toStartOf="@id/rewind"
         android:layout_marginEnd="40dp"
-        android:layout_marginTop="0dp">
+        android:layout_marginTop="0dp"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView
             android:padding="13dp"

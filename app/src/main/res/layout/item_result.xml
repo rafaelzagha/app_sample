@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="15dp"
     android:orientation="horizontal"
-    app:cardElevation="@dimen/elevation">
+    app:cardElevation="@dimen/elevation"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginBottom="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,9 +28,11 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/img"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="Recipe Name even when its long"
             android:textFontWeight="600"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/meal_type"
@@ -50,8 +54,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/meal_type"
-            android:layout_marginTop="1dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/meal_type"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
@@ -87,6 +91,7 @@
             app:tint="@color/blue" />
 
         <ImageView
+            android:id="@+id/favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/go"
@@ -94,11 +99,6 @@
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_favorite"
             app:tint="@color/pink" />
-
-
-
-
-
 
 
     </RelativeLayout>

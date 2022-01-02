@@ -25,24 +25,11 @@ import java.util.ListIterator;
 
 public class SwipeViewModel extends AndroidViewModel{
 
-    MutableLiveData<ApiResponse<Recipes>> mutable;
     RecipesRemoteDataSource dataSource;
 
     public SwipeViewModel(@NonNull Application application) {
         super(application);
         dataSource = RecipesRemoteDataSource.getInstance();
-
-        mutable = new MutableLiveData<>(null);
-
-    }
-
-    public LiveData<ApiResponse<Recipes>> getMutable() {
-        return mutable;
-    }
-
-    public void setMutable(ApiResponse<Recipes> data) {
-        if(data != null)
-            mutable.setValue(data);
     }
 
     public LiveData<ApiResponse<Recipes>> newRequest(){

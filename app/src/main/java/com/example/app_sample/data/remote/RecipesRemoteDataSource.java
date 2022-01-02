@@ -7,11 +7,15 @@ import androidx.lifecycle.LiveData;
 
 import com.bumptech.glide.Glide;
 import com.example.app_sample.R;
+import com.example.app_sample.data.local.models.Filter;
+import com.example.app_sample.data.local.models.Filters;
+import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.api.ApiResponse;
 import com.example.app_sample.data.remote.api.FoodApi;
 import com.example.app_sample.data.remote.api.FoodService;
 import com.example.app_sample.data.local.models.Recipes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipesRemoteDataSource {
@@ -24,23 +28,33 @@ public class RecipesRemoteDataSource {
         this.foodApi = FoodService.getFoodApi();
     }
 
-    public static RecipesRemoteDataSource getInstance(){
+    public static RecipesRemoteDataSource getInstance() {
 
-        if(instance == null){
+        if (instance == null) {
             instance = new RecipesRemoteDataSource();
         }
         return instance;
 
     }
 
-    public LiveData<ApiResponse<Recipes>> getRandomRecipes(int number, List<String> tags){
-        return foodApi.getRandomRecipes(number, tags);
+    public LiveData<ApiResponse<Recipes>> getRandomRecipes(int number, ArrayList<Filter> tags) {
+        return foodApi.getRandomRecipes(number, Filters.listToString(tags));
     }
 
-    public static void loadImage(Context context, String url, ImageView imageView){
+    public LiveData<ApiResponse<RecipesResults>> getRecipesByQuery(int number, String query,
+                                                                   String diet,
+                                                                   String intolerances,
+                                                                   String cuisine,
+                                                                   String type,
+                                                                   String sort) {
+
+        return foodApi.getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort);
+    }
+
+    public static void loadImage(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .error(R.drawable.ic_no_image)
+                .error(R.drawable.example_no_image)
                 .centerCrop()
                 .into(imageView);
     }

@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_sample">
         <activity
-            android:name=".ui.home.ResultsActivity"
+            android:name=".ui.home.search.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.FilterActivity"
+            android:name=".ui.home.search.FilterActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

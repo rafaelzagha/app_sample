@@ -1,20 +1,17 @@
-package com.example.app_sample.ui.home.swipe;
+package com.example.app_sample.ui.home.search;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.app_sample.R;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
@@ -22,29 +19,24 @@ import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import java.util.List;
 import java.util.Random;
 
-public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.CardViewHolder> {
+public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
-    List<Recipes.Recipe> recipes;
-    Context context;
+    private List<Recipes.Recipe> recipes;
+    private Context context;
 
-
-    public CardStackAdapter(Context context) {
+    public ResultsAdapter(Context context) {
         this.context = context;
     }
 
     @NonNull
     @Override
-    public CardStackAdapter.CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_stack, parent, false);
-        return new CardViewHolder(view);
-
-
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_result, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardStackAdapter.CardViewHolder holder, int position) {
-        //holder.txt.setText(categoryList.get(position).getName());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         int x = new Random().nextInt(7);
         Recipes.Recipe recipe = recipes.get(position);
 
@@ -59,42 +51,38 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
             holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(Filters.MealType.values()[x].color())));
 
         }
+
     }
 
     @Override
     public int getItemCount() {
-        if (recipes != null)
-            return recipes.size();
+        if(recipes != null) return recipes.size();
         else return 0;
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    {
+        ImageView img, favorite;
+        TextView recipe_name, meal_type, time, servings;
 
-        TextView meal_type, time, servings, recipe_name;
-        ImageView img;
-
-        public CardViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            img = itemView.findViewById(R.id.img);
+            favorite = itemView.findViewById(R.id.favorite);
+            recipe_name = itemView.findViewById(R.id.recipe_name);
             meal_type = itemView.findViewById(R.id.meal_type);
             time = itemView.findViewById(R.id.time);
             servings = itemView.findViewById(R.id.servings);
-            recipe_name = itemView.findViewById(R.id.recipe_name);
-            img = itemView.findViewById(R.id.img);
-
         }
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
-        int length = getItemCount();
-        if(this.recipes == null)
+        if(this.recipes == null){
             this.recipes = recipes;
+        }
         else
             this.recipes.addAll(recipes);
-        notifyItemRangeChanged(length, getItemCount());
-    }
 
-    public Recipes.Recipe getRecipe(int position){
-        return recipes.get(position);
+        notifyDataSetChanged();
     }
-
 }

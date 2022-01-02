@@ -18,7 +18,7 @@ public class Recipes implements Serializable {
         this.recipes = recipes;
     }
 
-    public class Recipe {
+    public class Recipe implements Serializable {
 
         @SerializedName("vegetarian")
         private Boolean vegetarian;

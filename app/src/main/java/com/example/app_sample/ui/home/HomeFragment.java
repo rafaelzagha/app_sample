@@ -10,12 +10,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.app_sample.R;
+import com.example.app_sample.ui.home.search.FilterActivity;
+import com.example.app_sample.ui.home.search.SearchActivity;
+import com.example.app_sample.utils.Utils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
@@ -60,7 +67,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
+                appBarLayout.setExpanded(true);
             }
 
             @Override
@@ -79,6 +86,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
+                appBarLayout.setExpanded(true);
             }
         });
 
@@ -89,10 +97,20 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), FilterActivity.class));
             }
         });
-        search.setOnClickListener(new View.OnClickListener() {
+
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ResultsActivity.class));
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                    if(search.getText().toString().length() >= 3){
+                        Intent intent = new Intent(getActivity(), SearchActivity.class);
+                        intent.putExtra(Utils.QUERY_KEY, search.getText().toString());
+                        startActivity(intent);
+                        search.setText("");
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 

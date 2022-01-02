@@ -24,7 +24,7 @@
             app:expandedTitleMarginStart="40dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <!-- Put your top content here -->
+            <!-- top content here -->
 
             <RelativeLayout
                 android:id="@+id/search"
@@ -87,7 +87,8 @@
                     android:layout_alignTop="@id/card_search"
                     android:backgroundTint="@color/almost_white"
                     app:cardCornerRadius="15dp"
-                    app:cardElevation="@dimen/elevation">
+                    app:cardElevation="@dimen/elevation"
+                    android:foreground="?android:attr/selectableItemBackground">
 
                     <ImageView
                         android:layout_width="45dp"
@@ -126,7 +127,10 @@
                 app:tabIndicator="@drawable/item_indicator"
                 app:tabIndicatorAnimationMode="elastic"
                 app:tabIndicatorGravity="stretch"
-                app:tabSelectedTextColor="@color/white">
+                app:tabSelectedTextColor="@color/white"
+                app:tabPaddingStart="10dp"
+                app:tabPaddingEnd="10dp"
+                app:tabIndicatorAnimationDuration="500">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"

@@ -2,9 +2,11 @@ package com.example.app_sample.data.local.models;
 
 import com.example.app_sample.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
-public class Filters{
+public class Filters {
 
     public enum Diet implements Filter {
         Vegetarian,
@@ -12,12 +14,21 @@ public class Filters{
         Pescatarian;
 
         @Override
-        public String group(){
+        public String group() {
             return "diet";
         }
+
         @Override
-        public String tag(){
+        public String tag() {
             return this.name().toLowerCase(Locale.ROOT);
+        }
+
+        public static ArrayList<String> stringValues() {
+            ArrayList<String> list = new ArrayList<>();
+            for(Filter i : values()){
+                list.add(i.name());
+            }
+            return list;
         }
 
     }
@@ -32,7 +43,7 @@ public class Filters{
         Peanut;
 
         @Override
-        public String group(){
+        public String group() {
             return "intolerances";
         }
 
@@ -40,11 +51,19 @@ public class Filters{
         public String toString() {
             return super.toString();
         }
+
         @Override
-        public String tag(){
+        public String tag() {
             return this.name().toLowerCase(Locale.ROOT);
         }
 
+        public static ArrayList<String> stringValues() {
+            ArrayList<String> list = new ArrayList<>();
+            for(Filter i : values()){
+                list.add(i.name());
+            }
+            return list;
+        }
 
     }
 
@@ -66,13 +85,13 @@ public class Filters{
         }
 
         @Override
-        public String group(){
+        public String group() {
             return "cuisine";
         }
 
         @Override
-        public String tag(){
-            if(this.name().equals("Israeli"))
+        public String tag() {
+            if (this.name().equals("Israeli"))
                 return "middle eastern";
             else
                 return this.name().toLowerCase(Locale.ROOT);
@@ -80,6 +99,14 @@ public class Filters{
 
         public int img() {
             return img;
+        }
+
+        public static ArrayList<String> stringValues() {
+            ArrayList<String> list = new ArrayList<>();
+            for(Filter i : values()){
+                list.add(i.name());
+            }
+            return list;
         }
     }
 
@@ -101,13 +128,13 @@ public class Filters{
         }
 
         @Override
-        public String group(){
+        public String group() {
             return "type";
         }
 
         @Override
-        public String tag(){
-            if(this.name().equals("MainCourse"))
+        public String tag() {
+            if (this.name().equals("MainCourse"))
                 return "main course";
             return this.name().toLowerCase(Locale.ROOT);
         }
@@ -116,8 +143,16 @@ public class Filters{
             return img;
         }
 
-        public int color(){
+        public int color() {
             return color;
+        }
+
+        public static ArrayList<String> stringValues() {
+            ArrayList<String> list = new ArrayList<>();
+            for(Filter i : values()){
+                list.add(i.name());
+            }
+            return list;
         }
 
 
@@ -133,16 +168,38 @@ public class Filters{
         Energy;
 
         @Override
-        public String group(){
+        public String group() {
             return "sort";
         }
 
         @Override
-        public String tag(){
+        public String tag() {
             return this.name().toLowerCase(Locale.ROOT);
         }
 
+        public static ArrayList<String> stringValues() {
+            ArrayList<String> list = new ArrayList<>();
+            for(Filter i : values()){
+                list.add(i.name());
+            }
+            return list;
+        }
 
+    }
+
+    public static String listToString(ArrayList<Filter> list) {
+        if(list!= null){
+            String str = list.toString();
+            str = str.substring(1,str.length()-1);
+            str = str.replaceAll("\\s", "");
+            return str;
+        }
+        else return "";
+
+    }
+
+    public static String listToString(Filter[] list) {
+        return listToString(new ArrayList<>(Arrays.asList(list)));
     }
 
 }

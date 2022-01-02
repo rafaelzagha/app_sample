@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.ui.favorites.FavoritesFragment;
 import com.example.app_sample.ui.groceries.GroceriesFragment;
 import com.example.app_sample.ui.home.HomeFragment;

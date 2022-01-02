@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.search.SearchActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparent"
+        app:elevation="1dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_sessions"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/search_bar"
+                    android:layout_width="300dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/shape_round"
+                    android:backgroundTint="@color/lighter_grey"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="5dp"
+                    android:hint="Search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingHorizontal="8dp"
+                    android:textFontWeight="400" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toEndOf="@id/search_bar"
+                    android:layout_marginStart="-40dp"
+                    android:src="@drawable/ic_filter_2"/>
+
+                <TextView
+                    android:id="@+id/rewind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginStart="30dp"
+                    android:lines="1"
+                    android:text="Cancel"
+                    android:focusable="false"
+                    android:textColor="@color/blue"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <HorizontalScrollView
+                android:id="@+id/filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_filters"
+                    android:animateLayoutChanges="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp" />
+
+            </HorizontalScrollView>
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:layout_below="@id/filters">
+
+               <com.google.android.material.tabs.TabLayout
+                   android:id="@+id/tab_layout"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   app:tabIconTint="@color/tab_item_color"
+                   app:tabIndicatorColor="@color/blue"
+                   app:tabIndicatorHeight="0dp">
+
+                   <com.google.android.material.tabs.TabItem
+                       android:layout_width="70dp"
+                       android:layout_height="70dp"
+                       android:icon="@drawable/ic_list" />
+
+                   <com.google.android.material.tabs.TabItem
+                       android:layout_width="70dp"
+                       android:layout_height="50dp"
+                       android:icon="@drawable/ic_swipe" />
+
+
+               </com.google.android.material.tabs.TabLayout>
+
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="35dp"
+                   android:orientation="horizontal"
+                   android:layout_alignParentEnd="true"
+                   android:layout_centerVertical="true"
+                   android:background="@drawable/shape_spinner"
+                   android:layout_marginVertical="5dp"
+                   android:paddingHorizontal="10dp">
+
+                   <ImageView
+                       android:layout_width="20dp"
+                       android:layout_height="20dp"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginEnd="5dp"
+                       android:scaleType="fitCenter"
+                       android:src="@drawable/ic_sort"
+                       app:tint="@color/medium_grey" />
+
+                   <Spinner
+                       android:id="@+id/spinner"
+                       style="@style/Theme.AppCompat.Light"
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginVertical="5dp"
+                       android:layout_marginEnd="1dp"
+                       android:gravity="center"
+                       android:spinnerMode="dropdown"
+                       android:background="@color/transparent" />
+
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_vertical"
+                       android:src="@drawable/ic_drop" />
+
+
+               </LinearLayout>
+           </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

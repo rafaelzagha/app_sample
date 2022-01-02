@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
     CardStackAdapter cardStackAdapter;
     CardStackLayoutManager cardStackLayoutManager;
     SwipeViewModel viewModel;
-    CardView loadMore;
+    CardView loadMore, rewind, favorite, addRecipe;
     CircularProgressIndicator indicator;
 
     public SwipeFragment() {
@@ -45,6 +46,9 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         loadMore = view.findViewById(R.id.load_more);
         csv = view.findViewById(R.id.csv);
         indicator = view.findViewById(R.id.indicator);
+        rewind = view.findViewById(R.id.rewind);
+        favorite = view.findViewById(R.id.favorite);
+        addRecipe = view.findViewById(R.id.add);
 
         cardStackAdapter = new CardStackAdapter(requireContext());
         cardStackLayoutManager = new CardStackLayoutManager(requireContext(), this);
@@ -63,25 +67,20 @@ public class SwipeFragment extends Fragment implements CardStackListener {
                 viewModel.newRequest().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Recipes>>() {
                     @Override
                     public void onChanged(ApiResponse<Recipes> recipesApiResponse) {
-                        setLoadingVisibility(true);
-                        viewModel.setMutable(recipesApiResponse);
+                        if(recipesApiResponse != null){
+                            setLoadingVisibility(false);
+                            cardStackAdapter.setRecipes(recipesApiResponse.body.getRecipes());
+                        }
                     }
                 });
             }
         });
-        //Todo: add onclicks for the three buttons
+
 
         viewModel.newRequest().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Recipes>>() {
             @Override
             public void onChanged(ApiResponse<Recipes> recipesApiResponse) {
-                viewModel.setMutable(recipesApiResponse);
-            }
-        });
-
-        viewModel.getMutable().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Recipes>>() {
-            @Override
-            public void onChanged(ApiResponse<Recipes> recipesApiResponse) {
-                if(recipesApiResponse != null && recipesApiResponse.body != null){
+                if(recipesApiResponse != null){
                     setReloadVisibility(false);
                     setLoadingVisibility(false);
                     cardStackAdapter.setRecipes(recipesApiResponse.body.getRecipes());
@@ -90,7 +89,18 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         });
 
 
+        rewind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                csv.setVisibility(View.VISIBLE);
+                csv.rewind();
+            }
+        });
 
+        //Todo: add onclicks for the three buttons
+
+        
+        //cardStackAdapter.getRecipe(cardStackLayoutManager.getTopPosition())
     }
 
     public void setReloadVisibility(boolean set){
