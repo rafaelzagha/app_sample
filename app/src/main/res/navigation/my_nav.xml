@@ -9,12 +9,12 @@
         android:id="@+id/homeFragment"
         android:name="com.example.app_sample.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"/>
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.app_sample.ui.home.discover.DiscoverFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_discover" />
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.app_sample.ui.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/shoppingFragment"
         android:name="com.example.app_sample.ui.groceries.GroceriesFragment"
@@ -25,4 +25,5 @@
         android:name="com.example.app_sample.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+
 </navigation>

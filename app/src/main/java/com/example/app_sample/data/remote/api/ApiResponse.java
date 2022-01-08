@@ -3,6 +3,7 @@ package com.example.app_sample.data.remote.api;
 import androidx.annotation.Nullable;
 
 import com.example.app_sample.data.local.models.Recipes;
+import com.example.app_sample.data.local.models.RecipesResults;
 
 import java.io.IOException;
 import java.util.List;
@@ -64,5 +65,10 @@ public class ApiResponse<T> {
         return error;
     }
 
-
+    public static ApiResponse<RecipesResults> joinResponses(ApiResponse<RecipesResults> r1, ApiResponse<RecipesResults> r2){
+        List<Recipes.Recipe> list = r1.getBody().getRecipes();
+        list.addAll(r2.getBody().getRecipes());
+        r1.getBody().setRecipes(list);
+        return r1;
+    }
 }

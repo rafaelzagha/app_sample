@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
+import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Utils;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -35,6 +37,11 @@ public class FilterActivity extends AppCompatActivity {
     TextView clear_all;
     boolean visible;
     MutableLiveData<Integer> checked;
+    ColorStateList chipColor;
+    ColorStateList textColor;
+    CompoundButton.OnCheckedChangeListener changeListener;
+    ArrayList<Filter> filters;
+    String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +54,15 @@ public class FilterActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
+        Intent intent = getIntent();
+        filters = (ArrayList<Filter>) intent.getSerializableExtra(Utils.FILTER_KEY);
+        query = intent.getStringExtra(Utils.QUERY_KEY);
+        if(filters == null) filters = new ArrayList<>();
+
 
         clear_all = findViewById(R.id.clear_all);
         show_results = findViewById(R.id.show_results);
         visible = false;
-
 
         checked = new MutableLiveData<>();
         checked.setValue(0);
@@ -61,7 +72,8 @@ public class FilterActivity extends AppCompatActivity {
         checked.observe(FilterActivity.this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                setVisibility(integer>0);
+                ArrayList<Filter> checked = getCheckedFilters();
+                setVisibility(!filters.equals(checked) && checked.size()>0);
             }
         });
 
@@ -76,13 +88,14 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
+
+
         show_results.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Filter> filters = getCheckedFilters();
-                Intent intent = new Intent(FilterActivity.this, SearchActivity.class);
-                intent.putExtra(Utils.FILTER_KEY, filters);
-                startActivity(intent);
+                filters = getCheckedFilters();
+                setResult(Activity.RESULT_OK, new Intent().putExtra(Utils.QUERY_KEY, query).putExtra(Utils.FILTER_KEY, filters));
+                finish();
             }
         });
 
@@ -96,10 +109,26 @@ public class FilterActivity extends AppCompatActivity {
         intolerances = findViewById(R.id.chip_group_intolerances);
         cuisines = findViewById(R.id.chip_group_cuisines);
 
+        chipColor = AppCompatResources.getColorStateList(this, R.color.chip_color);
+        textColor = AppCompatResources.getColorStateList(this, R.color.chip_text_color);
+        changeListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    checked.setValue(checked.getValue()+1);
+                } else {
+                    checked.setValue(checked.getValue()-1);
+
+                }
+            }
+        };
+
         setUpChipGroup(dishTypes, Filters.MealType.values());
         setUpChipGroup(diets, Filters.Diet.values());
         setUpChipGroup(intolerances, Filters.Intolerance.values());
         setUpChipGroup(cuisines, Filters.Cuisine.values());
+
+
 
     }
 
@@ -134,29 +163,23 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     public void setUpChipGroup(ChipGroup group, Filter[] list) {
-        ColorStateList color = AppCompatResources.getColorStateList(this, R.color.chip_color);
-        ColorStateList textColor = AppCompatResources.getColorStateList(this, R.color.chip_text_color);
-        CompoundButton.OnCheckedChangeListener changeListener = new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    checked.setValue(checked.getValue()+1);
-                } else {
-                    checked.setValue(checked.getValue()-1);
 
-                }
-            }
-        };
         for (Filter i : list) {
+
             Chip chip = new Chip(this);
             chip.setText(i.name());
             chip.setCheckable(true);
             chip.setCheckedIconVisible(false);
-            chip.setChipBackgroundColor(color);
+            chip.setChipBackgroundColor(chipColor);
             chip.setTextColor(textColor);
+            for(Filter f : filters){ //set before listener
+                if(f.name().equals(i.name()))
+                    chip.setChecked(true);
+            }
             chip.setOnCheckedChangeListener(changeListener);
             group.addView(chip);
         }
+
     }
 
     public ArrayList<Filter> getCheckedFilters(){
@@ -189,11 +212,11 @@ public class FilterActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home)
             finish();
         return true;
     }
+
 }

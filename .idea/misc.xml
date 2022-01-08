@@ -50,7 +50,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/font/sf_pro_semibold.xml" value="0.234375" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v28/item_stack.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_filter.xml" value="0.25" />
-        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_results.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_search.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item.xml" value="0.20416666666666666" />
@@ -60,6 +60,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_discover.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_favorites.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_filter.xml" value="0.1675213675213675" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_groceries.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_results.xml" value="0.1675213675213675" />
@@ -73,6 +74,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_result.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_stack.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_stack_loading.xml" value="0.2" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_swipe.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/recipes_card.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/scroll_test.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/spinner_item.xml" value="0.1675213675213675" />

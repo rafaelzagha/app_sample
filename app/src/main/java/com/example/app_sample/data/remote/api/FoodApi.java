@@ -14,8 +14,7 @@ import retrofit2.http.Query;
 public interface FoodApi {
 
     @GET("recipes/random")
-    LiveData<ApiResponse<Recipes>> getRandomRecipes(@Query("number") int number,
-                                                   @Query("tags") String tags);
+    LiveData<ApiResponse<Recipes>> getRandomRecipes(@Query("number") int number);
 
     @GET("recipes/complexSearch")
     LiveData<ApiResponse<RecipesResults>> getRecipesByQuery(@Query("number") int number ,

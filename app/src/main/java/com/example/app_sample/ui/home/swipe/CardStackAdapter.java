@@ -2,8 +2,6 @@ package com.example.app_sample.ui.home.swipe;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
     @Override
     public CardStackAdapter.CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_stack, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_swipe, parent, false);
         return new CardViewHolder(view);
 
 
@@ -57,7 +55,6 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
             holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
 
             holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(Filters.MealType.values()[x].color())));
-
         }
     }
 

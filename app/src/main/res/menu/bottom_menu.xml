@@ -3,23 +3,22 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Home"
-        android:id="@+id/home_menu"
+        android:id="@+id/homeFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
-        />
+        android:icon="@drawable/ic_home" />
 
     <item android:title="Favorites"
-        android:id="@+id/favorites_menu"
+        android:id="@+id/favoritesFragment"
         android:enabled="true"
         android:icon="@drawable/ic_favorite"/>
 
     <item android:title="Groceries"
-        android:id="@+id/shopping_menu"
+        android:id="@+id/shoppingFragment"
         android:enabled="true"
         android:icon="@drawable/ic_checklist"/>
 
     <item android:title="Profile"
-        android:id="@+id/profile_menu"
+        android:id="@+id/profileFragment"
         android:enabled="true"
         android:icon="@drawable/ic_person"/>
 </menu>

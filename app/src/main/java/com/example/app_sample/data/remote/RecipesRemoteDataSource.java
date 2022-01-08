@@ -37,8 +37,8 @@ public class RecipesRemoteDataSource {
 
     }
 
-    public LiveData<ApiResponse<Recipes>> getRandomRecipes(int number, ArrayList<Filter> tags) {
-        return foodApi.getRandomRecipes(number, Filters.listToString(tags));
+    public LiveData<ApiResponse<Recipes>> getRandomRecipes(int number) {
+        return foodApi.getRandomRecipes(number);
     }
 
     public LiveData<ApiResponse<RecipesResults>> getRecipesByQuery(int number, String query,

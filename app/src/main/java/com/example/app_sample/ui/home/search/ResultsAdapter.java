@@ -77,12 +77,12 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHold
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
-        if(this.recipes == null){
-            this.recipes = recipes;
-        }
-        else
-            this.recipes.addAll(recipes);
+        int length = getItemCount();
+        this.recipes = recipes;
 
-        notifyDataSetChanged();
+        if(length >= getItemCount())
+            notifyDataSetChanged();
+        else
+            notifyItemRangeChanged(length, getItemCount());
     }
 }

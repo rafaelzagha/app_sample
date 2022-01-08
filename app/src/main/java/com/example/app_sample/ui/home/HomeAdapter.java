@@ -15,7 +15,7 @@ public class HomeAdapter extends FragmentStateAdapter {
 
     ArrayList<Fragment> fragments;
 
-    public HomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle ) {
+    public HomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
         fragments = new ArrayList<>();
         fragments.add(new SwipeFragment());
@@ -32,4 +32,5 @@ public class HomeAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragments.size();
     }
+
 }

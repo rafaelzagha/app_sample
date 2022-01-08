@@ -33,6 +33,8 @@ public class SwipeViewModel extends AndroidViewModel{
     }
 
     public LiveData<ApiResponse<Recipes>> newRequest(){
-        return dataSource.getRandomRecipes(20, null);
+        return dataSource.getRandomRecipes(20);
     }
+
+
 }
