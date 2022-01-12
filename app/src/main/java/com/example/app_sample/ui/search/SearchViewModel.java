@@ -1,4 +1,4 @@
-package com.example.app_sample.ui.home.search;
+package com.example.app_sample.ui.search;
 
 import android.app.Application;
 import android.util.Log;
@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
-import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.data.remote.api.ApiResponse;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 
 public class SearchViewModel extends AndroidViewModel {
 
-    MutableLiveData<ApiResponse<RecipesResults>> mutable;
+    MutableLiveData<ApiResponse<RecipesResults>> recipes;
     MutableLiveData<Boolean> loading;
     RecipesRemoteDataSource dataSource;
 
@@ -27,36 +26,46 @@ public class SearchViewModel extends AndroidViewModel {
         super(application);
         dataSource = RecipesRemoteDataSource.getInstance();
 
-        mutable = new MutableLiveData<>(null);
+        recipes = new MutableLiveData<>(null);
         loading = new MutableLiveData<>(null);
     }
 
-    public LiveData<ApiResponse<RecipesResults>> getMutable() {
-        return mutable;
+    public LiveData<ApiResponse<RecipesResults>> getRecipes() {
+        return recipes;
     }
 
-    public void setMutable(ApiResponse<RecipesResults> data) {
-        if(data != null)
-            mutable.setValue(data);
+    public void setRecipes(ApiResponse<RecipesResults> data) {
+
+        this.recipes.setValue(data);
         this.loading.setValue(false);
 
     }
 
-    public void addToMutable(ApiResponse<RecipesResults> data){
-        if(data != null && mutable.getValue() != null){
-            mutable.setValue(ApiResponse.joinResponses(mutable.getValue(), data));
+    public void addToRecipes(ApiResponse<RecipesResults> data){
+        if(data != null && recipes.getValue() != null){
+            recipes.setValue(ApiResponse.joinResponses(recipes.getValue(), data));
         }
-        else mutable.setValue(data);
+
+        else recipes.setValue(data);
         this.loading.setValue(false);
     }
 
-    public LiveData<ApiResponse<RecipesResults>> newRequest(String query, Filter diet, ArrayList<Filter> intolerances, Filter cuisine, Filter type, Filter sort){
+    public LiveData<ApiResponse<RecipesResults>> newRequest(boolean overwrite, String query, Filter diet, ArrayList<Filter> intolerances, Filter cuisine, Filter type, Filter sort){
         String sdiet = diet == null?null : diet.tag();
         String sintolerances = intolerances == null?null : Filters.listToString(intolerances);
         String scuisine = cuisine == null?null : cuisine.tag();
         String stype = type == null?null : type.tag();
-        this.loading.setValue(true);
-        return dataSource.getRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, sort.tag());
+        String ssort = sort == null? null : sort.tag();
+        int offset;
+        if(!overwrite)
+            offset= recipes.getValue() != null? recipes.getValue().getBody().getRecipes().size() : 0;
+        else offset = 0;
+        String sortDirection;
+        if(sort == Filters.Sort.Popularity)
+            sortDirection = "desc";
+        else sortDirection = "asc";
+
+        return dataSource.getRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset);
     }
 
     public LiveData<Boolean> getLoading() {

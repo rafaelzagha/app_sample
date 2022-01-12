@@ -11,11 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +23,9 @@ import android.widget.TextView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
-import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.home.discover.DiscoverFragment;
-import com.example.app_sample.ui.home.search.FilterActivity;
-import com.example.app_sample.ui.home.search.SearchFragment;
-import com.example.app_sample.ui.home.swipe.SwipeFragment;
+import com.example.app_sample.ui.search.FilterActivity;
+import com.example.app_sample.ui.search.SearchFragment;
 import com.example.app_sample.utils.Utils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -44,13 +38,11 @@ public class HomeFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     HomeAdapter homeAdapter;
-    FragmentManager fm;
     AppBarLayout appBarLayout;
     CardView filter;
     ActivityResultLauncher<Intent> activityResultLaunch;
 
-    public HomeFragment() {
-    }
+    public HomeFragment() {}
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -60,10 +52,9 @@ public class HomeFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
         appBarLayout = view.findViewById(R.id.app_bar_layout);
+        filter = view.findViewById(R.id.filter);
 
-        fm = getChildFragmentManager();
-
-        homeAdapter = new HomeAdapter(fm, getLifecycle());
+        homeAdapter = new HomeAdapter(getChildFragmentManager(), getLifecycle());
 
         viewPager.setAdapter(homeAdapter);
         viewPager.setUserInputEnabled(false);  //disable swiping
@@ -73,9 +64,11 @@ public class HomeFragment extends Fragment {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Utils.FILTER_KEY);
-                        SearchFragment searchFragment = SearchFragment.newInstance("", filters);
-                        ((MainActivity)requireActivity()).setFragment(searchFragment);
+                        if(result.getData() != null){
+                            ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Utils.FILTER_KEY);
+                            SearchFragment resultsFragment = SearchFragment.newInstance("", filters);
+                            ((MainActivity) requireActivity()).setFragment(resultsFragment, Utils.ANIMATE_SLIDE_VERTICAL);
+                        }
                     }
                 });
 
@@ -114,7 +107,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        filter = view.findViewById(R.id.filter);
+
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,8 +120,8 @@ public class HomeFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (search.getText().toString().length() >= 3) {
-                        SearchFragment searchFragment = SearchFragment.newInstance(search.getText().toString(), null);
-                        ((MainActivity) getActivity()).setFragment(searchFragment);
+                        SearchFragment resultsFragment = SearchFragment.newInstance(search.getText().toString(), null);
+                        ((MainActivity) getActivity()).setFragment(resultsFragment, Utils.ANIMATE_SLIDE_VERTICAL);
                         search.setText("");
                     }
                 }

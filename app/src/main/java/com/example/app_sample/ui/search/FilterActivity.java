@@ -1,4 +1,4 @@
-package com.example.app_sample.ui.home.search;
+package com.example.app_sample.ui.search;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
-import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Utils;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;

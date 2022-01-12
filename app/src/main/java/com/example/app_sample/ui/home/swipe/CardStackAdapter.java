@@ -83,10 +83,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
         int length = getItemCount();
-        if(this.recipes == null)
-            this.recipes = recipes;
-        else
-            this.recipes.addAll(recipes);
+        this.recipes = recipes;
         notifyItemRangeChanged(length, getItemCount());
     }
 

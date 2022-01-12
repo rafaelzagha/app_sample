@@ -5,11 +5,15 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -23,6 +27,7 @@ import com.example.app_sample.ui.favorites.FavoritesFragment;
 import com.example.app_sample.ui.groceries.GroceriesFragment;
 import com.example.app_sample.ui.home.HomeFragment;
 import com.example.app_sample.ui.profile.ProfileFragment;
+import com.example.app_sample.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -32,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FragmentManager fragmentManager;
-    List<Recipes.Recipe> stack;
-    List<Recipes.Recipe> list;
-
-    int stackPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,36 +54,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setFragment(Fragment fragment) {
+    public void setFragment(Fragment fragment, int animate) {
 
-        fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainerView, fragment).addToBackStack(null).commit();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if(animate == Utils.ANIMATE_SLIDE_HORIZONTAL )
+            fragmentTransaction.setCustomAnimations(R.anim.slide_right, R.anim.slide_left, R.anim.slide_right, R.anim.slide_left);
+
+        else if (animate == Utils.ANIMATE_SLIDE_VERTICAL)
+            fragmentTransaction.setCustomAnimations(R.anim.slide_up, R.anim.slide_down, 0, R.anim.slide_down);
+
+        fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
+
+        fragmentTransaction.addToBackStack(null);
+
+        fragmentTransaction.commit();
     }
 
-    public List<Recipes.Recipe> getStack() {
-        return stack;
-    }
-
-    public void setStack(List<Recipes.Recipe> stack) {
-        this.stack = stack;
-    }
-
-    public int getStackPosition() {
-        return stackPosition;
-    }
-
-    public void setStackPosition(int stackPosition) {
-        this.stackPosition = stackPosition;
-    }
-
-    public List<Recipes.Recipe> getList() {
-        return list;
-    }
-
-    public void setList(List<Recipes.Recipe> list) {
-        this.list = list;
-    }
-
-    public void popStack(){
+    public void popStack() {
         fragmentManager.popBackStack();
     }
 

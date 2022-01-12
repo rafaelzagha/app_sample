@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="225dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tv_load_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load More \n results"
+        android:textSize="25dp"
+        android:textColor="@color/blue"
+        android:gravity="center"
+        android:layout_centerInParent="true"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="50dp"
+        android:indeterminate="true"
+        app:indicatorColor="@color/blue"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"/>
+</RelativeLayout>

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(SwipeViewModel.class);
+        viewModel = ViewModelProviders.of(requireActivity()).get(SwipeViewModel.class);
         loadMore = view.findViewById(R.id.load_more);
         csv = view.findViewById(R.id.csv);
         indicator = view.findViewById(R.id.indicator);
@@ -57,71 +58,48 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
         csv.setAdapter(cardStackAdapter);
         csv.setLayoutManager(cardStackLayoutManager);
-
-        if(((MainActivity)getActivity()).getStack() != null){
-            cardStackAdapter.setRecipes(((MainActivity)getActivity()).getStack());
-            setLoadingVisibility(false);
-            cardStackLayoutManager.scrollToPosition(((MainActivity)getActivity()).getStackPosition());
-        }
-
-        else
+        ;
+        if (viewModel.getRecipes().getValue() != null && viewModel.getRecipes().getValue().getBody() != null) {
+            cardStackAdapter.setRecipes(viewModel.getRecipes().getValue().getBody().getRecipes());
+            indicator.setVisibility(View.INVISIBLE);
+            cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
+        } else
             newRequest();
 
-        loadMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newRequest();
-            }
+        loadMore.setOnClickListener(v -> newRequest());
+
+        rewind.setOnClickListener(v -> {
+            csv.setVisibility(View.VISIBLE);
+            csv.rewind();
         });
 
-        rewind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesApiResponse -> {
+            if (recipesApiResponse != null) {
+                indicator.setVisibility(View.INVISIBLE);
+                cardStackAdapter.setRecipes(recipesApiResponse.body.getRecipes());
                 csv.setVisibility(View.VISIBLE);
-                csv.rewind();
+
             }
         });
 
-
-        //Todo: add onclicks for the three buttons
-        //cardStackAdapter.getRecipe(cardStackLayoutManager.getTopPosition())
     }
 
-    public void setReloadVisibility(boolean set){
-        if(set != (loadMore.getVisibility() == View.VISIBLE)){
-            loadMore.setVisibility(set?View.VISIBLE:View.INVISIBLE);
-            loadMore.animate().alpha(set?1:0).setDuration(500);
-        }
-    }
 
-    public void setLoadingVisibility(boolean set){
-        if(set != (indicator.getVisibility() == View.VISIBLE)){
-            indicator.setVisibility(set?View.VISIBLE:View.INVISIBLE);
-        }
-    }
-
-    public void newRequest(){
-        setReloadVisibility(false);
-        setLoadingVisibility(true);
-        viewModel.newRequest().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Recipes>>() {
-            @Override
-            public void onChanged(ApiResponse<Recipes> recipesApiResponse) {
-                if(recipesApiResponse != null){
-                    setLoadingVisibility(false);
-                    if(recipesApiResponse.body != null){
-                        cardStackAdapter.setRecipes(recipesApiResponse.body.getRecipes());
-                        ((MainActivity)getActivity()).setStack(cardStackAdapter.recipes);
-                        csv.setVisibility(View.VISIBLE);
-                    }
-                    else{
-                        Toast.makeText(getActivity(), "Request Error " + recipesApiResponse.getCode(), Toast.LENGTH_SHORT).show();
-                    }
+    public void newRequest() {
+        loadMore.setVisibility(View.INVISIBLE);
+        indicator.setVisibility(View.VISIBLE);
+        viewModel.newRequest().observe(getViewLifecycleOwner(), recipesApiResponse -> {
+            if (recipesApiResponse != null) {
+                if (recipesApiResponse.getBody() != null)
+                    viewModel.addToRecipes(recipesApiResponse);
+                else{
+                    Toast.makeText(getActivity(), "Request Error " + recipesApiResponse.getCode(), Toast.LENGTH_SHORT).show();
+                    indicator.setVisibility(View.INVISIBLE);
                 }
+
             }
         });
     }
-
-
 
 
     @Override
@@ -138,16 +116,16 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if(cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount() ){
+        if (cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount()) {
             csv.setVisibility(View.INVISIBLE);
-            setReloadVisibility(true);
+            loadMore.setVisibility(View.VISIBLE);
         }
-        ((MainActivity)getActivity()).setStackPosition(cardStackLayoutManager.getTopPosition());
+        viewModel.incrementPosition();
     }
 
     @Override
     public void onCardRewound() {
-
+        viewModel.decreasePosition();
     }
 
     @Override

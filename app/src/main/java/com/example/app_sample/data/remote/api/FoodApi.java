@@ -25,7 +25,9 @@ public interface FoodApi {
                                                             @Query("intolerances") String intolerances,
                                                             @Query("cuisine") String cuisines,
                                                             @Query("type") String mealTypes,
-                                                            @Query("sort") String sort);
+                                                            @Query("sort") String sort,
+                                                            @Query("offset") int offset,
+                                                            @Query("sortDirection") String sortDirection);
 
     @GET("recipes/{id}/information")
     LiveData<ApiResponse<Recipes.Recipe>> getRecipeById(@Path("id") long movieId);

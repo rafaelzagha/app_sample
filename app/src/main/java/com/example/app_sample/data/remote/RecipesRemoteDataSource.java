@@ -46,9 +46,11 @@ public class RecipesRemoteDataSource {
                                                                    String intolerances,
                                                                    String cuisine,
                                                                    String type,
-                                                                   String sort) {
+                                                                   String sort,
+                                                                   String sortDirection,
+                                                                   int offset) {
 
-        return foodApi.getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort);
+        return foodApi.getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort, offset, sortDirection);
     }
 
     public static void loadImage(Context context, String url, ImageView imageView) {

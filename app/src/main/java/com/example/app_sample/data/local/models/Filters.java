@@ -160,12 +160,10 @@ public class Filters {
 
     public enum Sort implements Filter {
         Popularity,
-        Healthiness,
         Price,
         Time,
-        Calories,
-        Protein,
-        Energy;
+        Calories;
+
 
         @Override
         public String group() {
@@ -186,6 +184,7 @@ public class Filters {
         }
 
     }
+
 
     public static String listToString(ArrayList<Filter> list) {
         if(list!= null){

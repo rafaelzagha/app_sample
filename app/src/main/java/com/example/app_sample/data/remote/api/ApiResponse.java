@@ -71,4 +71,10 @@ public class ApiResponse<T> {
         r1.getBody().setRecipes(list);
         return r1;
     }
+    public static ApiResponse<Recipes> joinResponses2(ApiResponse<Recipes> r1, ApiResponse<Recipes> r2){
+        List<Recipes.Recipe> list = r1.getBody().getRecipes();
+        list.addAll(r2.getBody().getRecipes());
+        r1.getBody().setRecipes(list);
+        return r1;
+    }
 }

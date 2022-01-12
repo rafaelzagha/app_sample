@@ -18,7 +18,7 @@ import com.example.app_sample.R;
 public class DiscoverFragment extends Fragment {
 
     RecyclerView rv, rv2;
-    HorizontalViewAdapter ta, ta2;
+    HorizontalSwipeAdapter ta, ta2;
     GridView grid;
 
     @Override
@@ -28,18 +28,15 @@ public class DiscoverFragment extends Fragment {
         grid = view.findViewById(R.id.grid);
         rv = view.findViewById(R.id.rv_popular);
         rv2 = view.findViewById(R.id.rv_categories);
-        ta = new HorizontalViewAdapter(getContext(), R.layout.item_popular);
+        ta = new HorizontalSwipeAdapter(getContext(), HorizontalSwipeAdapter.LAYOUT_RECIPE);
         rv.setAdapter(ta);
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         rv.setLayoutManager(layoutManager);
 
-        //SnapHelper helper = new LinearSnapHelper();
-        //helper.attachToRecyclerView(rv);
-
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        ta2 =  new HorizontalViewAdapter(getContext(), R.layout.item_category);
+        ta2 =  new HorizontalSwipeAdapter(getContext(), HorizontalSwipeAdapter.LAYOUT_MEALTYPE);
         rv2.setAdapter(ta2);
         rv2.setLayoutManager(layoutManager2);
 

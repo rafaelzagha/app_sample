@@ -31,4 +31,11 @@
     <color name="greek">#5352ed</color>
     <color name="peace">#57606f</color>
 
+    <color name="lightPrimaryGrayBackground">#f1f1f1</color>
+    <color name="lightGrayBackground">#eeeeee</color>
+    <color name="lightItemBackground">#eeeeee</color>
+    <color name="lightTextColor">#202125</color>
+    <color name="lightGrayTextColor">#5f6267</color>
+    <color name="lightIconColor">#5f6267</color>
+
 </resources>
