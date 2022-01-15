@@ -24,10 +24,13 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app/src/main/res/layout/recipes_card.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app/src/main/res/layout/recipes_horizontal.xml" value="0.17481884057971014" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/groceries_svgrepo_com.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_add.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_arrow.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_clear.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_favorite.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_home.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_ingredients.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person_card.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person_green.xml" value="0.2203125" />
@@ -64,8 +67,9 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_favorites.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_filter.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_groceries.xml" value="0.1675213675213675" />
-        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_home.xml" value="0.2394655704008222" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_profile.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_recipe.xml" value="0.2" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_results.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_shopping.xml" value="0.1" />
@@ -88,6 +92,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/viewpager_icon.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/viewpager_item.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/recipe_menu.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1675213675213675" />
       </map>

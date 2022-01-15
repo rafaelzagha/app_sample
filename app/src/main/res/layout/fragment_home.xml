@@ -74,6 +74,7 @@
                         android:drawableStart="@drawable/ic_search"
                         android:textFontWeight="400"
                         android:drawablePadding="5dp"
+                        android:drawableTint="@color/grey"
                         android:hint="Search for Recipes"
                         android:inputType="textAutoComplete"
                         android:paddingHorizontal="10dp"

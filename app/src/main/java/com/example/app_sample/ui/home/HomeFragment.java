@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.ui.recipe.RecipeFragment;
 import com.example.app_sample.ui.search.FilterActivity;
 import com.example.app_sample.ui.search.SearchFragment;
 import com.example.app_sample.utils.Utils;
@@ -111,9 +113,11 @@ public class HomeFragment extends Fragment {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activityResultLaunch.launch(new Intent(requireContext(), FilterActivity.class));
+                //activityResultLaunch.launch(new Intent(requireContext(), FilterActivity.class));
+                ((MainActivity)getActivity()).setFragment(new RecipeFragment(), Utils.ANIMATE_SLIDE_HORIZONTAL);
             }
         });
+
 
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

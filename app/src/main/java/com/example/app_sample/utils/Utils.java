@@ -21,6 +21,7 @@ public class Utils {
 
     public final static String QUERY_KEY = "search_query";
     public final static String FILTER_KEY = "search_filter";
+    public final static String RECIPE_KEY = "recipe";
 
     public final static int ANIMATE_SLIDE_VERTICAL = 1;
     public final static int ANIMATE_SLIDE_HORIZONTAL = 2;

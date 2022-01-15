@@ -58,7 +58,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
         csv.setAdapter(cardStackAdapter);
         csv.setLayoutManager(cardStackLayoutManager);
-        ;
+
         if (viewModel.getRecipes().getValue() != null && viewModel.getRecipes().getValue().getBody() != null) {
             cardStackAdapter.setRecipes(viewModel.getRecipes().getValue().getBody().getRecipes());
             indicator.setVisibility(View.INVISIBLE);
