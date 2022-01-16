@@ -1,12 +1,16 @@
 package com.example.app_sample.ui.recipe;
 
+import android.animation.ArgbEvaluator;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +20,16 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Utils;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class RecipeFragment extends Fragment {
 
 
     private Recipes.Recipe recipe;
     Toolbar toolbar;
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    AppBarLayout appBarLayout;
 
     public RecipeFragment() {}
 
@@ -29,9 +37,12 @@ public class RecipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar = view.findViewById(R.id.toolbar);
+        collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
+        appBarLayout = view.findViewById(R.id.appbar);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(V -> ((MainActivity)getActivity()).popStack());
+
     }
 
     public static RecipeFragment newInstance(Recipes.Recipe recipe) {
@@ -52,7 +63,6 @@ public class RecipeFragment extends Fragment {
 //            Toast.makeText(requireContext(), "Recipe error", Toast.LENGTH_SHORT).show();
 //            ((MainActivity)getActivity()).popStack();
 //        }
-
     }
 
     @Override

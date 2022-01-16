@@ -11,14 +11,21 @@ import android.widget.TextView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
+import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.ui.search.SearchFragment;
+import com.example.app_sample.utils.Utils;
+
+import java.util.ArrayList;
 
 public class GridAdapter extends BaseAdapter {
 
     private Context context;
     private Filters.Cuisine[] cuisines;
+    DiscoverFragment fragment;
 
-    public GridAdapter(Context context) {
+    public GridAdapter(Context context, DiscoverFragment fragment) {
         this.context = context;
+        this.fragment = fragment;
         this.cuisines = Filters.Cuisine.values();
     }
 
@@ -44,6 +51,17 @@ public class GridAdapter extends BaseAdapter {
         TextView name = convertView.findViewById(R.id.category_name);
         img.setImageResource(getItem(position).img());
         name.setText(getItem(position).name());
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Filters.Cuisine type = cuisines[position];
+                ArrayList<Filter> filter = new ArrayList<>();
+                filter.add(type);
+                SearchFragment searchFragment = SearchFragment.newInstance("", filter);
+                ((MainActivity)fragment.getActivity()).setFragment(searchFragment, Utils.ANIMATE_SLIDE_VERTICAL);
+            }
+        });
         return convertView;
     }
 }

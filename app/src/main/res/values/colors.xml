@@ -38,4 +38,6 @@
     <color name="lightGrayTextColor">#5f6267</color>
     <color name="lightIconColor">#5f6267</color>
 
+    <color name="faded_black">#66000000</color>
+
 </resources>

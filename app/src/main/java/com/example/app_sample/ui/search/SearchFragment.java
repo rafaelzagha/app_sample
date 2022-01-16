@@ -93,7 +93,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         tv_sorting = view.findViewById(R.id.tv_sorting);
         tv_filters = view.findViewById(R.id.tv_filters);
         toolbar = view.findViewById(R.id.toolbar);
