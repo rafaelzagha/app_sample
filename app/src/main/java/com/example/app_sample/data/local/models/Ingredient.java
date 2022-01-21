@@ -1,27 +1,25 @@
 package com.example.app_sample.data.local.models;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Ingredient {
 
     @SerializedName("id")
-    @Expose
     private Integer id;
+
     @SerializedName("image")
-    @Expose
     private String image;
+
     @SerializedName("original")
-    @Expose
     private String original;
-    @SerializedName("originalName")
-    @Expose
-    private String originalName;
+
+    @SerializedName("name")
+    private String name;
+
     @SerializedName("amount")
-    @Expose
     private Double amount;
+
     @SerializedName("unit")
-    @Expose
     private String unit;
 
     public Integer getId() {
@@ -48,12 +46,12 @@ public class Ingredient {
         this.original = original;
     }
 
-    public String getOriginalName() {
-        return originalName;
+    public String getName() {
+        return name;
     }
 
-    public void setOriginalName(String originalName) {
-        this.originalName = originalName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Double getAmount() {

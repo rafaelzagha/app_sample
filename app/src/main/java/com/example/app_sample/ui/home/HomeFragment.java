@@ -113,8 +113,8 @@ public class HomeFragment extends Fragment {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //activityResultLaunch.launch(new Intent(requireContext(), FilterActivity.class));
-                ((MainActivity)getActivity()).setFragment(new RecipeFragment(), Utils.ANIMATE_SLIDE_HORIZONTAL);
+                activityResultLaunch.launch(new Intent(requireContext(), FilterActivity.class));
+//                ((MainActivity)getActivity()).setFragment(new RecipeFragment(), Utils.ANIMATE_SLIDE_HORIZONTAL);
             }
         });
 

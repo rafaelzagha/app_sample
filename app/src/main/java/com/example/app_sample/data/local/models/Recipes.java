@@ -68,6 +68,10 @@ public class Recipes implements Serializable {
         @SerializedName("dishTypes")
         private List<String> dishTypes = null;
 
+        @SerializedName("instructions")
+        private String shortInstructions;
+
+
         @SerializedName("analyzedInstructions")
         private List<Steps> instructions = null;
 
@@ -201,7 +205,9 @@ public class Recipes implements Serializable {
 
 
         public List<Steps.Step> getInstructions() {
+            if(instructions != null && !instructions.isEmpty())
             return instructions.get(0).getSteps();
+            else return null;
         }
 
         public void setInstructions(List<Steps.Step> instructions) {
@@ -209,6 +215,13 @@ public class Recipes implements Serializable {
 
         }
 
+        public String getShortInstructions() {
+            return shortInstructions;
+        }
+
+        public void setShortInstructions(String shortInstructions) {
+            this.shortInstructions = shortInstructions;
+        }
     }
 }
 

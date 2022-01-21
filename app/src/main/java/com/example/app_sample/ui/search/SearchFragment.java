@@ -16,6 +16,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,7 +159,11 @@ public class SearchFragment extends Fragment {
 
         tv_sorting.setOnClickListener(v -> spinner.performClick());
 
-        doSearch(true);
+        if(viewModel.getRecipes().getValue() != null){
+            Log.d("tag", ""+viewModel.getRecipes().getValue().getBody().getRecipes().size());
+        }
+        else
+            doSearch(true);
 
         setUpChipGroup(filterChips);
 
@@ -214,11 +219,13 @@ public class SearchFragment extends Fragment {
 
         clearText.setOnClickListener(v -> searchBar.setText(""));
 
+
         viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<ApiResponse<RecipesResults>>() {
             @Override
             public void onChanged(ApiResponse<RecipesResults> recipesResultsApiResponse) {
                 if (recipesResultsApiResponse != null && recipesResultsApiResponse.getBody() != null) {
-                    adapter.setRecipes(recipesResultsApiResponse.body.getRecipes());
+                    Log.d("tag", "changed" + recipesResultsApiResponse.getBody().getRecipes().size());
+                    adapter.setRecipes(recipesResultsApiResponse.getBody().getRecipes());
                 }
             }
         });
@@ -292,7 +299,8 @@ public class SearchFragment extends Fragment {
         if (overwrite) viewModel.setLoading(true);
 
         viewModel.newRequest(overwrite, query, diet, intolerances, cuisine, mealType, sort).observe(getViewLifecycleOwner(), recipesApiResponse -> {
-            if (recipesApiResponse != null && recipesApiResponse.body != null) {
+            if (recipesApiResponse != null && recipesApiResponse.getBody() != null) {
+                Log.d("tag", "new request");
                 if (overwrite) {
                     viewModel.setRecipes(recipesApiResponse);
                 } else viewModel.addToRecipes(recipesApiResponse);

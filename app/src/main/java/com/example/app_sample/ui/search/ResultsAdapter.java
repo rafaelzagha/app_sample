@@ -2,6 +2,7 @@ package com.example.app_sample.ui.search;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
+import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.ui.recipe.RecipeFragment;
+import com.example.app_sample.utils.Utils;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
@@ -62,8 +66,14 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 RecipesRemoteDataSource.loadImage(context, recipe.getImage(), recipeHolder.img);
                 recipeHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                 recipeHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
-
                 recipeHolder.meal_type.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(Filters.MealType.values()[x].color())));
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RecipeFragment recipeFragment = RecipeFragment.newInstance(recipe);
+                        ((MainActivity)context).setFragment(recipeFragment, Utils.ANIMATE_SLIDE_HORIZONTAL);
+                    }
+                });
             }
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
@@ -106,6 +116,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (recipes.size() <= 20)
             notifyDataSetChanged();
         else {
+
             notifyItemRangeChanged(length - 1, getItemCount());
         }
     }

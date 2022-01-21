@@ -3,6 +3,6 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="time">mins.</string>
+    <string name="time">min</string>
     <string name="servings">servings</string>
 </resources>

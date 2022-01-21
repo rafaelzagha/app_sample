@@ -27,6 +27,10 @@ public class Steps {
         @SerializedName("step")
         private String step;
 
+        @SerializedName("equipment")
+        private List<Equipment> equipment;
+
+
         public Integer getNumber() {
             return number;
         }
@@ -43,5 +47,12 @@ public class Steps {
             this.step = step;
         }
 
+        public List<Equipment> getEquipment() {
+            return equipment;
+        }
+
+        public void setEquipment(List<Equipment> equipment) {
+            this.equipment = equipment;
+        }
     }
 }

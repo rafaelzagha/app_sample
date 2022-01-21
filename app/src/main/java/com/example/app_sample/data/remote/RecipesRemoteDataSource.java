@@ -57,7 +57,7 @@ public class RecipesRemoteDataSource {
         Glide.with(context)
                 .load(url)
                 .error(R.drawable.example_no_image)
-                .centerCrop()
+                .fitCenter()
                 .into(imageView);
     }
 }

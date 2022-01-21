@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="10dp"
+        android:elevation="@dimen/elevation">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp">
+
+            <TextView
+                android:id="@+id/tv_equipment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Equipment:"
+                android:textFontWeight="400"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_equipment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_equipment"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="6dp"/>
+
+            <TextView
+                android:id="@+id/tv_directions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rv_equipment"
+                android:text="Directions:"
+                android:textFontWeight="400"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/step"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_directions"
+                android:layout_marginTop="15dp"
+                android:text="Hello"
+                android:textColor="@color/dark_grey"
+                android:textSize="18sp"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:elevation="2dp">
+
+        <View
+            android:id="@+id/dot"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/shape_round"
+            android:backgroundTint="@color/blue" />
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="3"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

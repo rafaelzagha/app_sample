@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
+import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.ui.recipe.RecipeFragment;
+import com.example.app_sample.utils.Utils;
 
 import java.util.List;
 import java.util.Random;
@@ -48,6 +51,13 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
 
         //todo: add all enums and make colors match
         if (recipes != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RecipeFragment recipeFragment = RecipeFragment.newInstance(recipe);
+                    ((MainActivity)context).setFragment(recipeFragment, Utils.ANIMATE_SLIDE_HORIZONTAL);
+                }
+            });
             holder.recipe_name.setText(recipe.getTitle());
             holder.meal_type.setText(recipe.getDishTypes().isEmpty()?"Whatever":recipe.getDishTypes().get(0));
             RecipesRemoteDataSource.loadImage(context, recipe.getImage(), holder.img );

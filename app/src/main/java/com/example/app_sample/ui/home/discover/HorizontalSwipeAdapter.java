@@ -17,6 +17,7 @@ import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.ui.recipe.RecipeFragment;
 import com.example.app_sample.ui.search.SearchFragment;
 import com.example.app_sample.utils.Utils;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -75,6 +76,13 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     RecipesRemoteDataSource.loadImage(context, recipe.getImage(), viewHolder.img);
                     viewHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                     viewHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            RecipeFragment recipeFragment = RecipeFragment.newInstance(recipe);
+                            ((MainActivity)context).setFragment(recipeFragment, Utils.ANIMATE_SLIDE_HORIZONTAL);
+                        }
+                    });
                 }
                 else{
                     LoadMoreViewHolder viewHolder = (LoadMoreViewHolder) holder;

@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
 
-        NavController navController = Navigation.findNavController(this,  R.id.fragmentContainerView);
+        NavController navController = Navigation.findNavController(this, R.id.fragmentContainerView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
 
     }
 
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(animate == Utils.ANIMATE_SLIDE_HORIZONTAL )
+        if (animate == Utils.ANIMATE_SLIDE_HORIZONTAL)
             fragmentTransaction.setCustomAnimations(R.anim.slide_right, R.anim.slide_left, R.anim.slide_right, R.anim.slide_left);
 
         else if (animate == Utils.ANIMATE_SLIDE_VERTICAL)

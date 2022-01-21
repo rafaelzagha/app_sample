@@ -8,7 +8,7 @@
         android:id="@+id/tv_load_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load More \n results"
+        android:text="Load More \n recipes"
         android:textSize="25dp"
         android:textColor="@color/blue"
         android:gravity="center"
@@ -18,9 +18,9 @@
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:indicatorSize="50dp"
-        android:indeterminate="true"
-        app:indicatorColor="@color/blue"
         android:layout_centerInParent="true"
-        android:visibility="invisible"/>
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/blue"
+        app:indicatorSize="50dp" />
 </RelativeLayout>
