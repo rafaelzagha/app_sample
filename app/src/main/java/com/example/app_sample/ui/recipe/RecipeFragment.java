@@ -31,6 +31,8 @@ import com.example.app_sample.utils.ZoomOutPageTransformer;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.Objects;
+
 public class RecipeFragment extends Fragment {
 
 
@@ -46,6 +48,12 @@ public class RecipeFragment extends Fragment {
 
 
     public RecipeFragment() {}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        requireView().requestLayout();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -80,12 +88,6 @@ public class RecipeFragment extends Fragment {
             instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions());
             instructionsViewPager.setAdapter(instructionsAdapter);
             instructionsViewPager.setPageTransformer(new ZoomOutPageTransformer());
-            instructionsViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                @Override
-                public void onPageSelected(int position) {
-                    instructionsAdapter.notifyDataSetChanged();
-                }
-            });
         }
         else {
             instructionsViewPager.setVisibility(View.GONE);
@@ -95,14 +97,6 @@ public class RecipeFragment extends Fragment {
             else
                 shortInstructions.setText("No instructions");
         }
-
-        this.getView().setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                ((MainActivity) getActivity()).popStack();
-                return true;
-            }
-            return false;
-        });
 
     }
 

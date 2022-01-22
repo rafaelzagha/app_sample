@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.KeyEvent;
@@ -68,8 +69,7 @@ public class HomeFragment extends Fragment {
                     public void onActivityResult(ActivityResult result) {
                         if(result.getData() != null){
                             ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Utils.FILTER_KEY);
-                            SearchFragment resultsFragment = SearchFragment.newInstance("", filters);
-                            ((MainActivity) requireActivity()).setFragment(resultsFragment, Utils.ANIMATE_SLIDE_VERTICAL);
+                            goToSearchScreen(null, filters);
                         }
                     }
                 });
@@ -114,7 +114,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 activityResultLaunch.launch(new Intent(requireContext(), FilterActivity.class));
-//                ((MainActivity)getActivity()).setFragment(new RecipeFragment(), Utils.ANIMATE_SLIDE_HORIZONTAL);
             }
         });
 
@@ -124,8 +123,7 @@ public class HomeFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (search.getText().toString().length() >= 3) {
-                        SearchFragment resultsFragment = SearchFragment.newInstance(search.getText().toString(), null);
-                        ((MainActivity) getActivity()).setFragment(resultsFragment, Utils.ANIMATE_SLIDE_VERTICAL);
+                        goToSearchScreen(search.getText().toString(), null);
                         search.setText("");
                     }
                 }
@@ -141,6 +139,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
 
+    }
+
+    public void goToSearchScreen(String query, ArrayList<Filter> filters){
+        Bundle bundle = new Bundle();
+        bundle.putString(Utils.QUERY_KEY, query);
+        bundle.putSerializable(Utils.FILTER_KEY, filters);
+        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
     }
 
 }

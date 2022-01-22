@@ -1,6 +1,7 @@
 package com.example.app_sample.ui.home.discover;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,29 +12,60 @@ import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.data.remote.api.ApiResponse;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DiscoverViewModel extends AndroidViewModel {
 
-    MutableLiveData<ApiResponse<Recipes>> recipes;
+    MutableLiveData<Recipes> recipes;
     RecipesRemoteDataSource dataSource;
+    MutableLiveData<String> error;
 
     public DiscoverViewModel(@NonNull Application application) {
         super(application);
         dataSource = RecipesRemoteDataSource.getInstance();
-        recipes = new MutableLiveData<>(null);
+        recipes = new MutableLiveData<>();
+        error = new MutableLiveData<>();
     }
 
-    public LiveData<ApiResponse<Recipes>> getRecipes() {
+    public LiveData<Recipes> getRecipes() {
         return recipes;
     }
 
-    public void addToRecipes(ApiResponse<Recipes> data) {
+    private void addToRecipes(Recipes data) {
         if (data != null && recipes.getValue() != null) {
-            recipes.setValue(ApiResponse.joinResponses2(recipes.getValue(), data));
+            List<Recipes.Recipe> list = recipes.getValue().getRecipes();
+            list.addAll(data.getRecipes());
+            recipes.setValue(new Recipes(list));
         } else recipes.setValue(data);
     }
 
-    public LiveData<ApiResponse<Recipes>> newRequest() {
-        return dataSource.getRandomRecipes(20);
+    public void newRequest() {
+        dataSource.getRandomRecipes(20).enqueue(new Callback<Recipes>() {
+            @Override
+            public void onResponse(Call<Recipes> call, Response<Recipes> response) {
+                if (response.isSuccessful()) {
+                    addToRecipes(response.body());
+                }
+                else {
+                    error.setValue("Request Error  " + response.code());
+                    Log.d("tag", ""+response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Recipes> call, Throwable t) {
+                Log.d("tag", t.getMessage());
+                error.setValue("Request Error " + t.getMessage());
+            }
+        });
+
     }
 
+    public MutableLiveData<String> getError() {
+        return error;
+    }
 }

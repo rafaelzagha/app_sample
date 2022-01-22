@@ -49,6 +49,7 @@
                     android:id="@+id/clear_text"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:visibility="invisible"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="-40dp"
                     android:background="@drawable/ic_cancel"

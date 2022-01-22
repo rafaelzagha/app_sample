@@ -70,8 +70,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        RecipeFragment recipeFragment = RecipeFragment.newInstance(recipe);
-                        ((MainActivity)context).setFragment(recipeFragment, Utils.ANIMATE_SLIDE_HORIZONTAL);
+                        fragment.goToRecipePage(recipe);
                     }
                 });
             }

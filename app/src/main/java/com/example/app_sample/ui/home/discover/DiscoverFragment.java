@@ -7,18 +7,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowId;
+import android.view.WindowInsets;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.api.ApiResponse;
+import com.example.app_sample.utils.Utils;
+
+import java.util.ArrayList;
 
 public class DiscoverFragment extends Fragment {
 
@@ -39,33 +46,28 @@ public class DiscoverFragment extends Fragment {
 
         setupViews();
 
-        newRequest();
+        if(viewModel.getRecipes().getValue() != null && viewModel.getRecipes().getValue().getRecipes() != null)
+            ta.setRecipes(viewModel.getRecipes().getValue().getRecipes());
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<ApiResponse<Recipes>>() {
+        else viewModel.newRequest();
+
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<Recipes>() {
             @Override
-            public void onChanged(ApiResponse<Recipes> recipesApiResponse) {
-                if(recipesApiResponse != null)
-                    ta.setRecipes(recipesApiResponse.getBody().getRecipes());
-            }
-        });
-
-
-    }
-
-    public void newRequest(){
-        viewModel.newRequest().observe(getViewLifecycleOwner(), recipesApiResponse -> {
-            if (recipesApiResponse != null) {
-                if (recipesApiResponse.getBody() != null)
-                    viewModel.addToRecipes(recipesApiResponse);
-                else{
-                    Toast.makeText(getActivity(), "Request Error " + recipesApiResponse.getCode(), Toast.LENGTH_SHORT).show();
-                }
+            public void onChanged(Recipes recipes) {
+                if(recipes != null)
+                    ta.setRecipes(recipes.getRecipes());
 
             }
         });
+
+        viewModel.getError().observe(getViewLifecycleOwner(), s -> {
+            if(s != null){
+                Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
     }
-
-
 
     private void setupViews() {
         l1 = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -87,5 +89,22 @@ public class DiscoverFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_discover, container, false);
+    }
+
+    public void newRequest(){
+        viewModel.newRequest();
+    }
+
+    public void goToRecipePage(Recipes.Recipe recipe){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Utils.RECIPE_KEY, recipe);
+        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_recipeFragment, bundle);
+    }
+
+    public void goToSearchScreen(String query, ArrayList<Filter> filters){
+        Bundle bundle = new Bundle();
+        bundle.putString(Utils.QUERY_KEY, query);
+        bundle.putSerializable(Utils.FILTER_KEY, filters);
+        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
     }
 }

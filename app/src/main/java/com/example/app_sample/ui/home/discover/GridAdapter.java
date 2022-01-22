@@ -58,8 +58,7 @@ public class GridAdapter extends BaseAdapter {
                 Filters.Cuisine type = cuisines[position];
                 ArrayList<Filter> filter = new ArrayList<>();
                 filter.add(type);
-                SearchFragment searchFragment = SearchFragment.newInstance("", filter);
-                ((MainActivity)fragment.getActivity()).setFragment(searchFragment, Utils.ANIMATE_SLIDE_VERTICAL);
+                fragment.goToSearchScreen(null, filter);
             }
         });
         return convertView;

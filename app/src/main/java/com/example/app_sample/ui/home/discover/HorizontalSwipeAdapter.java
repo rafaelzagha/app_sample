@@ -79,8 +79,7 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            RecipeFragment recipeFragment = RecipeFragment.newInstance(recipe);
-                            ((MainActivity)context).setFragment(recipeFragment, Utils.ANIMATE_SLIDE_HORIZONTAL);
+                            fragment.goToRecipePage(recipe);
                         }
                     });
                 }
@@ -109,8 +108,7 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 public void onClick(View v) {
                     ArrayList<Filter> filter = new ArrayList<>();
                     filter.add(type);
-                    SearchFragment searchFragment = SearchFragment.newInstance("", filter);
-                    ((MainActivity)fragment.getActivity()).setFragment(searchFragment, Utils.ANIMATE_SLIDE_VERTICAL);
+                    fragment.goToSearchScreen(null, filter);
                 }
             });
         }

@@ -10,6 +10,10 @@ public class RecipesResults implements Serializable {
     @SerializedName("results")
     private List<Recipes.Recipe> recipes;
 
+    public RecipesResults(List<Recipes.Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
     public List<Recipes.Recipe> getRecipes() {
         return recipes;
     }

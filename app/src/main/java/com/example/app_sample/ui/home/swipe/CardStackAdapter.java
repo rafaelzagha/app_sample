@@ -2,6 +2,7 @@ package com.example.app_sample.ui.home.swipe;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.recipe.RecipeFragment;
 import com.example.app_sample.utils.Utils;
 
 import java.util.List;
@@ -26,10 +26,12 @@ import java.util.Random;
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.CardViewHolder> {
 
     List<Recipes.Recipe> recipes;
+    SwipeFragment swipeFragment;
     Context context;
 
 
-    public CardStackAdapter(Context context) {
+    public CardStackAdapter(Context context, SwipeFragment swipeFragment) {
+        this.swipeFragment = swipeFragment;
         this.context = context;
     }
 
@@ -54,8 +56,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    RecipeFragment recipeFragment = RecipeFragment.newInstance(recipe);
-                    ((MainActivity)context).setFragment(recipeFragment, Utils.ANIMATE_SLIDE_HORIZONTAL);
+                    swipeFragment.goToRecipePage(recipe);
                 }
             });
             holder.recipe_name.setText(recipe.getTitle());

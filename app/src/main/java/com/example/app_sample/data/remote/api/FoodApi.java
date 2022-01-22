@@ -7,6 +7,7 @@ import com.example.app_sample.data.local.models.RecipesResults;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -14,10 +15,10 @@ import retrofit2.http.Query;
 public interface FoodApi {
 
     @GET("recipes/random")
-    LiveData<ApiResponse<Recipes>> getRandomRecipes(@Query("number") int number);
+    Call<Recipes> getRandomRecipes(@Query("number") int number);
 
     @GET("recipes/complexSearch")
-    LiveData<ApiResponse<RecipesResults>> getRecipesByQuery(@Query("number") int number ,
+    Call<RecipesResults> getRecipesByQuery(@Query("number") int number ,
                                                             @Query("query") String query,
                                                             @Query("addRecipeInformation") boolean addData,
                                                             @Query("fillIngredients") boolean addIngredients,

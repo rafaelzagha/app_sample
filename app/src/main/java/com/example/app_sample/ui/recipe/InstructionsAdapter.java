@@ -1,6 +1,8 @@
 package com.example.app_sample.ui.recipe;
 
 import android.content.Context;
+import android.hardware.lights.Light;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +37,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(position < getItemCount()-1){
+        if(steps.get(position) != null){
             holder.step.setVisibility(View.VISIBLE);
             holder.number.setVisibility(View.VISIBLE);
             holder.dot.setVisibility(View.VISIBLE);

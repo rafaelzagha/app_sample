@@ -18,6 +18,8 @@ import com.example.app_sample.data.local.models.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+
 public class RecipesRemoteDataSource {
 
     private FoodApi foodApi;
@@ -37,11 +39,11 @@ public class RecipesRemoteDataSource {
 
     }
 
-    public LiveData<ApiResponse<Recipes>> getRandomRecipes(int number) {
+    public Call<Recipes> getRandomRecipes(int number) {
         return foodApi.getRandomRecipes(number);
     }
 
-    public LiveData<ApiResponse<RecipesResults>> getRecipesByQuery(int number, String query,
+    public Call<RecipesResults> getRecipesByQuery(int number, String query,
                                                                    String diet,
                                                                    String intolerances,
                                                                    String cuisine,
