@@ -234,8 +234,10 @@ public class SearchFragment extends Fragment {
         viewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if(s != null)
+                if(s != null){
                     Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
+                    indicator.setVisibility(View.INVISIBLE);
+                }
             }
         });
 

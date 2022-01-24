@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rafae/.gradle/caches/transforms-3/99fb345143c18c83053fefa4b17998f5/transformed/jetified-play-services-base-17.1.0/res/drawable/common_google_signin_btn_icon_dark.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/.gradle/caches/transforms-3/99fb345143c18c83053fefa4b17998f5/transformed/jetified-play-services-base-17.1.0/res/drawable/common_google_signin_btn_icon_light.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/.gradle/caches/transforms-3/99fb345143c18c83053fefa4b17998f5/transformed/jetified-play-services-base-17.1.0/res/drawable/common_google_signin_btn_icon_light_normal.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/.gradle/caches/transforms-3/e9612e7e6087009ff0139f0ccf77b379/transformed/appcompat-1.3.1/res/drawable/abc_ic_ab_back_material.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app/src/main/res/drawable/edit_text.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app/src/main/res/drawable/ic_basket.xml" value="0.18076923076923077" />
@@ -29,9 +32,11 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_add.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_arrow.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_clear.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_email.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_favorite.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_home.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_ingredients.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person_card.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person_green.xml" value="0.2203125" />
@@ -40,6 +45,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_time_card.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_type.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_type_card.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/image_fade.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/item_indicator.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/outline_cancel_24.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/round_shape.xml" value="0.2203125" />
@@ -60,9 +66,12 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v28/fragment_recipe.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v28/item_stack.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_filter.xml" value="0.25" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_intro.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_results.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_search.xml" value="0.33" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_splash_screen2.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item_small.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/cuisine_item.xml" value="0.33" />
@@ -103,6 +112,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/recipe_menu.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2203125" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.1675213675213675" />
       </map>
     </option>
@@ -123,7 +133,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.18" />
+        <option name="scale" value="0.33" />
       </ProjectState>
     </option>
   </component>

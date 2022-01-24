@@ -80,6 +80,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             loadingViewHolder.progress.setVisibility(View.GONE);
             if (recipes != null) {
                 if(recipes.size() >= 20){
+                    ((LoadingViewHolder) holder).loadMore.setText("Load more results");
                     loadingViewHolder.loadMore.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -89,7 +90,12 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                 }
-                else loadingViewHolder.loadMore.setText("No results");
+                else if (recipes.size() < 20 && recipes.size() > 0)
+                    loadingViewHolder.loadMore.setText("No more results");
+
+                else
+                    loadingViewHolder.loadMore.setText("No results");
+
             }
 
         }

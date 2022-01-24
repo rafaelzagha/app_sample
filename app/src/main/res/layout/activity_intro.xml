@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.IntroActivity">
+
+    <VideoView
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:foreground="@drawable/image_fade"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/transparent"/>
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/details"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="10dp"
+        android:text="CookFlip"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/sign_up_with_email"
+        android:layout_marginHorizontal="25dp"
+        android:text="Finding what to cook has never been so easy."
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textFontWeight="300"
+        android:textSize="20sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sign_up_with_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/sign_up_with_google"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="10dp"
+        android:paddingVertical="15dp"
+        android:text="Sign up with Email"
+        app:cornerRadius="20dp"
+        app:elevation="3dp"
+        app:icon="@drawable/ic_email"
+        app:iconGravity="textStart" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sign_up_with_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/dont_have_an_account"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginBottom="20dp"
+        android:paddingVertical="15dp"
+        android:text="Continue with Google"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="20dp"
+        app:elevation="3dp"
+        app:icon="@drawable/ic_google"
+        app:iconGravity="textStart"
+        app:iconSize="24dp"
+        app:iconTintMode="multiply" />
+
+
+    <LinearLayout
+        android:id="@+id/dont_have_an_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:id="@+id/log_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Log in"
+            android:textColor="@color/blue"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>
