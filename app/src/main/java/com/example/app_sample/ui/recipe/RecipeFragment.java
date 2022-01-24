@@ -1,6 +1,7 @@
 package com.example.app_sample.ui.recipe;
 
 import android.animation.ArgbEvaluator;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.ui.MainActivity;
@@ -32,6 +34,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class RecipeFragment extends Fragment {
 
@@ -76,6 +79,12 @@ public class RecipeFragment extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(V -> ((MainActivity)getActivity()).popStack());
 
+        if(recipe.getColor() == 0){
+            int x = new Random().nextInt(7);
+            recipe.setColor(this.getResources().getColor(Filters.MealType.values()[x].color()));
+        }
+        mealType.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+
         RecipesRemoteDataSource.loadImage(requireContext(), recipe.getImage(), recipeImage);
 
         ingredientsAdapter = new IngredientsAdapter(recipe.getIngredients(), requireContext());
@@ -85,7 +94,7 @@ public class RecipeFragment extends Fragment {
 
         if(recipe.getInstructions() != null){
 
-            instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions());
+            instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions().get(0).getSteps());
             instructionsViewPager.setAdapter(instructionsAdapter);
             instructionsViewPager.setPageTransformer(new ZoomOutPageTransformer());
         }

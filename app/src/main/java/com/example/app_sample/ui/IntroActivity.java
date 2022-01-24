@@ -146,10 +146,8 @@ public class IntroActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
             Toast.makeText(this, "Already Logged in", Toast.LENGTH_SHORT).show();
-//            startActivity(new Intent(IntroActivity.this, MainActivity.class));
-        }
 
         else{
             GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(IntroActivity.this, gso);

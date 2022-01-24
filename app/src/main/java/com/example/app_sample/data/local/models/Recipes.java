@@ -1,5 +1,9 @@
 package com.example.app_sample.data.local.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -22,62 +26,84 @@ public class Recipes implements Serializable {
         this.recipes = recipes;
     }
 
-    public class Recipe implements Serializable {
+    @Entity(tableName = "recipes")
+    public static class Recipe implements Serializable {
 
+        @ColumnInfo(name = "vegetarian")
         @SerializedName("vegetarian")
         private Boolean vegetarian;
 
+        @ColumnInfo(name = "vegan")
         @SerializedName("vegan")
         private Boolean vegan;
 
+        @ColumnInfo(name = "glutenFree")
         @SerializedName("glutenFree")
         private Boolean glutenFree;
 
+        @ColumnInfo(name = "dairyFree")
         @SerializedName("dairyFree")
         private Boolean dairyFree;
 
+        @ColumnInfo(name = "veryHealthy")
         @SerializedName("veryHealthy")
         private Boolean veryHealthy;
 
+        @ColumnInfo(name = "cheap")
         @SerializedName("cheap")
         private Boolean cheap;
 
+        @ColumnInfo(name = "ingredients")
         @SerializedName("extendedIngredients")
         private List<Ingredient> ingredients = null;
 
+        @PrimaryKey
+        @ColumnInfo(name = "id")
         @SerializedName("id")
         private Integer id;
 
+        @ColumnInfo(name = "title")
         @SerializedName("title")
         private String title;
 
+        @ColumnInfo(name = "readyMinutes")
         @SerializedName("readyInMinutes")
         private Integer readyInMinutes;
 
+        @ColumnInfo(name = "servings")
         @SerializedName("servings")
         private Integer servings;
 
+        @ColumnInfo(name = "sourceUrl")
         @SerializedName("sourceUrl")
         private String sourceUrl;
 
+        @ColumnInfo(name = "image")
         @SerializedName("image")
         private String image;
 
+        @ColumnInfo(name = "summary")
         @SerializedName("summary")
         private String summary;
 
+        @ColumnInfo(name = "cuisines")
         @SerializedName("cuisines")
-        private List<Object> cuisines = null;
+        private List<String> cuisines = null;
 
+        @ColumnInfo(name = "dishTypes")
         @SerializedName("dishTypes")
         private List<String> dishTypes = null;
 
+        @ColumnInfo(name = "shortInstructions")
         @SerializedName("instructions")
         private String shortInstructions;
 
-
+        @ColumnInfo(name = "instructions")
         @SerializedName("analyzedInstructions")
         private List<Steps> instructions = null;
+
+        @ColumnInfo(name = "color")
+        private transient int color = 0;
 
         public Boolean getVegetarian() {
             return vegetarian;
@@ -191,11 +217,11 @@ public class Recipes implements Serializable {
             this.summary = summary;
         }
 
-        public List<Object> getCuisines() {
+        public List<String> getCuisines() {
             return cuisines;
         }
 
-        public void setCuisines(List<Object> cuisines) {
+        public void setCuisines(List<String> cuisines) {
             this.cuisines = cuisines;
         }
 
@@ -207,24 +233,28 @@ public class Recipes implements Serializable {
             this.dishTypes = dishTypes;
         }
 
-
-        public List<Steps.Step> getInstructions() {
-            if(instructions != null && !instructions.isEmpty())
-            return instructions.get(0).getSteps();
-            else return null;
-        }
-
-        public void setInstructions(List<Steps.Step> instructions) {
-            this.instructions.get(0).setSteps(instructions);
-
-        }
-
         public String getShortInstructions() {
             return shortInstructions;
         }
 
         public void setShortInstructions(String shortInstructions) {
             this.shortInstructions = shortInstructions;
+        }
+
+        public List<Steps> getInstructions() {
+            return instructions;
+        }
+
+        public void setInstructions(List<Steps> instructions) {
+            this.instructions = instructions;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
         }
     }
 }

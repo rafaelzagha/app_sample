@@ -53,9 +53,6 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        int x = new Random().nextInt(7);
-
-        //todo: add all enums and make colors match
         if (holder instanceof RecipeViewHolder) {
             if (recipes != null) {
                 Recipes.Recipe recipe = recipes.get(position);
@@ -66,7 +63,11 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 RecipesRemoteDataSource.loadImage(context, recipe.getImage(), recipeHolder.img);
                 recipeHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                 recipeHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
-                recipeHolder.meal_type.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(Filters.MealType.values()[x].color())));
+                if(recipe.getColor() == 0){
+                    int x = new Random().nextInt(7);
+                    recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
+                }
+                recipeHolder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -48,10 +48,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
     @Override
     public void onBindViewHolder(@NonNull CardStackAdapter.CardViewHolder holder, int position) {
         //holder.txt.setText(categoryList.get(position).getName());
-        int x = new Random().nextInt(7);
         Recipes.Recipe recipe = recipes.get(position);
 
-        //todo: add all enums and make colors match
         if (recipes != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,7 +63,12 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
             holder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
             holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
 
-            holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(Filters.MealType.values()[x].color())));
+            if(recipe.getColor() == 0){
+                int x = new Random().nextInt(7);
+                recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
+            }
+            holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+
         }
     }
 
