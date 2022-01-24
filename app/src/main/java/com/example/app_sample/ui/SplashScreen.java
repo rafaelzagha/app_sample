@@ -12,11 +12,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.app_sample.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreen extends AppCompatActivity {
 
     ImageView img;
     Handler handler;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +27,16 @@ public class SplashScreen extends AppCompatActivity {
 
 
         img = findViewById(R.id.logo);
+        firebaseAuth = FirebaseAuth.getInstance();
         Animation fade = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         img.startAnimation(fade);
 
-
-        Log.d("tag", "run");
         handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
+        handler.postDelayed(() -> {
+//            if(firebaseAuth.getCurrentUser() == null)
                 startActivity(new Intent(SplashScreen.this, IntroActivity.class));
-            }
+//            else
+//                startActivity(new Intent(SplashScreen.this, MainActivity.class));
         }, 1500);
     }
 

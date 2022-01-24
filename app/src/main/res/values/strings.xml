@@ -6,4 +6,16 @@
     <string name="time">min</string>
     <string name="servings">servings</string>
 
+    <string name="google_client_id">517111893133-gl3hn9799lm2ma3o9a8ccppqjkc4a1lq.apps.googleusercontent.com</string>
+
+    <string name="ui_required_field">Required Field</string>
+    <string name="ui_not_valid_email">Invalid email-address</string>
+    <string name="ui_password_minimum">Password needs at least 6 characters</string>
+    <string name="ui_password_has_space">Password can not contain spaces</string>
+
+    <string name="ui_account_created_successfully">Account created successfully</string>
+    <string name="ui_signed_in">Logged in successfully</string>
+
+    <string name="ui_reset_link_sent">Password reset link sent to your email</string>
+
 </resources>

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 public class Filters {
-    //Todo: add sort order and decide how to implement it
+
     public enum Diet implements Filter {
         Vegetarian,
         Vegan,

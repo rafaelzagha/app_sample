@@ -18,7 +18,7 @@
         android:backgroundTint="@color/transparent"/>
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/details"
@@ -55,6 +55,7 @@
         app:iconGravity="textStart" />
 
     <com.google.android.material.button.MaterialButton
+
         android:id="@+id/sign_up_with_google"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,6 +68,7 @@
         app:backgroundTint="@color/white"
         app:cornerRadius="20dp"
         app:elevation="3dp"
+        app:rippleColor="@color/grey"
         app:icon="@drawable/ic_google"
         app:iconGravity="textStart"
         app:iconSize="24dp"
@@ -93,7 +95,8 @@
             android:layout_height="wrap_content"
             android:text=" Log in"
             android:textColor="@color/blue"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:foreground="?android:selectableItemBackgroundBorderless"/>
 
     </LinearLayout>
 
