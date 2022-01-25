@@ -34,6 +34,7 @@ import java.util.Objects;
 public class LoginActivity extends AppCompatActivity {
 
     TextInputEditText inputEmail, inputPassword;
+    TextView tv_login;
     TextInputLayout emailLayout, passwordLayout;
     String email, password;
     MaterialButton login;
@@ -51,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordLayout = findViewById(R.id.textfield_password);
         forgotPassword = findViewById(R.id.forgot_password);
         login = findViewById(R.id.login);
+        tv_login = findViewById(R.id.title);
         firebaseAuth = FirebaseAuth.getInstance();
 
         addTextWatchers();
@@ -58,19 +60,34 @@ public class LoginActivity extends AppCompatActivity {
 
         login.setOnClickListener(v -> {
 
-            if(validateEmail() && validatePassword()){
+            if(passwordLayout.getVisibility() == View.VISIBLE){
+                if (!validateEmail() | !validatePassword()) {
+                    return;
+                }
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.ui_signed_in), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }
-                        else{
+                        } else {
                             Snackbar.make(findViewById(android.R.id.content), task.getException().getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
                         }
                     }
                 });
+            }
+            else{
+                if(validateEmail())
+                    firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, getString(R.string.ui_reset_link_sent), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Snackbar.make(findViewById(android.R.id.content), task.getException().getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
+                            }
+                        }
+                    });
             }
 
         });
@@ -78,19 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validateEmail()){
-                    firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(), getString(R.string.ui_reset_link_sent), Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                Snackbar.make(findViewById(android.R.id.content), task.getException().getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }
+                setResetPasswordScreen(passwordLayout.getVisibility() == View.VISIBLE);
             }
         });
 
@@ -187,5 +192,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    private void setResetPasswordScreen(boolean set){
+        if(set == (passwordLayout.getVisibility() == View.GONE)){
+            return;
+        }
+        else{
+            passwordLayout.setVisibility(set? View.GONE : View.VISIBLE);
+            login.setText(set? "send email" : "Login");
+            tv_login.setText(set? "Reset Password" : "Login");
+            forgotPassword.setText(set? "Login" : "Forgot password?");
+        }
     }
 }

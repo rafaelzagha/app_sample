@@ -63,26 +63,28 @@ public class SignUpActivity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (validateUsername() && validateEmail() && validatePassword())
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "User created Successfully", Toast.LENGTH_LONG).show();
-                                firebaseDatabase.child(firebaseAuth.getCurrentUser().getUid()).child("username").setValue(username).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful())
-                                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                    }
-                                });
-                            } else {
-                                String errorMessage = task.getException().toString();
-                                errorMessage = errorMessage.substring(errorMessage.indexOf(" "));
-                                Snackbar.make(findViewById(android.R.id.content), errorMessage, BaseTransientBottomBar.LENGTH_LONG).show();
-                            }
+                if (!validateUsername() | !validateEmail() | !validatePassword()) {
+                    return;
+                }
+                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "User created Successfully", Toast.LENGTH_LONG).show();
+                            firebaseDatabase.child("UserData").child(firebaseAuth.getCurrentUser().getUid()).child("username").setValue(username).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful())
+                                        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                }
+                            });
+                        } else {
+                            String errorMessage = task.getException().toString();
+                            errorMessage = errorMessage.substring(errorMessage.indexOf(" "));
+                            Snackbar.make(findViewById(android.R.id.content), errorMessage, BaseTransientBottomBar.LENGTH_LONG).show();
                         }
-                    });
+                    }
+                });
 
             }
         });

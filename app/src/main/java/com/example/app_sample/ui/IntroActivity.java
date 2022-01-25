@@ -115,6 +115,7 @@ public class IntroActivity extends AppCompatActivity {
                 Log.d("tag", "firebaseAuthWithGoogle: " + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
                 Log.w("tag", "Google sign in failed", e);
             }
         }
@@ -132,7 +133,7 @@ public class IntroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("tag", "signInWithCredential:success");
-                            FirebaseDatabase.getInstance().getReference().child(firebaseAuth.getCurrentUser().getUid()).child("username").setValue(firebaseAuth.getCurrentUser().getDisplayName());
+                            FirebaseDatabase.getInstance().getReference("UserData").child(firebaseAuth.getCurrentUser().getUid()).child("username").setValue(firebaseAuth.getCurrentUser().getDisplayName());
                         } else {
                             Log.w("tag", "signInWithCredential:failure", task.getException());
                         }
@@ -146,8 +147,11 @@ public class IntroActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null)
-            Toast.makeText(this, "Already Logged in", Toast.LENGTH_SHORT).show();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+
+            Log.d("tag", FirebaseAuth.getInstance().getUid() );
+            Toast.makeText(this, "Already Logged in" + FirebaseAuth.getInstance().getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
+        }
 
         else{
             GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(IntroActivity.this, gso);

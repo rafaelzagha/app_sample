@@ -24,7 +24,7 @@
         android:layout_above="@id/details"
         android:layout_marginHorizontal="25dp"
         android:layout_marginBottom="10dp"
-        android:text="CookFlip"
+        android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="30sp" />
 
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/sign_up_with_email"
         android:layout_marginHorizontal="25dp"
-        android:text="Finding what to cook has never been so easy."
         android:layout_marginBottom="20dp"
+        android:text="@string/ui_intro_text"
         android:textColor="@color/white"
         android:textFontWeight="300"
         android:textSize="20sp" />

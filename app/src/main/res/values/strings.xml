@@ -1,14 +1,13 @@
 <resources>
-    <string name="app_name">app_sample</string>
+    <string name="app_name">MealMatch</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="time">min</string>
     <string name="servings">servings</string>
 
     <string name="google_client_id">517111893133-gl3hn9799lm2ma3o9a8ccppqjkc4a1lq.apps.googleusercontent.com</string>
 
-    <string name="ui_required_field">Required Field</string>
+    <string name="ui_required_field">Field required</string>
     <string name="ui_not_valid_email">Invalid email-address</string>
     <string name="ui_password_minimum">Password needs at least 6 characters</string>
     <string name="ui_password_has_space">Password can not contain spaces</string>
@@ -17,5 +16,6 @@
     <string name="ui_signed_in">Logged in successfully</string>
 
     <string name="ui_reset_link_sent">Password reset link sent to your email</string>
+    <string name="ui_intro_text">Finding something to cook has never been this easy.</string>
 
 </resources>
