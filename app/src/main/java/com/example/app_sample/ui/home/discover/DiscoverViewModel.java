@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.data.remote.api.ApiResponse;
@@ -21,12 +22,12 @@ import retrofit2.Response;
 public class DiscoverViewModel extends AndroidViewModel {
 
     MutableLiveData<Recipes> recipes;
-    RecipesRemoteDataSource dataSource;
+    RecipeRepository recipeRepository;
     MutableLiveData<String> error;
 
     public DiscoverViewModel(@NonNull Application application) {
         super(application);
-        dataSource = RecipesRemoteDataSource.getInstance();
+        recipeRepository = new RecipeRepository(getApplication());
         recipes = new MutableLiveData<>();
         error = new MutableLiveData<>();
     }
@@ -44,7 +45,7 @@ public class DiscoverViewModel extends AndroidViewModel {
     }
 
     public void newRequest() {
-        dataSource.getRandomRecipes(20).enqueue(new Callback<Recipes>() {
+        recipeRepository.getRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
                 if (response.isSuccessful()) {

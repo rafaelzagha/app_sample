@@ -1,5 +1,7 @@
 package com.example.app_sample.data.local.models;
 
+import android.graphics.Color;
+
 import com.example.app_sample.R;
 
 import java.util.ArrayList;

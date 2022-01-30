@@ -1,7 +1,6 @@
 package com.example.app_sample.ui.home.discover;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
-import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.recipe.RecipeFragment;
-import com.example.app_sample.ui.search.SearchFragment;
-import com.example.app_sample.utils.Utils;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +66,7 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Recipes.Recipe recipe = recipes.get(position);
                     viewHolder.name.setText(recipe.getTitle());
                     viewHolder.type.setText(recipe.getDishTypes().isEmpty() ? "Whatever" : recipe.getDishTypes().get(0));
-                    RecipesRemoteDataSource.loadImage(context, recipe.getImage(), viewHolder.img);
+                    RecipeRepository.loadImage(context, recipe.getImage(), viewHolder.img);
                     viewHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                     viewHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
                     holder.itemView.setOnClickListener(new View.OnClickListener() {

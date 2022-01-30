@@ -1,39 +1,31 @@
 package com.example.app_sample.ui.recipe;
 
-import android.animation.ArgbEvaluator;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import java.util.Objects;
 import java.util.Random;
 
 public class RecipeFragment extends Fragment {
@@ -85,7 +77,7 @@ public class RecipeFragment extends Fragment {
         }
         mealType.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
 
-        RecipesRemoteDataSource.loadImage(requireContext(), recipe.getImage(), recipeImage);
+        RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
 
         ingredientsAdapter = new IngredientsAdapter(recipe.getIngredients(), requireContext());
         layoutManager = new LinearLayoutManager(requireContext());
@@ -94,7 +86,7 @@ public class RecipeFragment extends Fragment {
 
         if(recipe.getInstructions() != null){
 
-            instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions().get(0).getSteps());
+            instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions().get(0).getSteps(), recipe.getColor());
             instructionsViewPager.setAdapter(instructionsAdapter);
             instructionsViewPager.setPageTransformer(new ZoomOutPageTransformer());
         }
@@ -109,19 +101,11 @@ public class RecipeFragment extends Fragment {
 
     }
 
-    public static RecipeFragment newInstance(Recipes.Recipe recipe) {
-        RecipeFragment fragment = new RecipeFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(Utils.RECIPE_KEY, recipe);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            recipe = (Recipes.Recipe) getArguments().getSerializable(Utils.RECIPE_KEY);
+            recipe = (Recipes.Recipe) getArguments().getSerializable(Constants.RECIPE_KEY);
         }
     }
 

@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -54,8 +54,8 @@ public class FilterActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
-        filters = (ArrayList<Filter>) intent.getSerializableExtra(Utils.FILTER_KEY);
-        query = intent.getStringExtra(Utils.QUERY_KEY);
+        filters = (ArrayList<Filter>) intent.getSerializableExtra(Constants.FILTER_KEY);
+        query = intent.getStringExtra(Constants.QUERY_KEY);
         if(filters == null) filters = new ArrayList<>();
 
 
@@ -93,7 +93,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 filters = getCheckedFilters();
-                setResult(Activity.RESULT_OK, new Intent().putExtra(Utils.QUERY_KEY, query).putExtra(Utils.FILTER_KEY, filters));
+                setResult(Activity.RESULT_OK, new Intent().putExtra(Constants.QUERY_KEY, query).putExtra(Constants.FILTER_KEY, filters));
                 finish();
             }
         });

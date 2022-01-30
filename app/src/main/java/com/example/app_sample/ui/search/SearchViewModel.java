@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
@@ -29,11 +30,11 @@ public class SearchViewModel extends AndroidViewModel {
     MutableLiveData<RecipesResults> recipes;
     MutableLiveData<String> error;
     MutableLiveData<Boolean> loading;
-    RecipesRemoteDataSource dataSource;
+    RecipeRepository recipeRepository;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
-        dataSource = RecipesRemoteDataSource.getInstance();
+        recipeRepository = new RecipeRepository(getApplication());
 
         recipes = new MutableLiveData<>(null);
         loading = new MutableLiveData<>(null);
@@ -78,7 +79,7 @@ public class SearchViewModel extends AndroidViewModel {
             sortDirection = "desc";
         else sortDirection = "asc";
 
-        dataSource.getRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
+        recipeRepository.getRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
             @Override
             public void onResponse(Call<RecipesResults> call, Response<RecipesResults> response) {
                 if (response.isSuccessful()) {

@@ -43,7 +43,7 @@ public class RecipesRemoteDataSource {
         return foodApi.getRandomRecipes(number);
     }
 
-    public Call<RecipesResults> getRecipesByQuery(int number, String query,
+    public Call<RecipesResults> getRecipesByQuery(String query,
                                                                    String diet,
                                                                    String intolerances,
                                                                    String cuisine,
@@ -55,19 +55,4 @@ public class RecipesRemoteDataSource {
         return foodApi.getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort, offset, sortDirection);
     }
 
-    public static void loadImage(Context context, String url, ImageView imageView) {
-        Glide.with(context)
-                .load(url)
-                .error(R.drawable.example_no_image)
-                .fitCenter()
-                .into(imageView);
-    }
-
-    public static void loadImage(Context context, int id, ImageView imageView) {
-        Glide.with(context)
-                .load(id)
-                .error(R.drawable.example_no_image)
-                .fitCenter()
-                .into(imageView);
-    }
 }

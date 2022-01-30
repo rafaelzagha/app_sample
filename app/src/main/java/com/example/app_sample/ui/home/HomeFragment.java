@@ -16,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -25,11 +24,8 @@ import android.widget.TextView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
-import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.recipe.RecipeFragment;
 import com.example.app_sample.ui.search.FilterActivity;
-import com.example.app_sample.ui.search.SearchFragment;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
@@ -68,7 +64,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if(result.getData() != null){
-                            ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Utils.FILTER_KEY);
+                            ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Constants.FILTER_KEY);
                             goToSearchScreen(null, filters);
                         }
                     }
@@ -143,8 +139,8 @@ public class HomeFragment extends Fragment {
 
     public void goToSearchScreen(String query, ArrayList<Filter> filters){
         Bundle bundle = new Bundle();
-        bundle.putString(Utils.QUERY_KEY, query);
-        bundle.putSerializable(Utils.FILTER_KEY, filters);
+        bundle.putString(Constants.QUERY_KEY, query);
+        bundle.putSerializable(Constants.FILTER_KEY, filters);
         NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
     }
 

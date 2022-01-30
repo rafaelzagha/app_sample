@@ -2,13 +2,18 @@ package com.example.app_sample.ui.home.swipe;
 
 import android.app.Application;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,14 +21,14 @@ import retrofit2.Response;
 public class SwipeViewModel extends AndroidViewModel {
 
     MutableLiveData<Recipes> recipes;
-    RecipesRemoteDataSource dataSource;
+    RecipeRepository recipeRepository;
     MutableLiveData<String> error;
     int position;
 
     public SwipeViewModel(@NonNull Application application) {
         super(application);
 
-        dataSource = RecipesRemoteDataSource.getInstance();
+        recipeRepository = new RecipeRepository(getApplication());
         recipes = new MutableLiveData<>();
         error = new MutableLiveData<>();
         position = 0;
@@ -42,15 +47,14 @@ public class SwipeViewModel extends AndroidViewModel {
     }
 
     public void newRequest() {
-        dataSource.getRandomRecipes(20).enqueue(new Callback<Recipes>() {
+        recipeRepository.getRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
                 if (response.isSuccessful()) {
                     addToRecipes(response.body());
-                }
-                else {
+                } else {
                     error.setValue("Request Error  " + response.code());
-                    Log.d("tag", ""+response.code());
+                    Log.d("tag", "" + response.code());
                 }
             }
 

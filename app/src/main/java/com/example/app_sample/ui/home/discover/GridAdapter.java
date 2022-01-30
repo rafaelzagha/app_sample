@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
-import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.search.SearchFragment;
-import com.example.app_sample.utils.Utils;
 
 import java.util.ArrayList;
 

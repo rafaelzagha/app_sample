@@ -1,6 +1,7 @@
 package com.example.app_sample.ui.recipe;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.hardware.lights.Light;
 import android.os.Parcelable;
 import android.util.Log;
@@ -22,11 +23,13 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
 
     Context context;
     List<Steps.Step> steps;
+    int color;
 
-    public InstructionsAdapter(Context context, List<Steps.Step> steps) {
+    public InstructionsAdapter(Context context, List<Steps.Step> steps, int color) {
         this.context = context;
         this.steps = steps;
-        steps.add(null);
+        this.color = color;
+        if(!steps.contains(null)) steps.add(null);
     }
 
     @NonNull
@@ -44,6 +47,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
             Steps.Step step = steps.get(position);
             holder.number.setText(String.valueOf(step.getNumber()));
             holder.step.setText(step.getStep());
+            holder.dot.setBackgroundTintList(ColorStateList.valueOf(color));
 
             if(step.getEquipment().isEmpty()){
                 holder.equipment.setVisibility(View.GONE);

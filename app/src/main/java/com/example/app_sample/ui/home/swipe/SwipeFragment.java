@@ -8,7 +8,6 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
@@ -20,12 +19,8 @@ import android.widget.Toast;
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.api.ApiResponse;
-import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.search.ResultsAdapter;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.snackbar.Snackbar;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -149,7 +144,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
     public void goToRecipePage(Recipes.Recipe recipe){
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Utils.RECIPE_KEY, recipe);
+        bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_recipeFragment, bundle);
     }
 

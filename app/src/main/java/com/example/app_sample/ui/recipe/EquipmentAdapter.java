@@ -1,7 +1,6 @@
 package com.example.app_sample.ui.recipe;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Equipment;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 
-import org.w3c.dom.Text;
-
-import java.lang.invoke.LambdaConversionException;
 import java.util.List;
 
 public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.ViewHolder> {
@@ -40,7 +37,7 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
     @Override
     public void onBindViewHolder(@NonNull EquipmentAdapter.ViewHolder holder, int position) {
         Equipment e = equipment.get(position);
-        RecipesRemoteDataSource.loadImage(context, Utils.EQUIPMENT_URL + e.getImage(), holder.img);
+        RecipeRepository.loadImage(context, Constants.EQUIPMENT_URL + e.getImage(), holder.img);
         holder.txt.setText(e.getName());
     }
 

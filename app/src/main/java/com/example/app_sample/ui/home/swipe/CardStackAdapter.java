@@ -2,7 +2,6 @@ package com.example.app_sample.ui.home.swipe;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,10 @@ import com.example.app_sample.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
-import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.utils.Utils;
 
 import java.util.List;
 import java.util.Random;
@@ -59,7 +57,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
             });
             holder.recipe_name.setText(recipe.getTitle());
             holder.meal_type.setText(recipe.getDishTypes().isEmpty()?"Whatever":recipe.getDishTypes().get(0));
-            RecipesRemoteDataSource.loadImage(context, recipe.getImage(), holder.img );
+            RecipeRepository.loadImage(context, recipe.getImage(), holder.img );
             holder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
             holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
 

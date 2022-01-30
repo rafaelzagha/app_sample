@@ -1,8 +1,7 @@
 package com.example.app_sample.data.remote.api;
 
-import com.example.app_sample.utils.LiveDataCallAdapter;
 import com.example.app_sample.utils.LiveDataCallAdapterFactory;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +19,7 @@ public class FoodService {
 
     private static Retrofit.Builder retrofitBuilder =
             new Retrofit.Builder()
-            .baseUrl(Utils.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(new LiveDataCallAdapterFactory())
             .client(provideOkHttp());
@@ -40,7 +39,7 @@ public class FoodService {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
                         Request request = chain.request();
-                        HttpUrl url = request.url().newBuilder().addQueryParameter("apiKey", Utils.API_KEY).build();
+                        HttpUrl url = request.url().newBuilder().addQueryParameter("apiKey", Constants.API_KEY).build();
                         request = request.newBuilder().url(url).build();
                         return chain.proceed(request);
                     }

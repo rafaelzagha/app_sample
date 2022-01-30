@@ -14,16 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowId;
-import android.view.WindowInsets;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.api.ApiResponse;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -97,14 +94,14 @@ public class DiscoverFragment extends Fragment {
 
     public void goToRecipePage(Recipes.Recipe recipe){
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Utils.RECIPE_KEY, recipe);
+        bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_recipeFragment, bundle);
     }
 
     public void goToSearchScreen(String query, ArrayList<Filter> filters){
         Bundle bundle = new Bundle();
-        bundle.putString(Utils.QUERY_KEY, query);
-        bundle.putSerializable(Utils.FILTER_KEY, filters);
+        bundle.putString(Constants.QUERY_KEY, query);
+        bundle.putSerializable(Constants.FILTER_KEY, filters);
         NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
     }
 }

@@ -2,24 +2,20 @@ package com.example.app_sample.ui.search;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
-import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.recipe.RecipeFragment;
-import com.example.app_sample.utils.Utils;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
@@ -60,7 +56,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 recipeHolder.recipe_name.setText(recipe.getTitle());
                 recipeHolder.meal_type.setText(recipe.getDishTypes().isEmpty() ? "Whatever" : recipe.getDishTypes().get(0));
-                RecipesRemoteDataSource.loadImage(context, recipe.getImage(), recipeHolder.img);
+                RecipeRepository.loadImage(context, recipe.getImage(), recipeHolder.img);
                 recipeHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                 recipeHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
                 if(recipe.getColor() == 0){

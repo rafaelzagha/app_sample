@@ -17,20 +17,14 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,15 +34,12 @@ import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
-import com.example.app_sample.data.remote.api.ApiResponse;
 import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.utils.Utils;
+import com.example.app_sample.utils.Constants;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -86,8 +77,8 @@ public class SearchFragment extends Fragment {
     public static SearchFragment newInstance(String query, ArrayList<Filter> filters) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-        args.putString(Utils.QUERY_KEY, query);
-        args.putSerializable(Utils.FILTER_KEY, filters);
+        args.putString(Constants.QUERY_KEY, query);
+        args.putSerializable(Constants.FILTER_KEY, filters);
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,8 +87,8 @@ public class SearchFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        query = getArguments().getString(Utils.QUERY_KEY);
-        filters = (ArrayList<Filter>) getArguments().getSerializable(Utils.FILTER_KEY);
+        query = getArguments().getString(Constants.QUERY_KEY);
+        filters = (ArrayList<Filter>) getArguments().getSerializable(Constants.FILTER_KEY);
 
         if (query == null) query = "";
         if (filters == null) filters = new ArrayList<>();
@@ -149,7 +140,7 @@ public class SearchFragment extends Fragment {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getData() != null) {
-                        filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Utils.FILTER_KEY);
+                        filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Constants.FILTER_KEY);
                         doSearch(true);
                         setUpChipGroup(filterChips);
                     }
@@ -162,8 +153,8 @@ public class SearchFragment extends Fragment {
 
         tv_filters .setOnClickListener(v -> {
             Intent newIntent = new Intent(requireContext(), FilterActivity.class);
-            newIntent.putExtra(Utils.FILTER_KEY, filters);
-            newIntent.putExtra(Utils.QUERY_KEY, query);
+            newIntent.putExtra(Constants.FILTER_KEY, filters);
+            newIntent.putExtra(Constants.QUERY_KEY, query);
             activityResultLaunch.launch(newIntent);
 
         });
@@ -308,7 +299,7 @@ public class SearchFragment extends Fragment {
 
     public void goToRecipePage(Recipes.Recipe recipe){
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Utils.RECIPE_KEY, recipe);
+        bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_searchFragment_to_recipeFragment, bundle);
     }
 
