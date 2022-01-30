@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.example.app_sample.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class SplashScreen extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         Animation fade = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         img.startAnimation(fade);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         handler = new Handler();
         handler.postDelayed(() -> {

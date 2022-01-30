@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.remote.FirebaseManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -71,11 +72,13 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "User created Successfully", Toast.LENGTH_LONG).show();
-                            firebaseDatabase.child("UserData").child(firebaseAuth.getCurrentUser().getUid()).child("username").setValue(username).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            new FirebaseManager().setUsername(username).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful())
                                         startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                    else
+                                        Toast.makeText(getApplicationContext(), "Username save failure", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {

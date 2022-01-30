@@ -2,21 +2,17 @@ package com.example.app_sample.ui.search;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
-import com.example.app_sample.data.remote.api.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +75,7 @@ public class SearchViewModel extends AndroidViewModel {
             sortDirection = "desc";
         else sortDirection = "asc";
 
-        recipeRepository.getRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
+        recipeRepository.loadRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
             @Override
             public void onResponse(Call<RecipesResults> call, Response<RecipesResults> response) {
                 if (response.isSuccessful()) {

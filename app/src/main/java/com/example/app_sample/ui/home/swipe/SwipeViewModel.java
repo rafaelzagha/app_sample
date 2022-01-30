@@ -10,7 +10,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class SwipeViewModel extends AndroidViewModel {
     }
 
     public void newRequest() {
-        recipeRepository.getRandomRecipes(20).enqueue(new Callback<Recipes>() {
+        recipeRepository.loadRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
                 if (response.isSuccessful()) {

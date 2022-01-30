@@ -14,6 +14,8 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.remote.FirebaseManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,6 +39,7 @@ public class IntroActivity extends AppCompatActivity {
     int currentPosition;
     MaterialButton google, email;
     TextView login;
+    FirebaseManager firebaseManager;
 
     int RC_SIGN_IN;
 
@@ -47,7 +50,7 @@ public class IntroActivity extends AppCompatActivity {
 
         setupVideo();
         RC_SIGN_IN = 1;
-
+        firebaseManager = new FirebaseManager();
         email = findViewById(R.id.sign_up_with_email);
         google = findViewById(R.id.sign_up_with_google);
         login = findViewById(R.id.log_in);
@@ -133,7 +136,7 @@ public class IntroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("tag", "signInWithCredential:success");
-                            FirebaseDatabase.getInstance().getReference("UserData").child(firebaseAuth.getCurrentUser().getUid()).child("username").setValue(firebaseAuth.getCurrentUser().getDisplayName());
+                            firebaseManager.setUsername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                         } else {
                             Log.w("tag", "signInWithCredential:failure", task.getException());
                         }

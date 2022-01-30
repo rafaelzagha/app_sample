@@ -19,12 +19,16 @@ import android.widget.Toast;
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
+import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.utils.Constants;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.firebase.database.FirebaseDatabase;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
+
+import java.util.List;
 
 public class SwipeFragment extends Fragment implements CardStackListener {
 
@@ -66,6 +70,16 @@ public class SwipeFragment extends Fragment implements CardStackListener {
             cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
         } else
             viewModel.newRequest();
+
+        new FirebaseManager().getFavorites().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
+            @Override
+            public void onChanged(List<Integer> integers) {
+                if(integers != null){
+                    for(Integer i : integers)
+                        Log.d("tag", "integer " + i);
+                }
+            }
+        });
 
         loadMore.setOnClickListener(v -> {
             loadMore.setVisibility(View.INVISIBLE);
