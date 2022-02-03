@@ -30,8 +30,8 @@ public class SplashScreen extends AppCompatActivity {
         img = findViewById(R.id.logo);
         firebaseAuth = FirebaseAuth.getInstance();
         Animation fade = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+
         img.startAnimation(fade);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         handler = new Handler();
         handler.postDelayed(() -> {

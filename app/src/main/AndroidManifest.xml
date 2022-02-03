@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App_sample">
+        android:theme="@style/Theme.App_sample"
+        android:name=".utils.FirebaseApp">
+
         <activity
             android:name=".ui.LoginActivity"
             android:exported="false" />
@@ -41,5 +43,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
+
+
 
 </manifest>

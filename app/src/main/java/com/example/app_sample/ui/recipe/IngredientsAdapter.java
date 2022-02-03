@@ -38,14 +38,11 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Ingredient ingredient = ingredients.get(position);
-        RecipeRepository.loadImage(context, (Constants.IMAGE_URL+ingredient.getImage()), holder.img);
-        String name = ingredient.getName().substring(0,1).toUpperCase(Locale.ROOT) + ingredient.getName().substring(1);
+        RecipeRepository.loadImage(context, (Constants.IMAGE_URL + ingredient.getImage()), holder.img);
+        String name = ingredient.getName().substring(0, 1).toUpperCase(Locale.ROOT) + ingredient.getName().substring(1);
         holder.name.setText(name);
-
-        if(ingredient.getAmount().intValue() == ingredient.getAmount())
-            holder.amount.setText(ingredient.getAmount().intValue() + " " +  ingredient.getUnit());
-        else
-            holder.amount.setText(ingredient.getAmount() + " " +  ingredient.getUnit());
+        String amount = toMixedFraction(ingredient.getAmount()) + " " + ingredient.getUnit();
+        holder.amount.setText(amount);
 
     }
 
@@ -64,5 +61,23 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
             name = itemView.findViewById(R.id.ingredient_name);
             amount = itemView.findViewById(R.id.amount);
         }
+    }
+
+    private String toMixedFraction(double x)
+    {
+        int whole = (int) x;
+        int denominator = 64;
+        int numerator = (int)( (x - whole) * denominator );
+
+        if (numerator == 0)
+        {
+            return String.valueOf(whole);
+        }
+        while ( numerator % 2 == 0 ) // simplify fraction
+        {
+            numerator /= 2;
+            denominator /=2;
+        }
+        return String.format("%s %s/%s", whole == 0? "" : whole, numerator, denominator);
     }
 }

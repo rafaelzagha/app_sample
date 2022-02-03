@@ -24,16 +24,25 @@ import android.widget.TextView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
+import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.search.FilterActivity;
 import com.example.app_sample.utils.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
     EditText search;
+    TextView username;
     TabLayout tabLayout;
     ViewPager2 viewPager;
     HomeAdapter homeAdapter;
@@ -51,9 +60,21 @@ public class HomeFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
         appBarLayout = view.findViewById(R.id.app_bar_layout);
+        username = view.findViewById(R.id.username);
         filter = view.findViewById(R.id.filter);
-
         homeAdapter = new HomeAdapter(getChildFragmentManager(), getLifecycle());
+
+        new FirebaseManager().getUsername().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                username.setText("Hi " + snapshot.getValue() + ",");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         viewPager.setAdapter(homeAdapter);
         viewPager.setUserInputEnabled(false);  //disable swiping
@@ -76,6 +97,7 @@ public class HomeFragment extends Fragment {
             p.setMargins(0, 0, 50, 0);
             tab.requestLayout();
         }
+
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -102,6 +124,7 @@ public class HomeFragment extends Fragment {
             public void onPageSelected(int position) {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
                 appBarLayout.setExpanded(true);
+                //todo: fix fragment height inside viewpager
             }
         });
 

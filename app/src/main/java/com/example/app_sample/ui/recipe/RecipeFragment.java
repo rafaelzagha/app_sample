@@ -26,6 +26,7 @@ import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class RecipeFragment extends Fragment {
@@ -40,7 +41,7 @@ public class RecipeFragment extends Fragment {
     InstructionsAdapter instructionsAdapter;
     RecyclerView.LayoutManager layoutManager;
     ViewPager2 instructionsViewPager;
-
+    String type;
 
     public RecipeFragment() {}
 
@@ -64,7 +65,8 @@ public class RecipeFragment extends Fragment {
         shortInstructions = view.findViewById(R.id.short_instructions);
 
         recipeName.setText(recipe.getTitle());
-        mealType.setText(recipe.getDishTypes().isEmpty()? "Whatever" : recipe.getDishTypes().get(0));
+        type = recipe.getDishTypes().isEmpty()?"No Type":recipe.getDishTypes().get(0).substring(0,1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
+        mealType.setText(type);
         time.setText("/ " + recipe.getReadyInMinutes() + " " + getResources().getString(R.string.time));
         servings.setText(recipe.getServings() + " " + getResources().getString(R.string.servings));
 
@@ -84,7 +86,7 @@ public class RecipeFragment extends Fragment {
         ingredientsRV.setAdapter(ingredientsAdapter);
         ingredientsRV.setLayoutManager(layoutManager);
 
-        if(recipe.getInstructions() != null){
+        if(recipe.getInstructions() != null && !recipe.getInstructions().isEmpty()){
 
             instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions().get(0).getSteps(), recipe.getColor());
             instructionsViewPager.setAdapter(instructionsAdapter);

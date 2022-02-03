@@ -23,10 +23,10 @@
             app:popExitAnim="@anim/slide_down" />
     </fragment>
     <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.example.app_sample.ui.favorites.FavoritesFragment"
+        android:id="@+id/savedFragment"
+        android:name="com.example.app_sample.ui.saved.SavedFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_saved" />
     <fragment
         android:id="@+id/shoppingFragment"
         android:name="com.example.app_sample.ui.groceries.GroceriesFragment"

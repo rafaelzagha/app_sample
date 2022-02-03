@@ -65,7 +65,7 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     RecipeViewHolder viewHolder = (RecipeViewHolder) holder;
                     Recipes.Recipe recipe = recipes.get(position);
                     viewHolder.name.setText(recipe.getTitle());
-                    viewHolder.type.setText(recipe.getDishTypes().isEmpty() ? "Whatever" : recipe.getDishTypes().get(0));
+                    viewHolder.type.setText(recipe.getDishTypes().isEmpty() ? "No Type" : recipe.getDishTypes().get(0));
                     RecipeRepository.loadImage(context, recipe.getImage(), viewHolder.img);
                     viewHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                     viewHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));

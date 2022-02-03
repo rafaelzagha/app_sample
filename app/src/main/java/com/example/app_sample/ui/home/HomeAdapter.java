@@ -33,4 +33,6 @@ public class HomeAdapter extends FragmentStateAdapter {
         return fragments.size();
     }
 
+
+
 }

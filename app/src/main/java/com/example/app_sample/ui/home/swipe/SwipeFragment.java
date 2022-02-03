@@ -14,15 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app_sample.R;
-import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.utils.Constants;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.firebase.database.FirebaseDatabase;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -33,6 +32,7 @@ import java.util.List;
 public class SwipeFragment extends Fragment implements CardStackListener {
 
     CardStackView csv;
+    TextView username;
     CardStackAdapter cardStackAdapter;
     CardStackLayoutManager cardStackLayoutManager;
     SwipeViewModel viewModel;
@@ -65,11 +65,12 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         csv.setLayoutManager(cardStackLayoutManager);
 
         if (viewModel.getRecipes().getValue() != null && viewModel.getRecipes().getValue().getRecipes() != null) {
-            cardStackAdapter.setRecipes(viewModel.getRecipes().getValue().getRecipes());
-            indicator.setVisibility(View.INVISIBLE);
-            cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
-        } else
-            viewModel.newRequest();
+
+
+
+
+        }
+
 
         new FirebaseManager().getFavorites().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
             @Override
@@ -80,6 +81,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
                 }
             }
         });
+
 
         loadMore.setOnClickListener(v -> {
             loadMore.setVisibility(View.INVISIBLE);
@@ -97,10 +99,12 @@ public class SwipeFragment extends Fragment implements CardStackListener {
                 indicator.setVisibility(View.INVISIBLE);
                 cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());
                 csv.setVisibility(View.VISIBLE);
+                cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
 
             }
         });
 
+        //todo: fix error managing
         viewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {

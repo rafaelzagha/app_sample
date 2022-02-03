@@ -3,9 +3,10 @@ package com.example.app_sample.data.local.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Steps {
+public class Steps implements Serializable {
 
     @SerializedName("steps")
     @Expose
@@ -19,7 +20,7 @@ public class Steps {
         this.steps = steps;
     }
 
-    public class Step {
+    public static class Step implements Serializable{
 
         @SerializedName("number")
         private Integer number;

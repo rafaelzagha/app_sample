@@ -7,8 +7,8 @@
         android:enabled="true"
         android:icon="@drawable/ic_home" />
 
-    <item android:title="Favorites"
-        android:id="@+id/favoritesFragment"
+    <item android:title="Saved"
+        android:id="@+id/savedFragment"
         android:enabled="true"
         android:icon="@drawable/ic_favorite"/>
 

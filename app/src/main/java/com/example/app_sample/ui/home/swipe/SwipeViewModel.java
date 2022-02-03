@@ -31,6 +31,7 @@ public class SwipeViewModel extends AndroidViewModel {
         recipes = new MutableLiveData<>();
         error = new MutableLiveData<>();
         position = 0;
+        newRequest();
     }
 
     public LiveData<Recipes> getRecipes() {
@@ -46,6 +47,8 @@ public class SwipeViewModel extends AndroidViewModel {
     }
 
     public void newRequest() {
+        Log.d("tag", "newrequest");
+
         recipeRepository.loadRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
@@ -60,7 +63,7 @@ public class SwipeViewModel extends AndroidViewModel {
             @Override
             public void onFailure(Call<Recipes> call, Throwable t) {
                 Log.d("tag", t.getMessage());
-                error.setValue("Request Error " + t.getMessage());
+                error.setValue("Request Error " + t.getLocalizedMessage());
             }
         });
 

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +40,6 @@ public class IntroActivity extends AppCompatActivity {
     int currentPosition;
     MaterialButton google, email;
     TextView login;
-    FirebaseManager firebaseManager;
 
     int RC_SIGN_IN;
 
@@ -50,7 +50,6 @@ public class IntroActivity extends AppCompatActivity {
 
         setupVideo();
         RC_SIGN_IN = 1;
-        firebaseManager = new FirebaseManager();
         email = findViewById(R.id.sign_up_with_email);
         google = findViewById(R.id.sign_up_with_google);
         login = findViewById(R.id.log_in);
@@ -89,7 +88,8 @@ public class IntroActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        currentPosition = mediaPlayer.getCurrentPosition();
+        if(mediaPlayer != null)
+            currentPosition = mediaPlayer.getCurrentPosition();
         videoView.pause();
     }
 
@@ -136,7 +136,7 @@ public class IntroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("tag", "signInWithCredential:success");
-                            firebaseManager.setUsername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                            new FirebaseManager().setUsername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                         } else {
                             Log.w("tag", "signInWithCredential:failure", task.getException());
                         }

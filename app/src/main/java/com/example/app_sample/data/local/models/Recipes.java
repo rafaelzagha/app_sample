@@ -103,7 +103,7 @@ public class Recipes implements Serializable {
         private List<Steps> instructions = null;
 
         @ColumnInfo(name = "color")
-        private transient int color = 0;
+        private transient Integer color = 0;
 
         public Boolean getVegetarian() {
             return vegetarian;
@@ -249,11 +249,11 @@ public class Recipes implements Serializable {
             this.instructions = instructions;
         }
 
-        public int getColor() {
+        public Integer getColor() {
             return color;
         }
 
-        public void setColor(int color) {
+        public void setColor(Integer color) {
             this.color = color;
         }
     }

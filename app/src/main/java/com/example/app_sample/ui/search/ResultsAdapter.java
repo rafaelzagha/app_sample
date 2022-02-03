@@ -20,6 +20,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -55,7 +56,8 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 RecipeViewHolder recipeHolder = (RecipeViewHolder) holder;
 
                 recipeHolder.recipe_name.setText(recipe.getTitle());
-                recipeHolder.meal_type.setText(recipe.getDishTypes().isEmpty() ? "Whatever" : recipe.getDishTypes().get(0));
+                String type = recipe.getDishTypes().isEmpty()?"No Type":recipe.getDishTypes().get(0).substring(0,1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
+                recipeHolder.meal_type.setText(type);
                 RecipeRepository.loadImage(context, recipe.getImage(), recipeHolder.img);
                 recipeHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                 recipeHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));

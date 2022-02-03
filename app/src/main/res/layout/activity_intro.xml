@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:foreground="@drawable/image_fade"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@color/transparent"/>
+        android:backgroundTint="@color/transparent" />
 
     <TextView
         android:id="@+id/title"

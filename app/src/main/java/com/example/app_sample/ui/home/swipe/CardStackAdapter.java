@@ -19,6 +19,7 @@ import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.CardViewHolder> {
@@ -48,26 +49,25 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.Card
         //holder.txt.setText(categoryList.get(position).getName());
         Recipes.Recipe recipe = recipes.get(position);
 
-        if (recipes != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    swipeFragment.goToRecipePage(recipe);
-                }
-            });
-            holder.recipe_name.setText(recipe.getTitle());
-            holder.meal_type.setText(recipe.getDishTypes().isEmpty()?"Whatever":recipe.getDishTypes().get(0));
-            RecipeRepository.loadImage(context, recipe.getImage(), holder.img );
-            holder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
-            holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
-
-            if(recipe.getColor() == 0){
-                int x = new Random().nextInt(7);
-                recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swipeFragment.goToRecipePage(recipe);
             }
-            holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+        });
+        holder.recipe_name.setText(recipe.getTitle());
+        String type = recipe.getDishTypes().isEmpty()?"No Type":recipe.getDishTypes().get(0).substring(0,1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
+        holder.meal_type.setText(type);
+        RecipeRepository.loadImage(context, recipe.getImage(), holder.img );
+        holder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
+        holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
 
+        if(recipe.getColor() == 0){
+            int x = new Random().nextInt(7);
+            recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
         }
+        holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+
     }
 
     @Override

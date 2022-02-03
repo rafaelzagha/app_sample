@@ -2,7 +2,9 @@ package com.example.app_sample.data.local.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Equipment {
+import java.io.Serializable;
+
+public class Equipment implements Serializable {
 
     @SerializedName("name")
     private String name;

@@ -67,8 +67,8 @@
                     android:background="@drawable/shape_round"
                     android:backgroundTint="@color/blue"
                     android:gravity="center"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="5dp"
                     android:text="Breakfast"
                     android:textColor="@color/white"
                     android:textFontWeight="500"
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/details"
-                android:layout_marginHorizontal="25dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:text="Ingredients"
@@ -108,11 +108,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tv_equipment"
-                android:layout_marginStart="2dp"
+                android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/tv_equipment"
                 android:text="3 servings"
                 android:textColor="@color/grey"
-                android:textFontWeight="500"
+                android:textFontWeight="400"
                 android:textSize="22sp" />
 
 
@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_equipment"
-                android:layout_marginHorizontal="25dp"
+                android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="20dp"
                 android:nestedScrollingEnabled="false" />
 

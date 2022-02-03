@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.swipe.SwipeFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/load_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:backgroundTint="#FEFEFE"
         android:layout_centerHorizontal="true"
-        app:cardCornerRadius="15dp"
         android:layout_marginTop="150dp"
-        app:cardElevation="0dp"
-        android:padding="0dp">
+        android:backgroundTint="#FEFEFE"
+        android:padding="0dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,80 +50,97 @@
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:indicatorSize="80dp"
-        android:layout_centerHorizontal="true"
         android:layout_alignTop="@id/load_more"
-        app:indicatorColor="@color/blue"/>
-
-    <com.yuyakaido.android.cardstackview.CardStackView
-        android:id="@+id/csv"
-        android:layout_width="match_parent"
-        android:layout_height="500dp" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/csv"
-        app:cardCornerRadius="100dp"
-        app:cardElevation="@dimen/elevation"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:layout_toEndOf="@id/rewind"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="0dp">
-
-        <ImageView
-            android:padding="8dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/almost_white"
-            android:src="@drawable/ic_add"
-            app:tint="@color/blue"/>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/rewind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/csv"
-        app:cardCornerRadius="100dp"
-        app:cardElevation="@dimen/elevation"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:foreground="?android:attr/selectableItemBackground" >
+        android:indeterminate="true"
+        app:indicatorColor="@color/blue"
+        app:indicatorSize="80dp" />
 
-        <ImageView
-            android:padding="18dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/almost_white"
-            android:src="@drawable/ic_return"
-            app:tint="@color/medium_grey" />
+    <LinearLayout
+        android:id="@+id/csv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:orientation="vertical">
 
-    </androidx.cardview.widget.CardView>
+        <com.yuyakaido.android.cardstackview.CardStackView
+            android:id="@+id/csv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/csv"
-        app:cardCornerRadius="100dp"
-        app:cardElevation="@dimen/elevation"
-        android:layout_toStartOf="@id/rewind"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="0dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        <RelativeLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:padding="13dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:backgroundTint="@color/almost_white"
-            android:src="@drawable/ic_favorite_filled"
-            app:tint="@color/pink"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@id/rewind"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="@dimen/elevation">
 
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/almost_white"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_favorite_filled"
+                    app:tint="@color/pink" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/rewind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="@dimen/elevation">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/almost_white"
+                    android:padding="18dp"
+                    android:src="@drawable/ic_return"
+                    app:tint="@color/medium_grey" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="40dp"
+                android:layout_toStartOf="@id/rewind"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="@dimen/elevation">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/almost_white"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_add"
+                    app:tint="@color/blue" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
 
 </RelativeLayout>
