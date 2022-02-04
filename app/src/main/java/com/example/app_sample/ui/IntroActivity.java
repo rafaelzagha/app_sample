@@ -58,9 +58,6 @@ public class IntroActivity extends AppCompatActivity {
         google.setOnClickListener(v -> googleSignUp());
         login.setOnClickListener(v -> startActivity(new Intent(IntroActivity.this, LoginActivity.class)));
 
-
-        findViewById(R.id.title).setOnClickListener(v -> startActivity(new Intent(IntroActivity.this, MainActivity.class)));
-
     }
 
     void setupVideo(){
@@ -150,17 +147,8 @@ public class IntroActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-
-            Log.d("tag", FirebaseAuth.getInstance().getUid() );
-            Toast.makeText(this, "Already Logged in" + FirebaseAuth.getInstance().getCurrentUser().getUid(), Toast.LENGTH_SHORT).show();
-        }
-
-        else{
             GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(IntroActivity.this, gso);
             startActivityForResult(googleSignInClient.getSignInIntent(), RC_SIGN_IN);
-        }
-
     }
 
     @Override

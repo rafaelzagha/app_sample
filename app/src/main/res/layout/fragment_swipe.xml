@@ -6,55 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.swipe.SwipeFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/load_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:backgroundTint="#FEFEFE"
-        android:padding="0dp"
-        android:visibility="invisible"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="0dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp">
-
-            <ImageView
-                android:id="@+id/img"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_load"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/img"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Load More"
-                android:textColor="@color/blue"
-                android:textFontWeight="500"
-                android:textSize="30sp" />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/load_more"
+        android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
         android:indeterminate="true"
         app:indicatorColor="@color/blue"
         app:indicatorSize="80dp" />
+
+
+        <LinearLayout
+            android:id="@+id/error_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:layout_marginTop="130dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="25dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retry connection..."
+                app:icon="@drawable/ic_load"
+                app:iconSize="30dp"
+                android:layout_gravity="center"
+                android:paddingVertical="6dp"/>
+
+            <TextView
+                android:id="@+id/error_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="No internet connection, try again later"
+                android:textFontWeight="300"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/csv_layout"
@@ -66,6 +61,7 @@
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/csv"
             android:layout_width="match_parent"
+            android:visibility="invisible"
             android:layout_height="0dp"
             android:layout_weight="0.7"/>
 
@@ -75,7 +71,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/add"
+                android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
@@ -112,12 +108,12 @@
                     android:backgroundTint="@color/almost_white"
                     android:padding="18dp"
                     android:src="@drawable/ic_return"
-                    app:tint="@color/medium_grey" />
+                    app:tint="@color/blue" />
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/favorite"
+                android:id="@+id/clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
@@ -131,16 +127,14 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/almost_white"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_add"
-                    app:tint="@color/blue" />
+                    android:padding="10dp"
+                    android:src="@drawable/ic_clear"
+                    app:tint="@color/medium_grey" />
 
             </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
+
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

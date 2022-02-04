@@ -11,12 +11,12 @@
     android:focusable="true"
     android:foreground="?android:selectableItemBackground"
     app:cardCornerRadius="15dp"
-    app:cardElevation="@dimen/elevation"
-    app:contentPadding="10dp">
+    app:cardElevation="@dimen/elevation">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/img"
@@ -96,4 +96,36 @@
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_round_square"
+        android:backgroundTint="@color/overlay_black">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_favorite_filled"
+            app:tint="@color/white"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/left_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_round_square"
+        android:backgroundTint="@color/overlay_black">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_clear"
+            app:tint="@color/white"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
 </androidx.cardview.widget.CardView>
+
+

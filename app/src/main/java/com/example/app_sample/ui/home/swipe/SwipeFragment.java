@@ -14,34 +14,38 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.utils.Constants;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
+import com.yuyakaido.android.cardstackview.Duration;
+import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
 import java.util.List;
 
 public class SwipeFragment extends Fragment implements CardStackListener {
 
+    MaterialButton retry;
+    TextView errorMessage;
+    LinearLayout errorLayout;
     CardStackView csv;
-    TextView username;
     CardStackAdapter cardStackAdapter;
     CardStackLayoutManager cardStackLayoutManager;
     SwipeViewModel viewModel;
-    CardView loadMore, rewind, favorite, addRecipe;
+    CardView rewind, clear, save;
     CircularProgressIndicator indicator;
 
-    public SwipeFragment() {
-        // Required empty public constructor
-    }
+    public SwipeFragment() { }
 
 
     @Override
@@ -49,14 +53,16 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(requireActivity()).get(SwipeViewModel.class);
-        loadMore = view.findViewById(R.id.load_more);
+        errorLayout = view.findViewById(R.id.error_layout);
+        retry = view.findViewById(R.id.retry);
+        errorMessage = view.findViewById(R.id.error_message);
         csv = view.findViewById(R.id.csv);
         indicator = view.findViewById(R.id.indicator);
         rewind = view.findViewById(R.id.rewind);
-        favorite = view.findViewById(R.id.favorite);
-        addRecipe = view.findViewById(R.id.add);
+        clear = view.findViewById(R.id.clear);
+        save = view.findViewById(R.id.save);
 
-        cardStackAdapter = new CardStackAdapter(requireContext(), this);
+        cardStackAdapter = new CardStackAdapter(this);
         cardStackLayoutManager = new CardStackLayoutManager(requireContext(), this);
         cardStackLayoutManager.setDirections(Direction.HORIZONTAL);
         cardStackLayoutManager.setCanScrollVertical(false);
@@ -64,57 +70,73 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         csv.setAdapter(cardStackAdapter);
         csv.setLayoutManager(cardStackLayoutManager);
 
-        if (viewModel.getRecipes().getValue() != null && viewModel.getRecipes().getValue().getRecipes() != null) {
-
-
-
-
-        }
-
 
         new FirebaseManager().getFavorites().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
             @Override
             public void onChanged(List<Integer> integers) {
-                if(integers != null){
-                    for(Integer i : integers)
+                if (integers != null) {
+                    for (Integer i : integers)
                         Log.d("tag", "integer " + i);
                 }
             }
         });
 
-
-        loadMore.setOnClickListener(v -> {
-            loadMore.setVisibility(View.INVISIBLE);
-            indicator.setVisibility(View.VISIBLE);
-            viewModel.newRequest();
+        clear.setOnClickListener(v -> {
+            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Left)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .build();
+            cardStackLayoutManager.setSwipeAnimationSetting(setting);
+            csv.swipe();
         });
 
-        rewind.setOnClickListener(v -> {
-            csv.setVisibility(View.VISIBLE);
-            csv.rewind();
+        save.setOnClickListener(v -> {
+            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Right)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .build();
+            cardStackLayoutManager.setSwipeAnimationSetting(setting);
+            csv.swipe();
         });
+
+        rewind.setOnClickListener(v -> csv.rewind());
 
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesApiResponse -> {
             if (recipesApiResponse != null) {
-                indicator.setVisibility(View.INVISIBLE);
-                cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());
-                csv.setVisibility(View.VISIBLE);
-                cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
+                if (recipesApiResponse.getRecipes() != null){
 
-            }
-        });
-
-        //todo: fix error managing
-        viewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if(s != null){
-                    Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
+                    csv.setVisibility(View.VISIBLE);
                     indicator.setVisibility(View.INVISIBLE);
+                    cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());
+                    cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
+                    cardStackLayoutManager.setCanScrollHorizontal(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1);
                 }
+
+                if(recipesApiResponse.getCode() != 200 && viewModel.getPosition() % 20 == 0)
+                    showError(recipesApiResponse.getCode(), recipesApiResponse.getMessage());
             }
         });
 
+        retry.setOnClickListener(v -> {
+            indicator.setVisibility(View.VISIBLE);
+            errorLayout.setVisibility(View.INVISIBLE);
+            viewModel.newRequest();
+        });
+
+    }
+
+    private void showError(int code, String message) {
+        csv.setVisibility(View.INVISIBLE);
+        indicator.setVisibility(View.INVISIBLE);
+        errorLayout.setVisibility(View.VISIBLE);
+        if (code == 0)
+            errorMessage.setText(getString(R.string.no_internet));
+        else if(code == 402)
+            errorMessage.setText(getString(R.string.request_limit));
+        else
+            errorMessage.setText(message);
     }
 
 
@@ -132,16 +154,20 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount()) {
-            csv.setVisibility(View.INVISIBLE);
-            indicator.setVisibility(View.INVISIBLE);
-            loadMore.setVisibility(View.VISIBLE);
+        if(direction == Direction.Right){
+            new FirebaseManager().saveRecipe(cardStackAdapter.getRecipeId(viewModel.getPosition()));
         }
+        if(cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount()-1)
+            cardStackLayoutManager.setCanScrollHorizontal(false);
         viewModel.incrementPosition();
+
     }
 
     @Override
     public void onCardRewound() {
+        cardStackLayoutManager.setCanScrollHorizontal(true);
+        csv.setVisibility(View.VISIBLE);
+        errorLayout.setVisibility(View.INVISIBLE);
         viewModel.decreasePosition();
     }
 
@@ -160,13 +186,17 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
     }
 
-    public void goToRecipePage(Recipes.Recipe recipe){
+    public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_recipeFragment, bundle);
     }
 
-
+    public void loadMore() {
+        csv.setVisibility(View.INVISIBLE);
+        indicator.setVisibility(View.VISIBLE);
+        viewModel.newRequest();
+    }
 
 
 }

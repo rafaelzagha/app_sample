@@ -15,7 +15,6 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
@@ -132,7 +131,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.img);
-            favorite = itemView.findViewById(R.id.favorite);
+            favorite = itemView.findViewById(R.id.clear);
             recipe_name = itemView.findViewById(R.id.recipe_name);
             meal_type = itemView.findViewById(R.id.meal_type);
             time = itemView.findViewById(R.id.time);

@@ -21,7 +21,6 @@ public class SwipeViewModel extends AndroidViewModel {
 
     MutableLiveData<Recipes> recipes;
     RecipeRepository recipeRepository;
-    MutableLiveData<String> error;
     int position;
 
     public SwipeViewModel(@NonNull Application application) {
@@ -29,7 +28,6 @@ public class SwipeViewModel extends AndroidViewModel {
 
         recipeRepository = new RecipeRepository(getApplication());
         recipes = new MutableLiveData<>();
-        error = new MutableLiveData<>();
         position = 0;
         newRequest();
     }
@@ -39,38 +37,36 @@ public class SwipeViewModel extends AndroidViewModel {
     }
 
     private void addToRecipes(Recipes data) {
-        if (data != null && recipes.getValue() != null) {
+        if (data != null && recipes.getValue() != null && recipes.getValue().getRecipes() != null) {
             List<Recipes.Recipe> list = recipes.getValue().getRecipes();
             list.addAll(data.getRecipes());
-            recipes.setValue(new Recipes(list));
+            recipes.setValue(new Recipes(list).setCode(data.getCode()).setMessage(data.getMessage()));
         } else recipes.setValue(data);
     }
 
     public void newRequest() {
-        Log.d("tag", "newrequest");
 
         recipeRepository.loadRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
-                if (response.isSuccessful()) {
-                    addToRecipes(response.body());
-                } else {
-                    error.setValue("Request Error  " + response.code());
-                    Log.d("tag", "" + response.code());
+                if(response.body() != null){
+                    addToRecipes(response.body().setCode(response.code()).setMessage(response.message()));
+                }
+                else{
+                    addToRecipes(new Recipes(null).setCode(response.code()).setMessage(response.message()));
                 }
             }
 
             @Override
             public void onFailure(Call<Recipes> call, Throwable t) {
-                Log.d("tag", t.getMessage());
-                error.setValue("Request Error " + t.getLocalizedMessage());
+                if(recipes.getValue() != null)
+                    recipes.setValue(recipes.getValue().setCode(0).setMessage(t.getMessage()));
+                else{
+                    recipes.setValue(new Recipes(null).setCode(0).setMessage(t.getMessage()));
+                }
             }
         });
 
-    }
-
-    public LiveData<String> getError() {
-        return error;
     }
 
     public void incrementPosition() {

@@ -42,4 +42,6 @@
 
     <color name="faded_black">#66000000</color>
 
+    <color name="overlay_black">#80000000</color>
+
 </resources>

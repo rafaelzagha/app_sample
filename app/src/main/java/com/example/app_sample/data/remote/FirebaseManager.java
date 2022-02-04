@@ -7,11 +7,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +30,18 @@ public class FirebaseManager {
 
     }
 
-    public DatabaseReference getUsername(){
+    public DatabaseReference getUsername() {
         return database.child("username");
     }
+
     public Task<Void> setUsername(String name) {
         return database.child("username").setValue(name);
     }
 
     public void saveRecipe(int id) {
         database.child("saved").push().setValue(id);
+
+        isSaved(id);
     }
 
     public LiveData<List<Integer>> getFavorites() {
@@ -54,18 +60,16 @@ public class FirebaseManager {
         return ids;
     }
 
-    public LiveData<Boolean> isSaved(int id) {
-        MutableLiveData<Boolean> favorite = new MutableLiveData<>();
+    public void isSaved(int id) {
+
         database.child("saved").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.isSuccessful()){
-                    favorite.setValue(task.getResult().exists());
-                    Log.d("tag", id + " exists " + favorite.getValue());
+                    Log.d("tag", id + " exists " + task.getResult().exists());
                 }
 
             }
         });
-        return favorite;
     }
 }

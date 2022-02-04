@@ -14,6 +14,10 @@ public class Recipes implements Serializable {
     @SerializedName("recipes")
     private List<Recipe> recipes;
 
+    private transient int code;
+
+    private transient String message;
+
     public Recipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
@@ -24,6 +28,24 @@ public class Recipes implements Serializable {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Recipes setMessage(String message) {
+        this.message = message;
+        return this;
+    }
+
+    public Recipes setCode(int code) {
+        this.code = code;
+        return this;
     }
 
     @Entity(tableName = "recipes")
