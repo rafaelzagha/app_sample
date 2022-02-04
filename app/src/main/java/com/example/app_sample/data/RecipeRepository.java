@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -16,6 +17,12 @@ import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.AppExecutors;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -37,8 +44,14 @@ public class RecipeRepository {
         return recipeDao.getRecipe(id);
     }
 
-    public void insertRecipe(Recipes.Recipe recipe){
+    public void saveRecipe(Recipes.Recipe recipe){
         appExecutors.diskIO().execute(() -> recipeDao.insert(recipe));
+        firebaseManager.saveRecipe(recipe.getId());
+    }
+
+    public void removeRecipe(int id){
+        appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+        firebaseManager.deleteRecipe(id);
     }
 
     public Call<Recipes> loadRandomRecipes(int number) {
@@ -57,6 +70,10 @@ public class RecipeRepository {
         return recipesRemoteDataSource.getRecipesByQuery( query, diet, intolerances, cuisine, type, sort, sortDirection, offset);
     }
 
+    public void clearTable(){
+        appExecutors.diskIO().execute(recipeDao::clearTable);
+    }
+
     public static void loadImage(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
@@ -64,5 +81,22 @@ public class RecipeRepository {
                 .fitCenter()
                 .into(imageView);
     }
+
+    public LiveData<List<Recipes.Recipe>> getSavedRecipes(){
+        MutableLiveData<List<Recipes.Recipe>> recipes = new MutableLiveData<>();
+        firebaseManager.getFavorites().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<Integer> list = new ArrayList<>();
+                    for (DataSnapshot i : task.getResult().getChildren())
+                        list.add(Integer.valueOf(i.getKey()));
+                    //todo: retrieve saved recipes from database
+                }
+            }
+        });
+        return recipes;
+    }
+
 
 }

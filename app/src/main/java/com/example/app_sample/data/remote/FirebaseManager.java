@@ -1,13 +1,9 @@
 package com.example.app_sample.data.remote;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -15,9 +11,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FirebaseManager {
 
@@ -27,11 +20,22 @@ public class FirebaseManager {
     public FirebaseManager() {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("UserData").child(auth.getCurrentUser().getUid());
-
     }
 
-    public DatabaseReference getUsername() {
-        return database.child("username");
+    public LiveData<String> getUsername() {
+        MutableLiveData<String> username = new MutableLiveData<>();
+        database.child("username").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                username.setValue(snapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return username;
     }
 
     public Task<Void> setUsername(String name) {
@@ -39,37 +43,19 @@ public class FirebaseManager {
     }
 
     public void saveRecipe(int id) {
-        database.child("saved").push().setValue(id);
-
-        isSaved(id);
+        database.child("saved").child(String.valueOf(id)).setValue(0);
     }
 
-    public LiveData<List<Integer>> getFavorites() {
-        MutableLiveData<List<Integer>> ids = new MutableLiveData<>();
-        database.child("saved").orderByKey().get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Integer> list = new ArrayList<>();
-                    for (DataSnapshot i : task.getResult().getChildren())
-                        list.add(i.getValue(Integer.class));
-                    ids.setValue(list);
-                }
-            }
-        });
-        return ids;
+    public void deleteRecipe(int id){
+        database.child("saved").child(String.valueOf(id)).removeValue();
     }
 
-    public void isSaved(int id) {
+    public Task<DataSnapshot> getFavorites() {
+        return database.child("saved").orderByValue().get();
+    }
 
-        database.child("saved").equalTo(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
-                    Log.d("tag", id + " exists " + task.getResult().exists());
-                }
+    public Task<DataSnapshot> isSaved(int id) {
 
-            }
-        });
+        return database.child("saved").orderByValue().equalTo(id).get();
     }
 }

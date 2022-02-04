@@ -39,9 +39,6 @@ public class SplashScreen extends AppCompatActivity {
 
         img.startAnimation(fade);
 
-
-        new FirebaseManager().isSaved(716231);
-
         handler = new Handler();
         handler.postDelayed(() -> {
             if(firebaseAuth.getCurrentUser() == null)

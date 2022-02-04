@@ -136,8 +136,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyItemRangeChanged(length, getItemCount());
     }
 
-    public int getRecipeId(int position){
-        return recipes.get(position).getId();
+    public Recipes.Recipe getRecipe(int position){
+        return recipes.get(position);
     }
 
 }

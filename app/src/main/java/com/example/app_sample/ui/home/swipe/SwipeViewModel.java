@@ -69,6 +69,14 @@ public class SwipeViewModel extends AndroidViewModel {
 
     }
 
+    public void saveRecipe(Recipes.Recipe recipe){
+        recipeRepository.saveRecipe(recipe);
+    }
+
+    public void deleteRecipe(int id){
+        recipeRepository.removeRecipe(id);
+    }
+
     public void incrementPosition() {
         position++;
     }

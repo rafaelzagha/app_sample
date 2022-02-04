@@ -68,17 +68,7 @@ public class HomeFragment extends Fragment {
         filter = view.findViewById(R.id.filter);
         homeAdapter = new HomeAdapter(getChildFragmentManager(), getLifecycle());
 
-        new FirebaseManager().getUsername().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                username.setText("Hi " + snapshot.getValue() + ",");
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        new FirebaseManager().getUsername().observe(getViewLifecycleOwner(), str -> username.setText("Hi, " + str));
 
         viewPager.setAdapter(homeAdapter);
         viewPager.setUserInputEnabled(false);  //disable swiping

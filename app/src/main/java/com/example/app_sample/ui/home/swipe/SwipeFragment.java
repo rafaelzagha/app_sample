@@ -70,17 +70,6 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         csv.setAdapter(cardStackAdapter);
         csv.setLayoutManager(cardStackLayoutManager);
 
-
-        new FirebaseManager().getFavorites().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
-            @Override
-            public void onChanged(List<Integer> integers) {
-                if (integers != null) {
-                    for (Integer i : integers)
-                        Log.d("tag", "integer " + i);
-                }
-            }
-        });
-
         clear.setOnClickListener(v -> {
             SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
                     .setDirection(Direction.Left)
@@ -154,11 +143,16 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if(direction == Direction.Right){
-            new FirebaseManager().saveRecipe(cardStackAdapter.getRecipeId(viewModel.getPosition()));
-        }
+
         if(cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount()-1)
             cardStackLayoutManager.setCanScrollHorizontal(false);
+        else{
+            if(direction == Direction.Right)
+                viewModel.saveRecipe(cardStackAdapter.getRecipe(viewModel.getPosition()));
+            else if (direction == Direction.Left)
+                viewModel.deleteRecipe(cardStackAdapter.getRecipe(viewModel.getPosition()).getId());
+
+        }
         viewModel.incrementPosition();
 
     }
