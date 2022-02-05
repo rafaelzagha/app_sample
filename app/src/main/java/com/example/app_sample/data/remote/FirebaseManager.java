@@ -10,6 +10,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseManager {
@@ -43,19 +44,19 @@ public class FirebaseManager {
     }
 
     public void saveRecipe(int id) {
-        database.child("saved").child(String.valueOf(id)).setValue(0);
+        database.child("saved").child(String.valueOf(id)).setValue(
+                database.push().getKey());
     }
 
     public void deleteRecipe(int id){
         database.child("saved").child(String.valueOf(id)).removeValue();
     }
 
-    public Task<DataSnapshot> getFavorites() {
-        return database.child("saved").orderByValue().get();
+    public Query getFavorites() {
+        return database.child("saved").orderByValue();
     }
 
-    public Task<DataSnapshot> isSaved(int id) {
-
-        return database.child("saved").orderByValue().equalTo(id).get();
+    public Query isSaved(int id) {
+        return database.child("saved").orderByValue().equalTo(id);
     }
 }

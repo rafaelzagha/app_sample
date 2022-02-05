@@ -2,6 +2,7 @@ package com.example.app_sample.data;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ import com.example.app_sample.utils.AppExecutors;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,16 +43,18 @@ public class RecipeRepository {
         appExecutors = AppExecutors.getInstance();
     }
 
-    public LiveData<Recipes.Recipe> getRecipe(int id){
-        return recipeDao.getRecipe(id);
+    public LiveData<Recipes.Recipe> getRecipe(int id) {
+        MutableLiveData<Recipes.Recipe> recipe = new MutableLiveData<>();
+        appExecutors.diskIO().execute(() -> recipe.postValue(recipeDao.getRecipe(id)));
+        return recipe;
     }
 
-    public void saveRecipe(Recipes.Recipe recipe){
+    public void saveRecipe(Recipes.Recipe recipe) {
         appExecutors.diskIO().execute(() -> recipeDao.insert(recipe));
         firebaseManager.saveRecipe(recipe.getId());
     }
 
-    public void removeRecipe(int id){
+    public void removeRecipe(int id) {
         appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
         firebaseManager.deleteRecipe(id);
     }
@@ -67,10 +72,10 @@ public class RecipeRepository {
                                                    String sortDirection,
                                                    int offset) {
 
-        return recipesRemoteDataSource.getRecipesByQuery( query, diet, intolerances, cuisine, type, sort, sortDirection, offset);
+        return recipesRemoteDataSource.getRecipesByQuery(query, diet, intolerances, cuisine, type, sort, sortDirection, offset);
     }
 
-    public void clearTable(){
+    public void clearTable() {
         appExecutors.diskIO().execute(recipeDao::clearTable);
     }
 
@@ -82,20 +87,44 @@ public class RecipeRepository {
                 .into(imageView);
     }
 
-    public LiveData<List<Recipes.Recipe>> getSavedRecipes(){
+    public LiveData<List<Recipes.Recipe>> getSavedRecipes() {
         MutableLiveData<List<Recipes.Recipe>> recipes = new MutableLiveData<>();
-        firebaseManager.getFavorites().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        firebaseManager.getFavorites().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    ArrayList<Integer> list = new ArrayList<>();
-                    for (DataSnapshot i : task.getResult().getChildren())
-                        list.add(Integer.valueOf(i.getKey()));
-                    //todo: retrieve saved recipes from database
-                }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Recipes.Recipe> list = new ArrayList<>();
+                appExecutors.diskIO().execute(() -> {
+                    for (DataSnapshot i : snapshot.getChildren()) {
+                        list.add(recipeDao.getRecipe(Integer.parseInt(i.getKey())));
+                    }
+                    recipes.postValue(list);
+                });
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
         return recipes;
+    }
+
+    public LiveData<Boolean> isRecipeSaved(int id) {
+        MutableLiveData<Boolean> bool = new MutableLiveData<>();
+        firebaseManager.isSaved(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                bool.setValue(snapshot.exists());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return bool;
     }
 
 

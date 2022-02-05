@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         bottomNavigationView.setOnItemReselectedListener(item -> {
-            if(navController.getCurrentDestination().getId() != R.id.homeFragment)
+            if(navController.getCurrentDestination().getId() != bottomNavigationView.getSelectedItemId())
                 navController.navigate(item.getItemId());
         });
 

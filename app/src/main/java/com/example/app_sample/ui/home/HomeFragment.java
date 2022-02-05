@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +28,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.app_sample.R;
+import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filter;
+import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.search.FilterActivity;
 import com.example.app_sample.utils.Constants;
@@ -42,6 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -142,6 +147,14 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 return false;
+            }
+        });
+
+        new RecipeRepository(getActivity().getApplication()).getSavedRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipes.Recipe>>() {
+            @Override
+            public void onChanged(List<Recipes.Recipe> recipes) {
+                for(Recipes.Recipe r : recipes)
+                    Log.d("tag", "saved " + r.getTitle() );
             }
         });
 

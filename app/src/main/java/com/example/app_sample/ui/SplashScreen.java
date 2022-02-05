@@ -1,25 +1,16 @@
 package com.example.app_sample.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Looper;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
 import com.example.app_sample.R;
-import com.example.app_sample.data.remote.FirebaseManager;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -39,13 +30,13 @@ public class SplashScreen extends AppCompatActivity {
 
         img.startAnimation(fade);
 
-        handler = new Handler();
+        handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             if(firebaseAuth.getCurrentUser() == null)
                 startActivity(new Intent(SplashScreen.this, IntroActivity.class));
             else
                 startActivity(new Intent(SplashScreen.this, MainActivity.class));
-        }, 1500);
+        }, 1000);
     }
 
 }

@@ -17,8 +17,8 @@ public interface RecipeDao {
     @Query("DELETE FROM recipes where id = :id")
     void deleteRecipe(int id);
 
-    @Query("SELECT * FROM recipes WHERE id=:id LIMIT 1")
-    LiveData<Recipes.Recipe> getRecipe(int id);
+    @Query("SELECT * FROM recipes WHERE id=:id")
+    Recipes.Recipe getRecipe(int id);
 
     @Query("SELECT EXISTS (SELECT 1 FROM recipes WHERE id = :id)")
     boolean inTable(int id);
