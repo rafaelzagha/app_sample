@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightGrayBackground"
+    android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
@@ -40,9 +40,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Hi ,"
-                    android:textColor="@color/lightTextColor"
-                    android:textFontWeight="300"
+                    android:text="Hi username, "
+                    android:textColor="@color/the_other_grey"
+                    android:textFontWeight="400"
                     android:textSize="20sp" />
 
                 <TextView
@@ -130,8 +130,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:backgroundTint="@color/transparent"
             app:tabGravity="center"
             app:tabIndicator="@drawable/item_indicator"

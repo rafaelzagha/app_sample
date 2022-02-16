@@ -134,6 +134,7 @@ public class IntroActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("tag", "signInWithCredential:success");
                             new FirebaseManager().setUsername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                            startActivity(new Intent(IntroActivity.this, MainActivity.class));
                         } else {
                             Log.w("tag", "signInWithCredential:failure", task.getException());
                         }

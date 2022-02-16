@@ -8,12 +8,21 @@
     android:clickable="true"
     android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Shopping Fragment Under Renovation"
-        android:textSize="40sp"
-        android:layout_centerInParent="true"
-        android:gravity="center"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/filter"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardElevation="@dimen/elevation">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_filter"
+            app:tint="@color/blue" />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

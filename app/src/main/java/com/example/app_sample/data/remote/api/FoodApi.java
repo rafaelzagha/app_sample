@@ -31,5 +31,5 @@ public interface FoodApi {
                                                             @Query("sortDirection") String sortDirection);
 
     @GET("recipes/{id}/information")
-    LiveData<ApiResponse<Recipes.Recipe>> getRecipeById(@Path("id") long movieId);
+    Call<Recipes.Recipe> getRecipeById(@Path("id") long movieId);
 }

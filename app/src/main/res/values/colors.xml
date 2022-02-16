@@ -34,7 +34,7 @@
     <color name="peace">#57606f</color>
 
     <color name="lightPrimaryGrayBackground">#f1f1f1</color>
-    <color name="lightGrayBackground">#eeeeee</color>
+    <color name="lightGrayBackground">#f9f5f2</color>
     <color name="lightItemBackground">#eeeeee</color>
     <color name="lightTextColor">#202125</color>
     <color name="lightGrayTextColor">#5f6267</color>
@@ -43,5 +43,7 @@
     <color name="faded_black">#66000000</color>
 
     <color name="overlay_black">#80000000</color>
+
+    <color name="the_other_grey">#6E6E6E</color>
 
 </resources>

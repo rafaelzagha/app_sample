@@ -24,6 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,13 +90,23 @@ public class RecipeRepository {
 
     public LiveData<List<Recipes.Recipe>> getSavedRecipes() {
         MutableLiveData<List<Recipes.Recipe>> recipes = new MutableLiveData<>();
-        firebaseManager.getFavorites().addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseManager.getFavorites().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Recipes.Recipe> list = new ArrayList<>();
                 appExecutors.diskIO().execute(() -> {
                     for (DataSnapshot i : snapshot.getChildren()) {
-                        list.add(recipeDao.getRecipe(Integer.parseInt(i.getKey())));
+                        if(recipeDao.inTable(Integer.parseInt(i.getKey())))
+                            list.add(recipeDao.getRecipe(Integer.parseInt(i.getKey())));
+                        else {
+                            try {
+                                Recipes.Recipe recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(i.getKey())).execute().body();
+                                recipeDao.insert(recipe);
+                                list.add(recipe);
+                            } catch (IOException e) {
+                                Log.d("tag", "Couldn't retrieve saved recipes");
+                            }
+                        }
                     }
                     recipes.postValue(list);
                 });

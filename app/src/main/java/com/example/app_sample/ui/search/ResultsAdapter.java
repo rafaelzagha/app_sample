@@ -88,7 +88,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                 }
-                else if (recipes.size() < 20 && recipes.size() > 0)
+                else if (recipes.size() < 20 && recipes.size() > 1)
                     loadingViewHolder.loadMore.setText("No more results");
 
                 else

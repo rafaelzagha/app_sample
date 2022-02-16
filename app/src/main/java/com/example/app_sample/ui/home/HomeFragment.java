@@ -23,8 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.app_sample.R;
@@ -34,16 +34,8 @@ import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.search.FilterActivity;
 import com.example.app_sample.utils.Constants;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,8 +145,9 @@ public class HomeFragment extends Fragment {
         new RecipeRepository(getActivity().getApplication()).getSavedRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipes.Recipe>>() {
             @Override
             public void onChanged(List<Recipes.Recipe> recipes) {
-                for(Recipes.Recipe r : recipes)
-                    Log.d("tag", "saved " + r.getTitle() );
+                if(recipes != null)
+                    for(Recipes.Recipe r : recipes)
+                        Log.d("tag", "saved " + r.getTitle());
             }
         });
 

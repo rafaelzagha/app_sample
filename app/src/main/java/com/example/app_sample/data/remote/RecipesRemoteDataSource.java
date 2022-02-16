@@ -55,4 +55,9 @@ public class RecipesRemoteDataSource {
         return foodApi.getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort, offset, sortDirection);
     }
 
+    public Call<Recipes.Recipe> getRecipeById(int id){
+        return foodApi.getRecipeById(id);
+    }
+
+
 }

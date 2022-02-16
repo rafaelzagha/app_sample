@@ -71,23 +71,30 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         csv.setLayoutManager(cardStackLayoutManager);
 
         clear.setOnClickListener(v -> {
-            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .build();
-            cardStackLayoutManager.setSwipeAnimationSetting(setting);
-            csv.swipe();
+            if(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1){
+                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                        .setDirection(Direction.Left)
+                        .setDuration(Duration.Normal.duration)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .build();
+                cardStackLayoutManager.setSwipeAnimationSetting(setting);
+                csv.swipe();
+            }
+
+
         });
 
         save.setOnClickListener(v -> {
-            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
-                    .setDuration(Duration.Normal.duration)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .build();
-            cardStackLayoutManager.setSwipeAnimationSetting(setting);
-            csv.swipe();
+            if(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1){
+                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                        .setDirection(Direction.Right)
+                        .setDuration(Duration.Normal.duration)
+                        .setInterpolator(new AccelerateInterpolator())
+                        .build();
+                cardStackLayoutManager.setSwipeAnimationSetting(setting);
+                csv.swipe();
+            }
+
         });
 
         rewind.setOnClickListener(v -> csv.rewind());
