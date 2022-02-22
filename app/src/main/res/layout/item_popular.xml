@@ -8,7 +8,8 @@
     android:layout_height="225dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
-    android:layout_margin="6dp">
+    android:layout_margin="6dp"
+    android:foreground="?android:attr/selectableItemBackground">
 
 
     <RelativeLayout

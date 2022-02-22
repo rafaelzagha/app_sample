@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -96,11 +97,12 @@ public class RecipeRepository {
                 List<Recipes.Recipe> list = new ArrayList<>();
                 appExecutors.diskIO().execute(() -> {
                     for (DataSnapshot i : snapshot.getChildren()) {
-                        if(recipeDao.inTable(Integer.parseInt(i.getKey())))
+                        Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(i.getKey()));
+                        if(recipe != null)
                             list.add(recipeDao.getRecipe(Integer.parseInt(i.getKey())));
                         else {
                             try {
-                                Recipes.Recipe recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(i.getKey())).execute().body();
+                                recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(i.getKey())).execute().body();
                                 recipeDao.insert(recipe);
                                 list.add(recipe);
                             } catch (IOException e) {
@@ -136,6 +138,15 @@ public class RecipeRepository {
             }
         });
         return bool;
+    }
+
+    public void setRecipeColor(int id, int color){
+        appExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                recipeDao.setRecipeColor(id, color);
+            }
+        });
     }
 
 

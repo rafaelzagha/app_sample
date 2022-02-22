@@ -34,8 +34,8 @@
     <color name="peace">#57606f</color>
 
     <color name="lightPrimaryGrayBackground">#f1f1f1</color>
-    <color name="lightGrayBackground">#f9f5f2</color>
-    <color name="lightItemBackground">#eeeeee</color>
+    <color name="lightGrayBackground">#fbfcfe</color>
+    <color name="lightItemBackground">#fffdfe</color>
     <color name="lightTextColor">#202125</color>
     <color name="lightGrayTextColor">#5f6267</color>
     <color name="lightIconColor">#5f6267</color>

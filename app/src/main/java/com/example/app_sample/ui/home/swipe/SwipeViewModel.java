@@ -4,13 +4,17 @@ import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
+import com.example.app_sample.utils.AppExecutors;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -67,6 +71,8 @@ public class SwipeViewModel extends AndroidViewModel {
             }
         });
 
+
+
     }
 
     public void saveRecipe(Recipes.Recipe recipe){
@@ -87,5 +93,9 @@ public class SwipeViewModel extends AndroidViewModel {
 
     public int getPosition() {
         return position;
+    }
+
+    public void resetError(){
+        recipes.getValue().setCode(200);
     }
 }

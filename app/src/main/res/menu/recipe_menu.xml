@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/clear"
+        android:id="@+id/groceries"
+        android:icon="@drawable/ic_basket"
+        app:showAsAction="always"
+        android:title="Groceries"/>
+    <item
+        android:id="@+id/favorite"
         android:icon="@drawable/ic_favorite"
         app:showAsAction="always"
         android:title="Favorite" />
+
 </menu>

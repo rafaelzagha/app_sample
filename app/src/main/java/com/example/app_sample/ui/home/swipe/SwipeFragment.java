@@ -70,28 +70,29 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         csv.setAdapter(cardStackAdapter);
         csv.setLayoutManager(cardStackLayoutManager);
 
+        SwipeAnimationSetting left = new SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Left)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(new AccelerateInterpolator())
+                .build();
+
+        SwipeAnimationSetting right = new SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(new AccelerateInterpolator())
+                .build();
+
         clear.setOnClickListener(v -> {
             if(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1){
-                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Left)
-                        .setDuration(Duration.Normal.duration)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .build();
-                cardStackLayoutManager.setSwipeAnimationSetting(setting);
+                cardStackLayoutManager.setSwipeAnimationSetting(left);
                 csv.swipe();
             }
-
-
         });
 
         save.setOnClickListener(v -> {
             if(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1){
-                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Right)
-                        .setDuration(Duration.Normal.duration)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .build();
-                cardStackLayoutManager.setSwipeAnimationSetting(setting);
+
+                cardStackLayoutManager.setSwipeAnimationSetting(right);
                 csv.swipe();
             }
 
@@ -102,7 +103,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesApiResponse -> {
             if (recipesApiResponse != null) {
                 if (recipesApiResponse.getRecipes() != null){
-
+                    Log.d("tag", "set");
                     csv.setVisibility(View.VISIBLE);
                     indicator.setVisibility(View.INVISIBLE);
                     cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());
@@ -133,6 +134,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
             errorMessage.setText(getString(R.string.request_limit));
         else
             errorMessage.setText(message);
+        viewModel.resetError();
     }
 
 

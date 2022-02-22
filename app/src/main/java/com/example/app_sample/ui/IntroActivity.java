@@ -2,12 +2,14 @@ package com.example.app_sample.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -60,11 +62,12 @@ public class IntroActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void setupVideo(){
         videoView = findViewById(R.id.video);
 
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.final_video);
-
+        videoView.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE);
         videoView.setVideoURI(uri);
         videoView.start();
 

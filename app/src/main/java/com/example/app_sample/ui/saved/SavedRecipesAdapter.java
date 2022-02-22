@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aitsuki.swipe.SwipeLayout;
@@ -51,13 +53,24 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
             if(recipe.getColor() == 0){
                 int x = new Random().nextInt(7);
-                recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
+                int color = context.getResources().getColor(Filters.MealType.values()[x].color());
+                recipe.setColor(color);
+                fragment.setRecipeColor(recipe.getId(), color);
             }
             holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(!((SwipeLayout)holder.itemView).isRightMenuOpened())
                     fragment.goToRecipePage(recipe);
+                }
+            });
+
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fragment.deleteRecipe(recipe.getId());
+                    ((SwipeLayout)holder.itemView).closeRightMenu(true);
                 }
             });
         }
@@ -73,6 +86,8 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
 
         ImageView img, favorite;
         TextView recipe_name, meal_type, time, servings;
+        CardView cardView;
+        LinearLayout delete, groceries;
         
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +97,9 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             meal_type = itemView.findViewById(R.id.meal_type);
             time = itemView.findViewById(R.id.time);
             servings = itemView.findViewById(R.id.servings);
+            cardView = itemView.findViewById(R.id.cardview);
+            delete = itemView.findViewById(R.id.delete);
+            groceries = itemView.findViewById(R.id.groceries);
         }
     }
 

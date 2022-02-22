@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.api.ApiResponse;
 
 import java.lang.annotation.Annotation;

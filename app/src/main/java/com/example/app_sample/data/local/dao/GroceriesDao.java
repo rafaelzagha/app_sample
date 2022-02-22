@@ -1,6 +1,5 @@
 package com.example.app_sample.data.local.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -9,7 +8,7 @@ import androidx.room.Query;
 import com.example.app_sample.data.local.models.Recipes;
 
 @Dao
-public interface RecipeDao {
+public interface GroceriesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Recipes.Recipe recipe);

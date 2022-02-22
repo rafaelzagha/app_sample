@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/lightGrayBackground"
     android:clickable="true"
     android:focusable="true"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
@@ -130,23 +130,25 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            app:tabRippleColor="@color/transparent"
+            android:layout_marginVertical="5dp"
             android:backgroundTint="@color/transparent"
             app:tabGravity="center"
             app:tabIndicator="@drawable/item_indicator"
+            app:tabBackground="@drawable/item_indicator_unselected"
             app:tabIndicatorAnimationDuration="500"
             app:tabIndicatorAnimationMode="elastic"
             app:tabIndicatorGravity="stretch"
             app:tabPaddingEnd="10dp"
             app:tabPaddingStart="10dp"
-            app:tabSelectedTextColor="@color/white">
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/MyCustomTextAppearance">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Swipe" />
+                android:text="Swipe"/>
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/recent"

@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -28,9 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.app_sample.R;
-import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filter;
-import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.search.FilterActivity;
 import com.example.app_sample.utils.Constants;
@@ -51,7 +48,8 @@ public class HomeFragment extends Fragment {
     CardView filter;
     ActivityResultLauncher<Intent> activityResultLaunch;
 
-    public HomeFragment() {}
+    public HomeFragment() {
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -75,20 +73,18 @@ public class HomeFragment extends Fragment {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if(result.getData() != null){
+                        if (result.getData() != null) {
                             ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Constants.FILTER_KEY);
                             goToSearchScreen(null, filters);
                         }
                     }
                 });
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-            p.setMargins(0, 0, 50, 0);
-            tab.requestLayout();
-        }
 
+        View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
+        p.setMargins(0, 0, 50, 0);
+        tab.requestLayout();
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -110,15 +106,6 @@ public class HomeFragment extends Fragment {
 
         });
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-                appBarLayout.setExpanded(true);
-                //todo: fix fragment height inside viewpager
-            }
-        });
-
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,19 +122,10 @@ public class HomeFragment extends Fragment {
                     if (search.getText().toString().length() >= 3) {
                         goToSearchScreen(search.getText().toString(), null);
                         search.setText("");
-                        ((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                     }
                 }
                 return false;
-            }
-        });
-
-        new RecipeRepository(getActivity().getApplication()).getSavedRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipes.Recipe>>() {
-            @Override
-            public void onChanged(List<Recipes.Recipe> recipes) {
-                if(recipes != null)
-                    for(Recipes.Recipe r : recipes)
-                        Log.d("tag", "saved " + r.getTitle());
             }
         });
 
@@ -161,11 +139,16 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void goToSearchScreen(String query, ArrayList<Filter> filters){
+    public void goToSearchScreen(String query, ArrayList<Filter> filters) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.QUERY_KEY, query);
         bundle.putSerializable(Constants.FILTER_KEY, filters);
         NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tabLayout.selectTab(tabLayout.getTabAt(viewPager.getCurrentItem()));
+    }
 }

@@ -22,6 +22,7 @@ import com.aitsuki.swipe.SwipeMenuRecyclerView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.Constants;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class SavedRecipesFragment extends Fragment {
     private SwipeMenuRecyclerView recyclerView;
     private SavedRecipesAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private CircularProgressIndicator indicator;
 
     public SavedRecipesFragment(){ }
 
@@ -46,18 +48,32 @@ public class SavedRecipesFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(requireActivity()).get(SavedRecipesViewModel.class);
         recyclerView = view.findViewById(R.id.saved_rv);
+        indicator = view.findViewById(R.id.indicator);
         adapter = new SavedRecipesAdapter(this);
         layoutManager = new LinearLayoutManager(requireContext());
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> adapter.setRecipes(recipes));
+
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
+            indicator.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adapter.setRecipes(recipes);
+        });
     }
 
     public void goToRecipePage(Recipes.Recipe recipe){
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_savedFragment_to_recipeFragment, bundle);
+    }
+
+    public void deleteRecipe(int id){
+        viewModel.deleteRecipe(id);
+    }
+
+    public void setRecipeColor(int id , int color){
+        viewModel.setRecipeColor(id, color);
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,15 +34,15 @@ public class RecipeFragment extends Fragment {
 
 
     private Recipes.Recipe recipe;
-    Toolbar toolbar;
-    RecyclerView ingredientsRV;
-    ImageView recipeImage;
-    TextView recipeName, mealType, time, servings, shortInstructions;
-    IngredientsAdapter ingredientsAdapter;
-    InstructionsAdapter instructionsAdapter;
-    RecyclerView.LayoutManager layoutManager;
-    ViewPager2 instructionsViewPager;
-    String type;
+    private Toolbar toolbar;
+    private RecyclerView ingredientsRV;
+    private ImageView recipeImage;
+    private TextView recipeName, mealType, time, servings, shortInstructions;
+    private IngredientsAdapter ingredientsAdapter;
+    private InstructionsAdapter instructionsAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ViewPager2 instructionsViewPager;
+    private String typeString, timeString, servingsString;
 
     public RecipeFragment() {}
 
@@ -65,21 +66,18 @@ public class RecipeFragment extends Fragment {
         shortInstructions = view.findViewById(R.id.short_instructions);
 
         recipeName.setText(recipe.getTitle());
-        type = recipe.getDishTypes().isEmpty()?"No Type":recipe.getDishTypes().get(0).substring(0,1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
-        mealType.setText(type);
-        time.setText("/ " + recipe.getReadyInMinutes() + " " + getResources().getString(R.string.time));
-        servings.setText(recipe.getServings() + " " + getResources().getString(R.string.servings));
+        typeString = recipe.getDishTypes().isEmpty()?"No Type":toCaps(recipe.getDishTypes().get(0));
+        mealType.setText(typeString);
+        timeString = recipe.getReadyInMinutes() + " " + getResources().getString(R.string.time);
+        time.setText(timeString);
+        servingsString = recipe.getServings() + " " + getResources().getString(R.string.servings);
+        servings.setText(servingsString);
+        mealType.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+        RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(V -> ((MainActivity)getActivity()).popStack());
-
-        if(recipe.getColor() == 0){
-            int x = new Random().nextInt(7);
-            recipe.setColor(this.getResources().getColor(Filters.MealType.values()[x].color()));
-        }
-        mealType.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
-
-        RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
+//        MenuItem save = toolbar.findViewById(R.id.)
 
         ingredientsAdapter = new IngredientsAdapter(recipe.getIngredients(), requireContext());
         layoutManager = new LinearLayoutManager(requireContext());
@@ -103,12 +101,17 @@ public class RecipeFragment extends Fragment {
 
     }
 
+    private String toCaps(String s){
+        return s.substring(0,1).toUpperCase() + s.substring(1);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipe = (Recipes.Recipe) getArguments().getSerializable(Constants.RECIPE_KEY);
         }
+        else requireActivity().onBackPressed();
     }
 
     @Override

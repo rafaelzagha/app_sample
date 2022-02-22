@@ -13,7 +13,7 @@ import com.example.app_sample.data.local.dao.StepsConverter;
 import com.example.app_sample.data.local.dao.StringListConverter;
 import com.example.app_sample.data.local.models.Recipes;
 
-@Database(entities = {Recipes.Recipe.class}, version = 2, exportSchema = false)
+@Database(entities = {Recipes.Recipe.class }, version = 2, exportSchema = false)
 @TypeConverters({StringListConverter.class, StepsConverter.class, IngredientsConverter.class})
 public abstract class RecipeDatabase extends RoomDatabase {
 
@@ -25,7 +25,7 @@ public abstract class RecipeDatabase extends RoomDatabase {
             synchronized (RecipeDatabase.class){
                 if(instance == null){
                     instance = Room.databaseBuilder(context.getApplicationContext(),
-                            RecipeDatabase.class, "word_database")
+                            RecipeDatabase.class, "database")
 
                             .fallbackToDestructiveMigration()
                             .build();

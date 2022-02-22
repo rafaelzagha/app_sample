@@ -27,4 +27,12 @@ public class SavedRecipesViewModel extends AndroidViewModel {
     public LiveData<List<Recipes.Recipe>> getRecipes() {
         return recipes;
     }
+
+    public void deleteRecipe(int id){
+        recipeRepository.removeRecipe(id);
+    }
+
+    public void setRecipeColor(int id, int color){
+        recipeRepository.setRecipeColor(id, color);
+    }
 }
