@@ -57,6 +57,6 @@ public class FirebaseManager {
     }
 
     public Query isSaved(int id) {
-        return database.child("saved").orderByValue().equalTo(id);
+        return database.child("saved").child(String.valueOf(id));
     }
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.bumptech.glide.Glide;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.RecipeDatabase;
+import com.example.app_sample.data.local.dao.GroceriesDao;
 import com.example.app_sample.data.local.dao.RecipeDao;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
@@ -34,14 +35,18 @@ import retrofit2.Call;
 public class RecipeRepository {
 
     private final RecipeDao recipeDao;
+    private final GroceriesDao groceriesDao;
     private final AppExecutors appExecutors;
+    private final RecipeDatabase recipeDatabase;
     private final RecipesRemoteDataSource recipesRemoteDataSource;
     private final FirebaseManager firebaseManager;
 
     public RecipeRepository(Application application) {
         firebaseManager = new FirebaseManager();
         recipesRemoteDataSource = RecipesRemoteDataSource.getInstance();
-        recipeDao = RecipeDatabase.getDatabase(application).recipesDao();
+        recipeDatabase = RecipeDatabase.getDatabase(application);
+        recipeDao = recipeDatabase.recipesDao();
+        groceriesDao = recipeDatabase.groceriesDao();
         appExecutors = AppExecutors.getInstance();
     }
 
@@ -148,6 +153,8 @@ public class RecipeRepository {
             }
         });
     }
+
+
 
 
 }

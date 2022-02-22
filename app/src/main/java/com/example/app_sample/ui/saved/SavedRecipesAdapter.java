@@ -73,6 +73,7 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
                     ((SwipeLayout)holder.itemView).closeRightMenu(true);
                 }
             });
+
         }
     }
 

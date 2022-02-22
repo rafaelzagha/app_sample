@@ -4,28 +4,27 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
+import com.example.app_sample.data.local.models.GroceriesList;
 import com.example.app_sample.data.local.models.Recipes;
 
 @Dao
 public interface GroceriesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Recipes.Recipe recipe);
+    void insert(GroceriesList groceriesList);
 
-    @Query("DELETE FROM recipes where id = :id")
-    void deleteRecipe(int id);
+    @Query("DELETE FROM groceries where id = :id")
+    void deleteGroceriesList(int id);
 
-    @Query("SELECT * FROM recipes WHERE id=:id")
-    Recipes.Recipe getRecipe(int id);
+    @Query("SELECT * FROM groceries WHERE id=:id")
+    GroceriesList getGroceriesList(int id);
 
-    @Query("SELECT EXISTS (SELECT 1 FROM recipes WHERE id = :id)")
-    boolean inTable(int id);
+    @Update()
+    void updateGroceriesList(GroceriesList groceriesList);
 
-    @Query("DELETE FROM recipes")
+    @Query("DELETE FROM groceries")
     void clearTable();
-
-    @Query("UPDATE recipes Set color = :color WHERE id = :id")
-    void setRecipeColor(int id, int color);
 
 }

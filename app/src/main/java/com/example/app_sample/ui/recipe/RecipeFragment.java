@@ -1,12 +1,19 @@
 package com.example.app_sample.ui.recipe;
 
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -25,6 +32,7 @@ import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Constants;
+import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
 
 import java.util.Locale;
@@ -43,6 +51,8 @@ public class RecipeFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ViewPager2 instructionsViewPager;
     private String typeString, timeString, servingsString;
+    private RecipeViewModel viewModel;
+    private ActionBar actionBar;
 
     public RecipeFragment() {}
 
@@ -55,6 +65,8 @@ public class RecipeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this, new MyViewModelFactory(getActivity().getApplication(), recipe.getId())).get(RecipeViewModel.class);
         toolbar = view.findViewById(R.id.toolbar);
         ingredientsRV = view.findViewById(R.id.rv_ingredients);
         recipeImage = view.findViewById(R.id.recipe_image);
@@ -64,6 +76,9 @@ public class RecipeFragment extends Fragment {
         servings = view.findViewById(R.id.tv_servings);
         instructionsViewPager = view.findViewById(R.id.vp_instructions);
         shortInstructions = view.findViewById(R.id.short_instructions);
+
+
+
 
         recipeName.setText(recipe.getTitle());
         typeString = recipe.getDishTypes().isEmpty()?"No Type":toCaps(recipe.getDishTypes().get(0));
@@ -77,7 +92,9 @@ public class RecipeFragment extends Fragment {
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(V -> ((MainActivity)getActivity()).popStack());
-//        MenuItem save = toolbar.findViewById(R.id.)
+
+
+        setupMenu();
 
         ingredientsAdapter = new IngredientsAdapter(recipe.getIngredients(), requireContext());
         layoutManager = new LinearLayoutManager(requireContext());
@@ -98,6 +115,34 @@ public class RecipeFragment extends Fragment {
             else
                 shortInstructions.setText("No instructions");
         }
+
+    }
+
+    private void setupMenu() {
+        Drawable filled = requireContext().getDrawable(R.drawable.ic_favorite_filled);
+        Drawable outlined = requireContext().getDrawable(R.drawable.ic_favorite);
+        filled.setTint(requireContext().getColor(R.color.white));
+        outlined.setTint(requireContext().getColor(R.color.white));
+
+        viewModel.getIsSaved().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onChanged(Boolean saved) {
+                ActionMenuItemView save = toolbar.findViewById(R.id.favorite);
+                ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
+
+                //todo: add clicklisteners
+
+                if(saved){
+                    save.setIcon(filled);
+                    //todo: check if in groceries
+                }
+                else{
+                    save.setIcon(outlined);
+                    groceries.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
     }
 
