@@ -7,7 +7,7 @@
 
     <com.aitsuki.swipe.SwipeMenuRecyclerView
         android:id="@+id/saved_rv"
-        tools:context=".ui.saved.SavedRecipesFragment"
+        tools:context=".ui.profile.SavedRecipesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"/>

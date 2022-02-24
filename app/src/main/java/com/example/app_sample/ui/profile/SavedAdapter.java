@@ -1,4 +1,4 @@
-package com.example.app_sample.ui.saved;
+package com.example.app_sample.ui.profile;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -7,7 +7,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.app_sample.ui.home.discover.DiscoverFragment;
-import com.example.app_sample.ui.home.swipe.SwipeFragment;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,5 @@ public class SavedAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return fragments.size();
     }
-
-
 
 }

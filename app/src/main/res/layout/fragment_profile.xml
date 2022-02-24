@@ -7,7 +7,8 @@
     tools:context=".ui.profile.ProfileFragment"
     android:clickable="true"
     android:id="@+id/coordinator"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:focusable="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -15,9 +16,6 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/transparent"
         app:elevation="0dp">
-
-
-
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
@@ -43,13 +41,23 @@
 
                 <TextView
                     android:id="@+id/name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/image"
+                    android:layout_marginStart="10dp"
                     android:layout_toRightOf="@id/image"
                     android:text="John Smith"
-                    android:layout_marginStart="10dp"
-                    android:textSize="30sp"/>
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignTop="@id/name"
+                    android:layout_alignBottom="@id/name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_write" />
 
                 <TextView
                     android:id="@+id/email"
@@ -59,29 +67,69 @@
                     android:layout_alignStart="@id/name"
                     android:layout_toRightOf="@id/image"
                     android:text="john.smith@gmail.com"
+                    android:textFontWeight="300"
                     android:textColor="@color/grey"
                     android:textSize="18sp" />
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/email"
                     android:layout_alignStart="@id/name"
-                    android:layout_marginTop="10dp"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:paddingVertical="8dp"
-                    android:stateListAnimator="@null"
-                    android:text="Change profile"
-                    android:textColor="@color/black"
-                    app:backgroundTint="@color/white"
-                    app:cornerRadius="15dp"
-                    app:elevation="0dp"
-                    app:icon="@drawable/ic_write"
-                    app:iconSize="20dp"
-                    app:iconTint="@color/dark_grey"
-                    app:strokeColor="@color/dark_grey"
-                    app:strokeWidth="1dp" />
+                    android:layout_alignBottom="@id/image"
+                    app:contentPadding="5dp"
+                    app:cardCornerRadius="7dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Recipes"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/grey"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="27"
+                                android:layout_marginTop="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:layout_gravity="center" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cookbooks"
+                                android:paddingHorizontal="10dp"
+                                android:textColor="@color/grey"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="12"
+                                android:layout_marginTop="5dp"
+                                android:paddingHorizontal="10dp"
+                                android:layout_gravity="center" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
 
@@ -91,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:layout_height="?attr/actionBarSize">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

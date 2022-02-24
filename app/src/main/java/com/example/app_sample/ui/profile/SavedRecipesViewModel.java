@@ -1,4 +1,4 @@
-package com.example.app_sample.ui.saved;
+package com.example.app_sample.ui.profile;
 
 import android.app.Application;
 

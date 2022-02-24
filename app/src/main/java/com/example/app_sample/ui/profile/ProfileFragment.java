@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -13,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.app_sample.R;
-import com.example.app_sample.ui.saved.SavedAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class ProfileFragment extends Fragment {
@@ -59,6 +58,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
 
 
     }

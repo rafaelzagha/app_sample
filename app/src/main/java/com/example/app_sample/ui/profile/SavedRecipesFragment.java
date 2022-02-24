@@ -1,7 +1,4 @@
-package com.example.app_sample.ui.saved;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+package com.example.app_sample.ui.profile;
 
 import android.os.Bundle;
 
@@ -14,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,8 +19,6 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.Constants;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-
-import java.util.List;
 
 public class SavedRecipesFragment extends Fragment {
 

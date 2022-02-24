@@ -23,17 +23,6 @@
             app:popExitAnim="@anim/slide_down" />
     </fragment>
     <fragment
-        android:id="@+id/savedFragment"
-        android:name="com.example.app_sample.ui.saved.SavedFragment"
-        android:label="fragment_favorites"
-        tools:layout="@layout/fragment_saved" >
-        <action
-            android:id="@+id/action_savedFragment_to_recipeFragment"
-            app:destination="@id/recipeFragment"
-            app:enterAnim="@anim/slide_right"
-            app:popExitAnim="@anim/slide_left" />
-    </fragment>
-    <fragment
         android:id="@+id/shoppingFragment"
         android:name="com.example.app_sample.ui.groceries.GroceriesFragment"
         android:label="fragment_shopping"
