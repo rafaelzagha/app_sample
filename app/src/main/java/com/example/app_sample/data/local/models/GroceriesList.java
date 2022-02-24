@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey;
 public class GroceriesList {
 
     @PrimaryKey
-    @NonNull
     private int id;
 
     private String stringList;

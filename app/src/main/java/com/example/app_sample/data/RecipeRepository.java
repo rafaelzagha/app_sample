@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -20,7 +19,6 @@ import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.AppExecutors;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,14 +54,14 @@ public class RecipeRepository {
         return recipe;
     }
 
-    public void saveRecipe(Recipes.Recipe recipe) {
+    public Task<Void> saveRecipe(Recipes.Recipe recipe) {
         appExecutors.diskIO().execute(() -> recipeDao.insert(recipe));
-        firebaseManager.saveRecipe(recipe.getId());
+        return firebaseManager.saveRecipe(recipe.getId());
     }
 
-    public void removeRecipe(int id) {
+    public Task<Void> removeRecipe(int id) {
         appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
-        firebaseManager.deleteRecipe(id);
+        return firebaseManager.deleteRecipe(id);
     }
 
     public Call<Recipes> loadRandomRecipes(int number) {
@@ -131,7 +129,7 @@ public class RecipeRepository {
 
     public LiveData<Boolean> isRecipeSaved(int id) {
         MutableLiveData<Boolean> bool = new MutableLiveData<>();
-        firebaseManager.isSaved(id).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseManager.isSaved(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 bool.setValue(snapshot.exists());

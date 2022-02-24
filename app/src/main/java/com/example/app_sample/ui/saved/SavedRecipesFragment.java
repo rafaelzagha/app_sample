@@ -66,7 +66,7 @@ public class SavedRecipesFragment extends Fragment {
     public void goToRecipePage(Recipes.Recipe recipe){
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_savedFragment_to_recipeFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.action_profileFragment_to_recipeFragment, bundle);
     }
 
     public void deleteRecipe(int id){

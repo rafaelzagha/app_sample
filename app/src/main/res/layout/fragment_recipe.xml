@@ -18,12 +18,11 @@
         android:adjustViewBounds="true"
         android:contentDescription="@null"
         android:fitsSystemWindows="true"
-        android:foreground="@color/transparent"
         android:scaleType="centerCrop"
         android:src="@drawable/example_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.core.widget.NestedScrollView
@@ -164,7 +163,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/transparent"
+        android:background="@drawable/item_recipe_mask"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="0dp">

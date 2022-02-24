@@ -3,10 +3,12 @@ package com.example.app_sample.ui.recipe;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.ActionMenuItemView;
@@ -34,6 +36,9 @@ import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 import java.util.Random;
@@ -52,9 +57,9 @@ public class RecipeFragment extends Fragment {
     private ViewPager2 instructionsViewPager;
     private String typeString, timeString, servingsString;
     private RecipeViewModel viewModel;
-    private ActionBar actionBar;
 
-    public RecipeFragment() {}
+    public RecipeFragment() {
+    }
 
     @Override
     public void onResume() {
@@ -62,6 +67,7 @@ public class RecipeFragment extends Fragment {
         requireView().requestLayout();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,10 +84,8 @@ public class RecipeFragment extends Fragment {
         shortInstructions = view.findViewById(R.id.short_instructions);
 
 
-
-
         recipeName.setText(recipe.getTitle());
-        typeString = recipe.getDishTypes().isEmpty()?"No Type":toCaps(recipe.getDishTypes().get(0));
+        typeString = recipe.getDishTypes().isEmpty() ? "No Type" : toCaps(recipe.getDishTypes().get(0));
         mealType.setText(typeString);
         timeString = recipe.getReadyInMinutes() + " " + getResources().getString(R.string.time);
         time.setText(timeString);
@@ -91,8 +95,7 @@ public class RecipeFragment extends Fragment {
         RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        toolbar.setNavigationOnClickListener(V -> ((MainActivity)getActivity()).popStack());
-
+        toolbar.setNavigationOnClickListener(V -> ((MainActivity) getActivity()).popStack());
 
         setupMenu();
 
@@ -101,16 +104,15 @@ public class RecipeFragment extends Fragment {
         ingredientsRV.setAdapter(ingredientsAdapter);
         ingredientsRV.setLayoutManager(layoutManager);
 
-        if(recipe.getInstructions() != null && !recipe.getInstructions().isEmpty()){
+        if (recipe.getInstructions() != null && !recipe.getInstructions().isEmpty()) {
 
             instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions().get(0).getSteps(), recipe.getColor());
             instructionsViewPager.setAdapter(instructionsAdapter);
             instructionsViewPager.setPageTransformer(new ZoomOutPageTransformer());
-        }
-        else {
+        } else {
             instructionsViewPager.setVisibility(View.GONE);
             shortInstructions.setVisibility(View.VISIBLE);
-            if(recipe.getShortInstructions() != null && !recipe.getShortInstructions().isEmpty())
+            if (recipe.getShortInstructions() != null && !recipe.getShortInstructions().isEmpty())
                 shortInstructions.setText(recipe.getShortInstructions());
             else
                 shortInstructions.setText("No instructions");
@@ -118,27 +120,36 @@ public class RecipeFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupMenu() {
         Drawable filled = requireContext().getDrawable(R.drawable.ic_favorite_filled);
         Drawable outlined = requireContext().getDrawable(R.drawable.ic_favorite);
         filled.setTint(requireContext().getColor(R.color.white));
         outlined.setTint(requireContext().getColor(R.color.white));
 
+        ActionMenuItemView save = toolbar.findViewById(R.id.favorite);
+        ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
+
+
+        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId())
+                .addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content), "Recipe removed from saved", Snackbar.LENGTH_SHORT).show());
+
+        View.OnClickListener notSaved = v ->viewModel.saveRecipe(recipe).addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content),"Recipe saved successfully" , Snackbar.LENGTH_SHORT).show());
+
         viewModel.getIsSaved().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @SuppressLint("RestrictedApi")
             @Override
             public void onChanged(Boolean saved) {
-                ActionMenuItemView save = toolbar.findViewById(R.id.favorite);
-                ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
 
-                //todo: add clicklisteners
+                //todo: add groceries option
 
-                if(saved){
+                if (saved) {
                     save.setIcon(filled);
+                    save.setOnClickListener(isSaved);
+                    groceries.setVisibility(View.VISIBLE);
                     //todo: check if in groceries
-                }
-                else{
+                } else {
                     save.setIcon(outlined);
+                    save.setOnClickListener(notSaved);
                     groceries.setVisibility(View.INVISIBLE);
                 }
             }
@@ -146,8 +157,8 @@ public class RecipeFragment extends Fragment {
 
     }
 
-    private String toCaps(String s){
-        return s.substring(0,1).toUpperCase() + s.substring(1);
+    private String toCaps(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
     @Override
@@ -155,8 +166,7 @@ public class RecipeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipe = (Recipes.Recipe) getArguments().getSerializable(Constants.RECIPE_KEY);
-        }
-        else requireActivity().onBackPressed();
+        } else requireActivity().onBackPressed();
     }
 
     @Override

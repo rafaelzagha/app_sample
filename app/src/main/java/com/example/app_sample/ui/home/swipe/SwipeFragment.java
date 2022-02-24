@@ -103,7 +103,6 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesApiResponse -> {
             if (recipesApiResponse != null) {
                 if (recipesApiResponse.getRecipes() != null){
-                    Log.d("tag", "set");
                     csv.setVisibility(View.VISIBLE);
                     indicator.setVisibility(View.INVISIBLE);
                     cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());

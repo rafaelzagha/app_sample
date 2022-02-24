@@ -19,7 +19,6 @@ import com.google.android.material.tabs.TabLayout;
 
 public class SavedFragment extends Fragment {
 
-
     ViewPager2 viewPager;
     TabLayout tabLayout;
     SavedAdapter adapter;
@@ -27,7 +26,6 @@ public class SavedFragment extends Fragment {
     public SavedFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,8 +62,6 @@ public class SavedFragment extends Fragment {
             }
 
         });
-
-
 
     }
 }

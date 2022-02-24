@@ -43,13 +43,13 @@ public class FirebaseManager {
         return database.child("username").setValue(name);
     }
 
-    public void saveRecipe(int id) {
-        database.child("saved").child(String.valueOf(id)).setValue(
+    public Task<Void> saveRecipe(int id) {
+        return database.child("saved").child(String.valueOf(id)).setValue(
                 database.push().getKey());
     }
 
-    public void deleteRecipe(int id){
-        database.child("saved").child(String.valueOf(id)).removeValue();
+    public Task<Void> deleteRecipe(int id){
+        return database.child("saved").child(String.valueOf(id)).removeValue();
     }
 
     public Query getFavorites() {

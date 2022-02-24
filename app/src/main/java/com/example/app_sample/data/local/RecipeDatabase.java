@@ -16,7 +16,7 @@ import com.example.app_sample.data.local.models.GroceriesList;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.ui.groceries.GroceriesFragment;
 
-@Database(entities = {Recipes.Recipe.class, GroceriesList.class}, version = 2, exportSchema = false)
+@Database(entities = {Recipes.Recipe.class, GroceriesList.class}, version = 3, exportSchema = false)
 @TypeConverters({StringListConverter.class, StepsConverter.class, IngredientsConverter.class})
 public abstract class RecipeDatabase extends RoomDatabase {
 
