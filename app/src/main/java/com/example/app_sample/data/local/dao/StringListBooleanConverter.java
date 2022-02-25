@@ -6,28 +6,29 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringListBooleanConverter {
 
     @TypeConverter
-    public String toString(List<Boolean> list){
+    public String toString(ArrayList<Boolean> list){
         if(list == null)
             return null;
 
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Boolean>>() {}.getType();
+        Type type = new TypeToken<ArrayList<Boolean>>() {}.getType();
         return gson.toJson(list, type);
     }
 
     @TypeConverter
-    public List<Boolean> toStringList(String stringList) {
+    public ArrayList<Boolean> toList(String stringList) {
         if (stringList == null) {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<Boolean>>() {}.getType();
-        List<Boolean> list = gson.fromJson(stringList, type);
+        Type type = new TypeToken<ArrayList<Boolean>>() {}.getType();
+        ArrayList<Boolean> list = gson.fromJson(stringList, type);
         return list;
     }
 }

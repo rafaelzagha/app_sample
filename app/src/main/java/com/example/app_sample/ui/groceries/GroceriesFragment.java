@@ -5,25 +5,25 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.app_sample.R;
-import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.data.local.models.Recipes;
-
-import java.util.List;
+import com.example.app_sample.data.local.models.GroceryList;
 
 public class GroceriesFragment extends Fragment {
 
 
     RecyclerView recyclerView;
     GroceriesAdapter adapter;
+    GroceriesViewModel viewModel;
 
     public GroceriesFragment() {}
 
@@ -38,17 +38,23 @@ public class GroceriesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         recyclerView = view.findViewById(R.id.recyclerview);
-        adapter = new GroceriesAdapter(requireContext());
+        adapter = new GroceriesAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        viewModel = ViewModelProviders.of(getActivity()).get(GroceriesViewModel.class);
 
-        new RecipeRepository(getActivity().getApplication()).getSavedRecipes().observe(getViewLifecycleOwner(), new Observer<List<Recipes.Recipe>>() {
-            @Override
-            public void onChanged(List<Recipes.Recipe> recipes) {
-                adapter.setRecipes(recipes);
-            }
-        });
+
+
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> adapter.setRecipes(recipes));
+    }
+
+    public LiveData<GroceryList> getGroceryList(int id){
+        return viewModel.getGroceryList(id);
+    }
+
+    public void updateGroceriesList(GroceryList gl){
+        viewModel.updateGroceriesList(gl);
     }
 }

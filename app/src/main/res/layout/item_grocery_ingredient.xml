@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
     android:paddingVertical="2dp"
     android:weightSum="5">
 
     <CheckBox
         android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minWidth="0dp"
         android:buttonTint="@color/sky"

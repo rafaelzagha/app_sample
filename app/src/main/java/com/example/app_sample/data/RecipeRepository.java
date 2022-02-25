@@ -6,14 +6,17 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.bumptech.glide.Glide;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.RecipeDatabase;
 import com.example.app_sample.data.local.dao.GroceriesDao;
 import com.example.app_sample.data.local.dao.RecipeDao;
+import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.FirebaseManager;
@@ -33,7 +36,6 @@ import retrofit2.Call;
 public class RecipeRepository {
 
     private final RecipeDao recipeDao;
-    private final GroceriesDao groceriesDao;
     private final AppExecutors appExecutors;
     private final RecipeDatabase recipeDatabase;
     private final RecipesRemoteDataSource recipesRemoteDataSource;
@@ -44,7 +46,6 @@ public class RecipeRepository {
         recipesRemoteDataSource = RecipesRemoteDataSource.getInstance();
         recipeDatabase = RecipeDatabase.getDatabase(application);
         recipeDao = recipeDatabase.recipesDao();
-        groceriesDao = recipeDatabase.groceriesDao();
         appExecutors = AppExecutors.getInstance();
     }
 
@@ -112,8 +113,8 @@ public class RecipeRepository {
                                 Log.d("tag", "Couldn't retrieve saved recipes");
                             }
                         }
+                        recipes.postValue(list);
                     }
-                    recipes.postValue(list);
                 });
 
             }
@@ -152,7 +153,64 @@ public class RecipeRepository {
         });
     }
 
+    public void setGroceryList(GroceryList gl){
+        firebaseManager.saveGroceryList(gl);
+    }
 
+    public void deleteGroceryList(int id){
+        firebaseManager.deleteGroceryList(id);
+    }
+    
+    public LiveData<GroceryList> getGroceryList(int id){
+        MutableLiveData<GroceryList> list = new MutableLiveData<>();
+        firebaseManager.getGroceryList(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.setValue(snapshot.getValue(GroceryList.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return list;
+    }
+
+    public LiveData<List<Recipes.Recipe>> getGroceriesRecipes() {
+        MutableLiveData<List<Recipes.Recipe>> recipes = new MutableLiveData<>();
+        firebaseManager.getGroceries().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Recipes.Recipe> list = new ArrayList<>();
+                appExecutors.diskIO().execute(() -> {
+                    for (DataSnapshot i : snapshot.getChildren()) {
+                        Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(i.getKey()));
+                        if(recipe != null)
+                            list.add(recipeDao.getRecipe(Integer.parseInt(i.getKey())));
+                        else {
+                            try {
+                                recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(i.getKey())).execute().body();
+                                recipeDao.insert(recipe);
+                                list.add(recipe);
+                            } catch (IOException e) {
+                                Log.d("tag", "Couldn't retrieve saved recipes");
+                            }
+                        }
+                    }
+                    recipes.postValue(list);
+                });
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return recipes;
+    }
 
 
 }

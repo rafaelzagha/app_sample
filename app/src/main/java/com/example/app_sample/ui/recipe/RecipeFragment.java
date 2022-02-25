@@ -72,7 +72,7 @@ public class RecipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new MyViewModelFactory(getActivity().getApplication(), recipe.getId())).get(RecipeViewModel.class);
+        viewModel = ViewModelProviders.of(this, new MyViewModelFactory(getActivity().getApplication(), recipe)).get(RecipeViewModel.class);
         toolbar = view.findViewById(R.id.toolbar);
         ingredientsRV = view.findViewById(R.id.rv_ingredients);
         recipeImage = view.findViewById(R.id.recipe_image);
@@ -137,6 +137,7 @@ public class RecipeFragment extends Fragment {
         View.OnClickListener notSaved = v ->viewModel.saveRecipe(recipe).addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content),"Recipe saved successfully" , Snackbar.LENGTH_SHORT).show());
 
         viewModel.getIsSaved().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onChanged(Boolean saved) {
 
@@ -146,6 +147,12 @@ public class RecipeFragment extends Fragment {
                     save.setIcon(filled);
                     save.setOnClickListener(isSaved);
                     groceries.setVisibility(View.VISIBLE);
+                    groceries.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewModel.saveToGroceries();
+                        }
+                    });
                     //todo: check if in groceries
                 } else {
                     save.setIcon(outlined);

@@ -2,7 +2,7 @@ package com.example.app_sample.ui.groceries;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.data.local.models.GroceriesList;
+import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
 
 import java.util.List;
@@ -24,11 +26,14 @@ import java.util.List;
 public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.ViewHolder> {
 
     List<Recipes.Recipe> recipes;
+    GroceriesFragment fragment;
     Context context;
     int expandedPosition;
+    GroceriesRecipeAdapter adapter;
 
-    public GroceriesAdapter(Context context) {
-        this.context = context;
+    public GroceriesAdapter(GroceriesFragment fragment) {
+        this.fragment = fragment;
+        this.context = fragment.getContext();
         this.expandedPosition = -1;
     }
 
@@ -41,9 +46,10 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        GroceriesRecipeAdapter adapter = new GroceriesRecipeAdapter(recipes.get(position), context);
+        adapter = new GroceriesRecipeAdapter(recipes.get(position), fragment);
         holder.list.setAdapter(adapter);
         holder.list.setLayoutManager(new LinearLayoutManager(context));
+        ((SimpleItemAnimator) holder.list.getItemAnimator()).setSupportsChangeAnimations(false);
         holder.setRecipe(recipes.get(position));
 
         final boolean isExpanded = position == expandedPosition;
@@ -56,6 +62,20 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                     notifyItemChanged(expandedPosition);
                 expandedPosition = isExpanded? -1 : position;
                 notifyItemChanged(position);
+            }
+        });
+
+        fragment.getGroceryList(recipes.get(position).getId()).observe(fragment.getViewLifecycleOwner(), new Observer<GroceryList>() {
+            @Override
+            public void onChanged(GroceryList groceryList) {
+                Log.d("tag", String.valueOf(adapter.updated));
+                if(adapter.updated)
+                    adapter.updated = false;
+                else if(groceryList != null){
+                    Log.d("tag", "setrequest");
+                    adapter.setLocalList(groceryList.getList());
+
+                }
             }
         });
 

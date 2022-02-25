@@ -8,6 +8,8 @@ import androidx.room.Query;
 
 import com.example.app_sample.data.local.models.Recipes;
 
+import java.util.ArrayList;
+
 @Dao
 public interface RecipeDao {
 
@@ -28,5 +30,7 @@ public interface RecipeDao {
 
     @Query("UPDATE recipes Set color = :color WHERE id = :id")
     void setRecipeColor(int id, int color);
+
+
 
 }

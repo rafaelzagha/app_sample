@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/lightGrayBackground"
     android:clickable="true"
-    android:focusable="true"
+    android:focusable="false"
     app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
     tools:ignore="HardcodedText,ContentDescription,Autofill,UnusedAttribute">
 

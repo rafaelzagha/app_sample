@@ -2,34 +2,43 @@ package com.example.app_sample.ui.groceries;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
-import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.data.local.models.GroceriesList;
+import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Ingredient;
 import com.example.app_sample.data.local.models.Recipes;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipeAdapter.ViewHolder>{
 
     Recipes.Recipe recipe;
-    GroceriesList groceriesList;
+    GroceriesFragment fragment;
+    ArrayList<Boolean> local;
+    boolean updated;
     Context context;
 
-    public GroceriesRecipeAdapter(Recipes.Recipe recipe, Context context) {
+    public GroceriesRecipeAdapter(Recipes.Recipe recipe, GroceriesFragment fragment) {
         this.recipe = recipe;
-        this.context = context;
+        this.fragment = fragment;
+        this.context = fragment.getContext();
+
+        local = new ArrayList<>();
+        updated = false;
     }
 
     @NonNull
@@ -39,12 +48,27 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroceriesRecipeAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull GroceriesRecipeAdapter.ViewHolder holder,  int position) {
 
         Ingredient ingredient = recipe.getIngredients().get(position);
-        holder.checkBox.setText(ingredient.getName());
+        holder.checkBox.setText(toCaps(ingredient.getName()));
         String amount = toMixedFraction(ingredient.getAmount()) + " " + ingredient.getUnit();
         holder.amount.setText(amount);
+
+        if(!local.isEmpty()){
+            holder.checkBox.setOnCheckedChangeListener(null);
+            holder.checkBox.setChecked(local.get(position));
+            updated = false;
+        }
+
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                local.set(position, isChecked);
+                updated = true;
+                fragment.updateGroceriesList(new GroceryList(recipe.getId(), local));
+            }
+        });
 
     }
 
@@ -68,6 +92,10 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
 
     }
 
+    private String toCaps(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
+    }
+
     private String toMixedFraction(double x) {
         int whole = (int) x;
         int denominator = 64;
@@ -82,5 +110,10 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
             denominator /= 2;
         }
         return String.format("%s %s/%s", whole == 0? "" : whole, numerator, denominator);
+    }
+
+    public void setLocalList(ArrayList<Boolean> list){
+        this.local = list;
+        notifyDataSetChanged();
     }
 }
