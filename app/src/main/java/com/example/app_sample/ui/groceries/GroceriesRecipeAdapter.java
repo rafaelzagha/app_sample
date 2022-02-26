@@ -36,7 +36,6 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
         this.recipe = recipe;
         this.fragment = fragment;
         this.context = fragment.getContext();
-
         local = new ArrayList<>();
         updated = false;
     }
@@ -64,6 +63,7 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!local.isEmpty())
                 local.set(position, isChecked);
                 updated = true;
                 fragment.updateGroceriesList(new GroceryList(recipe.getId(), local));
@@ -113,7 +113,11 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
     }
 
     public void setLocalList(ArrayList<Boolean> list){
-        this.local = list;
-        notifyDataSetChanged();
+        if(updated)
+            updated = false;
+        else{
+            this.local = list;
+            notifyDataSetChanged();
+        }
     }
 }

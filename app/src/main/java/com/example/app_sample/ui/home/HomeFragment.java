@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment {
     AppBarLayout appBarLayout;
     CardView filter;
     ActivityResultLauncher<Intent> activityResultLaunch;
+    HomeViewModel viewModel;
 
     public HomeFragment() {
     }
@@ -55,6 +57,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = ViewModelProviders.of(requireActivity()).get(HomeViewModel.class);
         search = view.findViewById(R.id.et_search);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
@@ -63,7 +66,7 @@ public class HomeFragment extends Fragment {
         filter = view.findViewById(R.id.filter);
         homeAdapter = new HomeAdapter(getChildFragmentManager(), getLifecycle());
 
-        new FirebaseManager().getUsername().observe(getViewLifecycleOwner(), str -> username.setText("Hi, " + str));
+        viewModel.getUsername().observe(getViewLifecycleOwner(), str -> username.setText("Hi, " + str));
 
         viewPager.setAdapter(homeAdapter);
         viewPager.setUserInputEnabled(false);  //disable swiping

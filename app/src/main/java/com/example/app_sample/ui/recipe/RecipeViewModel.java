@@ -1,7 +1,6 @@
 package com.example.app_sample.ui.recipe;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,7 +14,7 @@ import com.google.android.gms.tasks.Task;
 public class RecipeViewModel extends AndroidViewModel {
 
     RecipeRepository repo;
-    LiveData<Boolean> isSaved;
+    LiveData<Boolean> isSaved, isInGroceries;
     Recipes.Recipe recipe;
 
 
@@ -25,6 +24,7 @@ public class RecipeViewModel extends AndroidViewModel {
         this.recipe = recipe;
         repo = new RecipeRepository(application);
         isSaved = repo.isRecipeSaved(recipe.getId());
+        isInGroceries = repo.isInGroceries(recipe.getId());
 
     }
 
@@ -40,7 +40,15 @@ public class RecipeViewModel extends AndroidViewModel {
         return repo.saveRecipe(recipe);
     }
 
-    public void saveToGroceries(){
-        repo.setGroceryList(new GroceryList(recipe.getId(), recipe.getIngredients().size()));
+    public LiveData<Boolean> getIsInGroceries() {
+        return isInGroceries;
+    }
+
+    public Task<Void> saveToGroceries(){
+        return repo.saveGroceryList(new GroceryList(recipe.getId(), recipe.getIngredients().size()));
+    }
+
+    public Task<Void> deleteFromGroceries(){
+        return repo.deleteGroceryList(recipe.getId());
     }
 }

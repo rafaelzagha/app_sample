@@ -61,20 +61,28 @@ public class FirebaseManager {
         return database.child("saved").child(String.valueOf(id));
     }
 
-    public void saveGroceryList(GroceryList gl){
+    public Task<Void> saveGroceryList(GroceryList gl){
         gl.setPush(database.push().getKey());
-        database.child("groceries").child(String.valueOf(gl.getId())).setValue(gl);
+        return database.child("groceries").child(String.valueOf(gl.getId())).setValue(gl);
+    }
+
+    public void updateGroceryList(GroceryList gl){
+        database.child("groceries").child(String.valueOf(gl.getId())).child("list").setValue(gl.getList());
     }
 
     public DatabaseReference getGroceryList(int id){
         return database.child("groceries").child(String.valueOf(id));
     }
 
-    public void deleteGroceryList(int id){
-        database.child("groceries").child(String.valueOf(id)).removeValue();
+    public Task<Void> deleteGroceryList(int id){
+        return database.child("groceries").child(String.valueOf(id)).removeValue();
     }
 
     public Query getGroceries(){
         return database.child("groceries").orderByChild("push");
+    }
+
+    public DatabaseReference isInGroceries(int id){
+        return database.child("groceries").child(String.valueOf(id));
     }
 }

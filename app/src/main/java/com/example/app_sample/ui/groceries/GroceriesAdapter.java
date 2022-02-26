@@ -21,6 +21,7 @@ import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.ViewHolder> {
@@ -29,7 +30,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
     GroceriesFragment fragment;
     Context context;
     int expandedPosition;
-    GroceriesRecipeAdapter adapter;
+    GroceriesRecipeAdapter[] adapters;
 
     public GroceriesAdapter(GroceriesFragment fragment) {
         this.fragment = fragment;
@@ -44,48 +45,54 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        adapter = new GroceriesRecipeAdapter(recipes.get(position), fragment);
-        holder.list.setAdapter(adapter);
-        holder.list.setLayoutManager(new LinearLayoutManager(context));
-        ((SimpleItemAnimator) holder.list.getItemAnimator()).setSupportsChangeAnimations(false);
-        holder.setRecipe(recipes.get(position));
+        boolean isExpanded = position == expandedPosition;
 
-        final boolean isExpanded = position == expandedPosition;
-        holder.checklist.setVisibility(isExpanded? View.VISIBLE : View.GONE);
-        holder.itemView.setActivated(isExpanded);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(expandedPosition > -1)
-                    notifyItemChanged(expandedPosition);
-                expandedPosition = isExpanded? -1 : position;
-                notifyItemChanged(position);
-            }
-        });
-
-        fragment.getGroceryList(recipes.get(position).getId()).observe(fragment.getViewLifecycleOwner(), new Observer<GroceryList>() {
-            @Override
-            public void onChanged(GroceryList groceryList) {
-                Log.d("tag", String.valueOf(adapter.updated));
-                if(adapter.updated)
-                    adapter.updated = false;
-                else if(groceryList != null){
-                    Log.d("tag", "setrequest");
-                    adapter.setLocalList(groceryList.getList());
-
+        if(adapters[position] == null){
+            GroceriesRecipeAdapter adapter = new GroceriesRecipeAdapter(recipes.get(position), fragment);
+            adapters[position] = adapter;
+            holder.list.setAdapter(adapter);
+            holder.list.setLayoutManager(new LinearLayoutManager(context));
+            holder.details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("tag", "onclick");
+                    int previous = expandedPosition;
+                    expandedPosition = position == expandedPosition ? -1 : position;
+                    notifyItemChanged(position);
+                    if(previous > -1 && previous != position)
+                        notifyItemChanged(previous);
                 }
-            }
-        });
+            });
+            fragment.getGroceryList(recipes.get(position).getId()).observe(fragment.getViewLifecycleOwner(), new Observer<GroceryList>() {
+                @Override
+                public void onChanged(GroceryList groceryList) {
+                    if(groceryList != null){
+                        adapter.setLocalList(groceryList.getList());
 
+                        int count = 0;
+                        for(boolean i : groceryList.getList()) if(i) count++;
+                        String text = count + "/" + groceryList.getList().size() + " " + fragment.getString(R.string.ingredients);
+                        holder.ingredients.setText(text);
+                    }
+                }
+            });
+
+
+            holder.setRecipe(recipes.get(position));
+        }
+
+
+        holder.checklist.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.itemView.setActivated(isExpanded);
 
 
     }
 
     @Override
     public int getItemCount() {
-        if(recipes != null)
+        if (recipes != null)
             return recipes.size();
         else return 0;
     }
@@ -94,7 +101,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
 
         ImageView img, minus, plus;
         TextView name, ingredients, servings;
-        LinearLayout checklist;
+        LinearLayout checklist, details;
         RecyclerView list;
 
         public ViewHolder(@NonNull View itemView) {
@@ -107,11 +114,12 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
             ingredients = itemView.findViewById(R.id.ingredients);
             servings = itemView.findViewById(R.id.servings);
             checklist = itemView.findViewById(R.id.checklist);
+            details = itemView.findViewById(R.id.details);
             list = itemView.findViewById(R.id.ingredient_list);
 
         }
 
-        public void setRecipe(Recipes.Recipe recipe){
+        public void setRecipe(Recipes.Recipe recipe) {
             RecipeRepository.loadImage(context, recipe.getImage(), img);
             name.setText(recipe.getTitle());
             servings.setText(String.valueOf(recipe.getServings()));
@@ -120,6 +128,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
         this.recipes = recipes;
+        adapters = new GroceriesRecipeAdapter[recipes.size()];
         notifyDataSetChanged();
     }
 }

@@ -33,6 +33,6 @@ public class GroceriesViewModel extends AndroidViewModel {
     }
 
     public void updateGroceriesList(GroceryList gl){
-        repo.setGroceryList(gl);
+        repo.updateGroceryList(gl);
     }
 }

@@ -122,10 +122,15 @@ public class RecipeFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupMenu() {
-        Drawable filled = requireContext().getDrawable(R.drawable.ic_favorite_filled);
-        Drawable outlined = requireContext().getDrawable(R.drawable.ic_favorite);
-        filled.setTint(requireContext().getColor(R.color.white));
-        outlined.setTint(requireContext().getColor(R.color.white));
+        Drawable saved_filled = requireContext().getDrawable(R.drawable.ic_favorite_filled);
+        Drawable saved_outlined = requireContext().getDrawable(R.drawable.ic_favorite);
+        saved_filled.setTint(requireContext().getColor(R.color.white));
+        saved_outlined.setTint(requireContext().getColor(R.color.white));
+
+        Drawable grocery_filled = requireContext().getDrawable(R.drawable.ic_basket_filled);
+        Drawable grocery_outlined = requireContext().getDrawable(R.drawable.ic_basket);
+        grocery_filled.setTint(requireContext().getColor(R.color.white));
+        grocery_outlined.setTint(requireContext().getColor(R.color.white));
 
         ActionMenuItemView save = toolbar.findViewById(R.id.favorite);
         ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
@@ -136,6 +141,10 @@ public class RecipeFragment extends Fragment {
 
         View.OnClickListener notSaved = v ->viewModel.saveRecipe(recipe).addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content),"Recipe saved successfully" , Snackbar.LENGTH_SHORT).show());
 
+        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content),"Recipe removed from Groceries" , Snackbar.LENGTH_SHORT).show());
+
+        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content), "Recipe added to Groceries", Snackbar.LENGTH_SHORT).show());
+
         viewModel.getIsSaved().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @SuppressLint("RestrictedApi")
             @Override
@@ -144,20 +153,29 @@ public class RecipeFragment extends Fragment {
                 //todo: add groceries option
 
                 if (saved) {
-                    save.setIcon(filled);
+                    save.setIcon(saved_filled);
                     save.setOnClickListener(isSaved);
                     groceries.setVisibility(View.VISIBLE);
-                    groceries.setOnClickListener(new View.OnClickListener() {
+                    viewModel.getIsInGroceries().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
                         @Override
-                        public void onClick(View v) {
-                            viewModel.saveToGroceries();
+                        public void onChanged(Boolean grocery) {
+                            if(grocery){
+                                groceries.setIcon(grocery_filled);
+                                groceries.setOnClickListener(isInGroceries);
+                            }
+                            else{
+                                groceries.setIcon(grocery_outlined);
+                                groceries.setOnClickListener(notInGroceries);
+                            }
+
                         }
                     });
                     //todo: check if in groceries
                 } else {
-                    save.setIcon(outlined);
+                    save.setIcon(saved_outlined);
                     save.setOnClickListener(notSaved);
                     groceries.setVisibility(View.INVISIBLE);
+
                 }
             }
         });

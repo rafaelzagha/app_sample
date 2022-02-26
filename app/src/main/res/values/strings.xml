@@ -19,5 +19,6 @@
     <string name="ui_intro_text">Finding something to cook has never been this easy.</string>
     <string name="no_internet">No internet connection, please try again.</string>
     <string name="request_limit">Request limit reached</string>
+    <string name="ingredients">ingredients</string>
 
 </resources>
