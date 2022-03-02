@@ -25,8 +25,11 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,7 +138,6 @@ public class RecipeRepository {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                Log.d("tag", "removed" + snapshot.getKey());
                 for(Recipes.Recipe i : list){
                     if(i.getId().equals(Integer.valueOf(snapshot.getKey()))){
                         list.remove(i);
@@ -281,6 +283,22 @@ public class RecipeRepository {
         return recipes;
     }
 
+    public LiveData<Integer> getSavedNum(){
+        MutableLiveData<Integer> size = new MutableLiveData<>();
+        firebaseManager.getFavorites().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                size.setValue((int) snapshot.getChildrenCount());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return size;
+    }
+
 
     public LiveData<Boolean> isInGroceries(int id){
         MutableLiveData<Boolean> data = new MutableLiveData<>();
@@ -296,6 +314,18 @@ public class RecipeRepository {
             }
         });
         return data;
+    }
+
+    public LiveData<String> getUsername(){
+        return firebaseManager.getUsername();
+    }
+
+    public UploadTask setProfilePicture(InputStream inputStream){
+        return firebaseManager.setProfilePicture(inputStream);
+    }
+
+    public StorageReference getProfilePicture(){
+        return firebaseManager.getProfilePicture();
     }
 
 }

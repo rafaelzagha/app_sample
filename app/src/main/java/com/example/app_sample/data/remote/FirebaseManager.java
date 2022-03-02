@@ -13,15 +13,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.InputStream;
 
 public class FirebaseManager {
 
     DatabaseReference database;
     FirebaseAuth auth;
+    StorageReference storage;
 
     public FirebaseManager() {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("UserData").child(auth.getCurrentUser().getUid());
+        storage = FirebaseStorage.getInstance().getReference().child("profile_pictures");
+
     }
 
     public LiveData<String> getUsername() {
@@ -85,4 +93,14 @@ public class FirebaseManager {
     public DatabaseReference isInGroceries(int id){
         return database.child("groceries").child(String.valueOf(id));
     }
+
+    public UploadTask setProfilePicture(InputStream inputStream){
+        return storage.child(auth.getUid()+".jpg").putStream(inputStream);
+    }
+
+    public StorageReference getProfilePicture(){
+        return storage.child(auth.getUid() + ".jpg");
+    }
+
+
 }

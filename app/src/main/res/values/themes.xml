@@ -15,8 +15,9 @@
         <item name="android:textViewStyle">@style/ProductSansTV</item>
         <item name="editTextStyle">@style/ProductSansET</item>
         <item name="buttonStyle">@style/ProductSansBTN</item>
-
+        
         <item name="android:textColorSecondary">@color/blue</item> //toolbar icon color android
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
 
     </style>
 
@@ -38,7 +39,17 @@
 
     <style name="MyCustomTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="fontFamily">@font/product_sans</item>
+    </style>
 
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_round_top</item>
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
 </resources>
