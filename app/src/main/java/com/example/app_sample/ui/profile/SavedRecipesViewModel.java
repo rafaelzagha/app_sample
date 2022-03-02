@@ -5,11 +5,10 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.FirebaseManager;
 
 import java.util.List;
 
@@ -34,5 +33,17 @@ public class SavedRecipesViewModel extends AndroidViewModel {
 
     public void setRecipeColor(int id, int color){
         recipeRepository.setRecipeColor(id, color);
+    }
+
+    public void addToGroceries(int id, int size){
+        recipeRepository.saveGroceryList(new GroceryList(id, size));
+    }
+
+    public void deleteFromGroceries(int id){
+        recipeRepository.deleteGroceryList(id);
+    }
+
+    public LiveData<Boolean> isInGroceries(int id){
+        return recipeRepository.isInGroceries(id);
     }
 }

@@ -1,6 +1,5 @@
 package com.example.app_sample.ui.groceries;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,14 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.ViewHolder> {
@@ -49,7 +46,8 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
 
         boolean isExpanded = position == expandedPosition;
 
-        if(adapters[position] == null){
+        //todo: servings calculator
+        if (adapters.length > position && adapters[position] == null) {
             GroceriesRecipeAdapter adapter = new GroceriesRecipeAdapter(recipes.get(position), fragment);
             adapters[position] = adapter;
             holder.list.setAdapter(adapter);
@@ -61,18 +59,18 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                     int previous = expandedPosition;
                     expandedPosition = position == expandedPosition ? -1 : position;
                     notifyItemChanged(position);
-                    if(previous > -1 && previous != position)
+                    if (previous > -1 && previous != position)
                         notifyItemChanged(previous);
                 }
             });
             fragment.getGroceryList(recipes.get(position).getId()).observe(fragment.getViewLifecycleOwner(), new Observer<GroceryList>() {
                 @Override
                 public void onChanged(GroceryList groceryList) {
-                    if(groceryList != null){
+                    if (groceryList != null) {
                         adapter.setLocalList(groceryList.getList());
 
                         int count = 0;
-                        for(boolean i : groceryList.getList()) if(i) count++;
+                        for (boolean i : groceryList.getList()) if (i) count++;
                         String text = count + "/" + groceryList.getList().size() + " " + fragment.getString(R.string.ingredients);
                         holder.ingredients.setText(text);
                     }
@@ -127,8 +125,8 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
-        this.recipes = recipes;
         adapters = new GroceriesRecipeAdapter[recipes.size()];
+        this.recipes = recipes;
         notifyDataSetChanged();
     }
 }

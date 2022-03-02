@@ -20,5 +20,6 @@
     <string name="no_internet">No internet connection, please try again.</string>
     <string name="request_limit">Request limit reached</string>
     <string name="ingredients">ingredients</string>
+    <string name="no_instructions">No instructions</string>
 
 </resources>

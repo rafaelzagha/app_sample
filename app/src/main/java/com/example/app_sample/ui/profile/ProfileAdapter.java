@@ -10,11 +10,11 @@ import com.example.app_sample.ui.home.discover.DiscoverFragment;
 
 import java.util.ArrayList;
 
-public class SavedAdapter extends FragmentStateAdapter {
+public class ProfileAdapter extends FragmentStateAdapter {
 
     ArrayList<Fragment> fragments;
 
-    public SavedAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public ProfileAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
         fragments = new ArrayList<>();
         fragments.add(new SavedRecipesFragment());

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -69,5 +70,17 @@ public class SavedRecipesFragment extends Fragment {
 
     public void setRecipeColor(int id , int color){
         viewModel.setRecipeColor(id, color);
+    }
+
+    public void addToGroceries(Recipes.Recipe recipe){
+        viewModel.addToGroceries(recipe.getId(), recipe.getIngredients().size());
+    }
+
+    public void deleteFromGroceries(int id){
+        viewModel.deleteFromGroceries(id);
+    }
+
+    public LiveData<Boolean> isInGroceries(int id){
+        return viewModel.isInGroceries(id);
     }
 }

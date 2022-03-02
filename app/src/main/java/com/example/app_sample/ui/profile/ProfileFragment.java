@@ -13,14 +13,13 @@ import android.view.ViewGroup;
 
 import com.example.app_sample.R;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
 
 
 public class ProfileFragment extends Fragment {
 
     ViewPager2 viewPager;
     TabLayout tabLayout;
-    SavedAdapter adapter;
+    ProfileAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +36,7 @@ public class ProfileFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.viewpager);
         tabLayout = view.findViewById(R.id.tab_layout);
-        adapter = new SavedAdapter(getChildFragmentManager(), getLifecycle());
+        adapter = new ProfileAdapter(getChildFragmentManager(), getLifecycle());
 
         viewPager.setAdapter(adapter);
         viewPager.setUserInputEnabled(false);

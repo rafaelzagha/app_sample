@@ -2,6 +2,7 @@ package com.example.app_sample.ui.groceries;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aitsuki.swipe.SwipeLayout;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Ingredient;
@@ -47,26 +49,31 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GroceriesRecipeAdapter.ViewHolder holder,  int position) {
+    public void onBindViewHolder(@NonNull GroceriesRecipeAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Ingredient ingredient = recipe.getIngredients().get(position);
         holder.checkBox.setText(toCaps(ingredient.getName()));
         String amount = toMixedFraction(ingredient.getAmount()) + " " + ingredient.getUnit();
         holder.amount.setText(amount);
 
-        if(!local.isEmpty()){
+        if(local.size() > position){
             holder.checkBox.setOnCheckedChangeListener(null);
             holder.checkBox.setChecked(local.get(position));
+            holder.checkBox.setPaintFlags(local.get(position)? holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : holder.checkBox.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.checkBox.setTextColor(fragment.getResources().getColor(local.get(position)? R.color.grey : R.color.black));
             updated = false;
         }
 
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(!local.isEmpty())
-                local.set(position, isChecked);
-                updated = true;
-                fragment.updateGroceriesList(new GroceryList(recipe.getId(), local));
+                if(local.size() > position){
+                    local.set(position, isChecked);
+                    updated = true;
+                    fragment.updateGroceriesList(new GroceryList(recipe.getId(), local));
+                }
+                holder.checkBox.setPaintFlags(isChecked? holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : holder.checkBox.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                holder.checkBox.setTextColor(fragment.getResources().getColor(isChecked? R.color.grey : R.color.black));
             }
         });
 

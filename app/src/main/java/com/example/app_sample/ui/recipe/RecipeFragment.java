@@ -9,19 +9,17 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,19 +27,13 @@ import android.widget.TextView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
-import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Locale;
-import java.util.Random;
 
 public class RecipeFragment extends Fragment {
 
@@ -72,7 +64,8 @@ public class RecipeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this, new MyViewModelFactory(getActivity().getApplication(), recipe)).get(RecipeViewModel.class);
+        ViewCompat.setTranslationZ(view, 10F);
+        viewModel = ViewModelProviders.of(this, new MyViewModelFactory(requireActivity().getApplication(), recipe)).get(RecipeViewModel.class);
         toolbar = view.findViewById(R.id.toolbar);
         ingredientsRV = view.findViewById(R.id.rv_ingredients);
         recipeImage = view.findViewById(R.id.recipe_image);
@@ -95,7 +88,7 @@ public class RecipeFragment extends Fragment {
         RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        toolbar.setNavigationOnClickListener(V -> ((MainActivity) getActivity()).popStack());
+        toolbar.setNavigationOnClickListener(V -> requireActivity().onBackPressed());
 
         setupMenu();
 
@@ -115,20 +108,21 @@ public class RecipeFragment extends Fragment {
             if (recipe.getShortInstructions() != null && !recipe.getShortInstructions().isEmpty())
                 shortInstructions.setText(recipe.getShortInstructions());
             else
-                shortInstructions.setText("No instructions");
+                shortInstructions.setText(getString(R.string.no_instructions));
         }
 
     }
 
+    @SuppressLint("RestrictedApi")
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setupMenu() {
-        Drawable saved_filled = requireContext().getDrawable(R.drawable.ic_favorite_filled);
-        Drawable saved_outlined = requireContext().getDrawable(R.drawable.ic_favorite);
+        Drawable saved_filled = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite_filled);
+        Drawable saved_outlined = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite);
         saved_filled.setTint(requireContext().getColor(R.color.white));
         saved_outlined.setTint(requireContext().getColor(R.color.white));
 
-        Drawable grocery_filled = requireContext().getDrawable(R.drawable.ic_basket_filled);
-        Drawable grocery_outlined = requireContext().getDrawable(R.drawable.ic_basket);
+        Drawable grocery_filled = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_basket_filled);
+        Drawable grocery_outlined = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_basket);
         grocery_filled.setTint(requireContext().getColor(R.color.white));
         grocery_outlined.setTint(requireContext().getColor(R.color.white));
 
@@ -136,48 +130,23 @@ public class RecipeFragment extends Fragment {
         ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
 
 
-        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId())
-                .addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content), "Recipe removed from saved", Snackbar.LENGTH_SHORT).show());
+        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId()).addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe removed from saved", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
 
-        View.OnClickListener notSaved = v ->viewModel.saveRecipe(recipe).addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content),"Recipe saved successfully" , Snackbar.LENGTH_SHORT).show());
+        View.OnClickListener notSaved = v -> viewModel.saveRecipe(recipe).addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe saved successfully", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
 
-        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content),"Recipe removed from Groceries" , Snackbar.LENGTH_SHORT).show());
+        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe removed from Groceries", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
 
-        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> Snackbar.make(getActivity().findViewById(android.R.id.content), "Recipe added to Groceries", Snackbar.LENGTH_SHORT).show());
+        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe added to Groceries", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
 
-        viewModel.getIsSaved().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @SuppressLint("RestrictedApi")
-            @Override
-            public void onChanged(Boolean saved) {
+        viewModel.getIsSaved().observe(getViewLifecycleOwner(), saved -> {
+            save.setIcon(saved ? saved_filled : saved_outlined);
+            save.setOnClickListener(saved ? isSaved : notSaved);
+        });
 
-                //todo: add groceries option
-
-                if (saved) {
-                    save.setIcon(saved_filled);
-                    save.setOnClickListener(isSaved);
-                    groceries.setVisibility(View.VISIBLE);
-                    viewModel.getIsInGroceries().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-                        @Override
-                        public void onChanged(Boolean grocery) {
-                            if(grocery){
-                                groceries.setIcon(grocery_filled);
-                                groceries.setOnClickListener(isInGroceries);
-                            }
-                            else{
-                                groceries.setIcon(grocery_outlined);
-                                groceries.setOnClickListener(notInGroceries);
-                            }
-
-                        }
-                    });
-                    //todo: check if in groceries
-                } else {
-                    save.setIcon(saved_outlined);
-                    save.setOnClickListener(notSaved);
-                    groceries.setVisibility(View.INVISIBLE);
-
-                }
-            }
+        viewModel.getIsInGroceries().observe(getViewLifecycleOwner(), grocery -> {
+            groceries.setIcon(grocery ? grocery_filled : grocery_outlined);
+            groceries.setOnClickListener(grocery ? isInGroceries : notInGroceries);
         });
 
     }

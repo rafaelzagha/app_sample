@@ -35,8 +35,9 @@
         <action
             android:id="@+id/action_profileFragment_to_recipeFragment"
             app:destination="@id/recipeFragment"
-            app:enterAnim="@anim/slide_right"
-            app:popExitAnim="@anim/slide_left" />
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
@@ -51,9 +52,9 @@
         <action
             android:id="@+id/action_searchFragment_to_recipeFragment"
             app:destination="@id/recipeFragment"
-            app:enterAnim="@anim/slide_right"
+            app:enterAnim="@anim/slide_in_right"
             app:launchSingleTop="false"
-            app:popExitAnim="@anim/slide_left" />
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
 </navigation>

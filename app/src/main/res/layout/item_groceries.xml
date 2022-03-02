@@ -18,7 +18,8 @@
             android:id="@+id/details"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:weightSum="20">
+            android:weightSum="20"
+            android:foreground="?android:attr/selectableItemBackground">
 
             <ImageView
                 android:id="@+id/img"
@@ -60,12 +61,13 @@
 
                 <ImageView
                     android:id="@+id/go"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="fitCenter"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="15dp"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/ic_arrow"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_menu"
                     app:tint="@color/blue" />
 
                 <LinearLayout

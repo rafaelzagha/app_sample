@@ -41,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void popStack() {
-        navController.popBackStack();
-    }
-
     @Override
     public void onBackPressed() {
         if (navController.getCurrentDestination().getId() == R.id.homeFragment)
@@ -52,6 +48,5 @@ public class MainActivity extends AppCompatActivity {
 
         else
             navController.navigateUp();
-
     }
 }

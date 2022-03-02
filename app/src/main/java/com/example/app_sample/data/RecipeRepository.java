@@ -46,6 +46,7 @@ public class RecipeRepository {
         recipeDatabase = RecipeDatabase.getDatabase(application);
         recipeDao = recipeDatabase.recipesDao();
         appExecutors = AppExecutors.getInstance();
+
     }
 
     public LiveData<Recipes.Recipe> getRecipe(int id) {
@@ -60,7 +61,18 @@ public class RecipeRepository {
     }
 
     public Task<Void> removeRecipe(int id) {
-        appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+        firebaseManager.isInGroceries(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists())
+                    appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return firebaseManager.deleteRecipe(id);
     }
 
@@ -183,6 +195,19 @@ public class RecipeRepository {
 
 
     public Task<Void> deleteGroceryList(int id) {
+
+        firebaseManager.isSaved(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists())
+                    appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return firebaseManager.deleteGroceryList(id);
     }
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aitsuki.swipe.SwipeLayout;
@@ -74,6 +75,31 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
                 }
             });
 
+            View.OnClickListener inGroceries = v -> fragment.deleteFromGroceries(recipe.getId());
+
+            View.OnClickListener notInGroceries = v -> fragment.addToGroceries(recipe);
+
+            fragment.isInGroceries(recipe.getId()).observe(fragment.getViewLifecycleOwner(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean saved) {
+                    if(saved){
+                        holder.groceries.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.green)));
+                        holder.fix.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.green)));
+                        holder.groceriesIcon.setImageResource(R.drawable.ic_clear);
+                        holder.groceries.setOnClickListener(inGroceries);
+                    }
+                    else{
+                        holder.groceries.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.sky)));
+                        holder.fix.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.sky)));
+
+                        holder.groceriesIcon.setImageResource(R.drawable.ic_add);
+                        holder.groceries.setOnClickListener(notInGroceries);
+                    }
+
+
+                }
+            });
+
         }
     }
 
@@ -85,7 +111,8 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView img, favorite;
+        ImageView img, favorite, groceriesIcon;
+        View fix;
         TextView recipe_name, meal_type, time, servings;
         CardView cardView;
         LinearLayout delete, groceries;
@@ -101,6 +128,8 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             cardView = itemView.findViewById(R.id.cardview);
             delete = itemView.findViewById(R.id.delete);
             groceries = itemView.findViewById(R.id.groceries);
+            groceriesIcon = itemView.findViewById(R.id.icon);
+            fix = itemView.findViewById(R.id.fix);
         }
     }
 

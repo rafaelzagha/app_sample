@@ -147,7 +147,7 @@ public class SearchFragment extends Fragment {
                 });
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        toolbar.setNavigationOnClickListener(V -> ((MainActivity)getActivity()).popStack());
+        toolbar.setNavigationOnClickListener(V -> requireActivity().onBackPressed());
 
         searchBar.setText(query);
 
