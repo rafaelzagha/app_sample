@@ -145,7 +145,6 @@ public class RecipeFragment extends Fragment {
                     return true;
                 }
                 else if(item.getItemId() == R.id.download){
-                    Log.d("tag", "clicked");
                     Intent i = new Intent(getContext(), DownloadService.class).putExtra("id", recipe.getId());
                     getContext().startService(i);
                     return true;
