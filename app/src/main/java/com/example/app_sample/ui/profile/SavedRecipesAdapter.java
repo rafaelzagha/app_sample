@@ -51,7 +51,6 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             holder.meal_type.setText(type);
             RecipeRepository.loadImage(context, recipe.getImage(), holder.img);
             holder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
-            holder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
             if(recipe.getColor() == 0){
                 int x = new Random().nextInt(7);
                 int color = context.getResources().getColor(Filters.MealType.values()[x].color());
@@ -124,7 +123,6 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             recipe_name = itemView.findViewById(R.id.recipe_name);
             meal_type = itemView.findViewById(R.id.meal_type);
             time = itemView.findViewById(R.id.time);
-            servings = itemView.findViewById(R.id.servings);
             cardView = itemView.findViewById(R.id.cardview);
             delete = itemView.findViewById(R.id.delete);
             groceries = itemView.findViewById(R.id.groceries);

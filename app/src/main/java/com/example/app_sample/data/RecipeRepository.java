@@ -15,6 +15,7 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.local.RecipeDatabase;
 import com.example.app_sample.data.local.dao.RecipeDao;
 import com.example.app_sample.data.local.models.GroceryList;
+import com.example.app_sample.data.local.models.RecipeImage;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.FirebaseManager;
@@ -328,4 +329,8 @@ public class RecipeRepository {
         return firebaseManager.getProfilePicture();
     }
 
+
+    public Call<RecipeImage> getRecipeCard(long id){
+        return recipesRemoteDataSource.getRecipeCard(id);
+    }
 }

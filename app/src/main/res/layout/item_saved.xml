@@ -13,7 +13,7 @@
         <View
             android:id="@+id/fix"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:backgroundTint="@color/sky"
             android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="2dp"
@@ -23,24 +23,24 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:paddingVertical="5dp">
+        android:layout_gravity="end">
 
         <LinearLayout
             android:id="@+id/groceries"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
             android:background="@color/sky"
             android:foreground="?android:attr/selectableItemBackground"
             android:foregroundTint="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_add"
                 app:tint="@color/white" />
 
@@ -52,7 +52,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Groceries"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
 
         </LinearLayout>
@@ -60,7 +60,8 @@
         <LinearLayout
             android:id="@+id/delete"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
             android:background="@drawable/item_saved_menu"
             android:backgroundTint="@color/red"
             android:foreground="?android:attr/selectableItemBackground"
@@ -68,11 +69,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_delete"
                 app:tint="@color/white" />
 
@@ -84,7 +85,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Delete"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
 
         </LinearLayout>
@@ -97,7 +98,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="100dp"
             android:layout_marginVertical="5dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
@@ -117,7 +118,7 @@
                     android:id="@+id/img"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/example_picture" />
@@ -126,14 +127,14 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="11.7">
+                    android:layout_weight="12.7">
 
                     <TextView
                         android:id="@+id/recipe_name"
                         android:layout_width="175dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="7dp"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="Recipe Name even when its long"
@@ -144,9 +145,9 @@
                         android:id="@+id/meal_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/recipe_name"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
                         android:layout_alignStart="@id/recipe_name"
-                        android:layout_marginTop="10dp"
                         android:background="@drawable/shape_round"
                         android:backgroundTint="@color/green"
                         android:paddingHorizontal="10dp"
@@ -171,20 +172,6 @@
                         app:drawableLeftCompat="@drawable/ic_time"
                         app:drawableTint="@color/another_grey" />
 
-                    <TextView
-                        android:id="@+id/servings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/meal_type"
-                        android:layout_alignStart="@id/recipe_name"
-                        android:layout_marginTop="5dp"
-                        android:drawablePadding="4dp"
-                        android:gravity="center_vertical"
-                        android:text="2 servings"
-                        android:textColor="#A6A4A5"
-                        android:textSize="15sp"
-                        app:drawableLeftCompat="@drawable/ic_dish"
-                        app:drawableTint="#A6A4A5" />
 
                     <ImageView
                         android:id="@+id/go"

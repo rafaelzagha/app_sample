@@ -13,19 +13,21 @@
         android:theme="@style/Theme.App_sample"
         android:name=".utils.FirebaseApp">
 
+        <service android:name=".utils.DownloadService" />
+
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.intro.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SignUpActivity"
+            android:name=".ui.intro.SignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.IntroActivity"
+            android:name=".ui.intro.IntroActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.SplashScreen"
+            android:name=".ui.intro.SplashScreen"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

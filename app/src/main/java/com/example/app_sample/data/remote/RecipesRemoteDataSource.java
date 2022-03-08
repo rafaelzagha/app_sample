@@ -1,22 +1,10 @@
 package com.example.app_sample.data.remote;
 
-import android.content.Context;
-import android.widget.ImageView;
-
-import androidx.lifecycle.LiveData;
-
-import com.bumptech.glide.Glide;
-import com.example.app_sample.R;
-import com.example.app_sample.data.local.models.Filter;
-import com.example.app_sample.data.local.models.Filters;
+import com.example.app_sample.data.local.models.RecipeImage;
 import com.example.app_sample.data.local.models.RecipesResults;
-import com.example.app_sample.data.remote.api.ApiResponse;
 import com.example.app_sample.data.remote.api.FoodApi;
 import com.example.app_sample.data.remote.api.FoodService;
 import com.example.app_sample.data.local.models.Recipes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 
@@ -59,5 +47,8 @@ public class RecipesRemoteDataSource {
         return foodApi.getRecipeById(id);
     }
 
+    public Call<RecipeImage> getRecipeCard(long id){
+        return foodApi.getRecipeCard(id);
+    }
 
 }

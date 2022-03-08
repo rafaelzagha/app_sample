@@ -1,6 +1,7 @@
 package com.example.app_sample.ui.recipe;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -19,7 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,6 +32,7 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.Constants;
+import com.example.app_sample.utils.DownloadService;
 import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -126,8 +130,29 @@ public class RecipeFragment extends Fragment {
         grocery_filled.setTint(requireContext().getColor(R.color.white));
         grocery_outlined.setTint(requireContext().getColor(R.color.white));
 
-        ActionMenuItemView save = toolbar.findViewById(R.id.favorite);
+        ActionMenuItemView save = toolbar.findViewById(R.id.save);
         ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.share){
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                    i.putExtra(Intent.EXTRA_TEXT, recipe.getSourceUrl());
+                    startActivity(Intent.createChooser(i, "Share recipe URL"));
+                    return true;
+                }
+                else if(item.getItemId() == R.id.download){
+                    Log.d("tag", "clicked");
+                    Intent i = new Intent(getContext(), DownloadService.class).putExtra("id", recipe.getId());
+                    getContext().startService(i);
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
         BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);

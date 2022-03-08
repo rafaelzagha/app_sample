@@ -1,4 +1,4 @@
-package com.example.app_sample.ui;
+package com.example.app_sample.ui.intro;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.remote.FirebaseManager;
+import com.example.app_sample.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -32,7 +32,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Locale;
 import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {

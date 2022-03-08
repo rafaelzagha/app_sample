@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/cookbook"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="never"
+        android:title="Add to Cookbook" />
+
+    <item android:id="@+id/share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="never"
+        android:title="Share"/>
+
+    <item android:id="@+id/download"
+        android:icon="@android:drawable/stat_sys_download"
+        app:showAsAction="never"
+        android:title="Save as picture"/>
+
     <item
         android:id="@+id/groceries"
         android:icon="@drawable/ic_basket"
         app:showAsAction="always"
         android:title="Groceries"/>
+
     <item
-        android:id="@+id/cookbook"
-        android:icon="@drawable/ic_add"
-        app:showAsAction="always"
-        android:title="Add to Cookbook" />
-    <item
-        android:id="@+id/favorite"
+        android:id="@+id/save"
         android:icon="@drawable/ic_favorite"
         app:showAsAction="always"
-        android:title="Favorite" />
+        android:title="Save" />
 
 </menu>

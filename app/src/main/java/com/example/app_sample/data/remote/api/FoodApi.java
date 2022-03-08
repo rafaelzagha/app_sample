@@ -2,6 +2,7 @@ package com.example.app_sample.data.remote.api;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.app_sample.data.local.models.RecipeImage;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
 
@@ -31,5 +32,8 @@ public interface FoodApi {
                                                             @Query("sortDirection") String sortDirection);
 
     @GET("recipes/{id}/information")
-    Call<Recipes.Recipe> getRecipeById(@Path("id") long movieId);
+    Call<Recipes.Recipe> getRecipeById(@Path("id") long id);
+
+    @GET("recipes/{id}/card")
+    Call<RecipeImage> getRecipeCard(@Path("id") long id);
 }
