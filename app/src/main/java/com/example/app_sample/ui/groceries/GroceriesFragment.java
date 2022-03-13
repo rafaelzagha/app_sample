@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -17,6 +19,8 @@ import android.view.ViewGroup;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.GroceryList;
+import com.example.app_sample.data.local.models.Recipes;
+import com.example.app_sample.utils.Constants;
 
 public class GroceriesFragment extends Fragment {
 
@@ -54,7 +58,21 @@ public class GroceriesFragment extends Fragment {
         return viewModel.getGroceryList(id);
     }
 
+    public void deleteGroceryList(int id){
+        viewModel.deleteGroceryList(id);
+    }
+
     public void updateGroceriesList(GroceryList gl){
         viewModel.updateGroceriesList(gl);
+    }
+
+    public void goToRecipePage(Recipes.Recipe recipe){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.RECIPE_KEY, recipe);
+        NavHostFragment.findNavController(this).navigate(R.id.action_shoppingFragment_to_recipeFragment, bundle);
+    }
+
+    public void updateGroceryServings(int id, int servings){
+        viewModel.updateGroceryServings(id, servings);
     }
 }

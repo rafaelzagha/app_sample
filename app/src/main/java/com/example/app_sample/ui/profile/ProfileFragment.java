@@ -6,12 +6,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,11 +43,12 @@ public class ProfileFragment extends Fragment {
     TabLayout tabLayout;
     ProfileAdapter adapter;
     ProfileViewModel viewModel;
-    TextView recipesNum, CookbooksNum, name, email;
-    ImageView logout, editProfile, picture;
+    TextView recipesNum, cookbooksNum, name, email;
+    ImageView picture;
     BottomSheetDialog dialog;
     LinearLayout editImage, editEmail, editUsername;
     MaterialAlertDialogBuilder alertDialog;
+    Toolbar toolbar ;
 
 
     @Override
@@ -59,15 +62,15 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        toolbar = view.findViewById(R.id.toolbar);
         viewModel = ViewModelProviders.of(requireActivity()).get(ProfileViewModel.class);
         picture = view.findViewById(R.id.image);
         email = view.findViewById(R.id.email);
         name = view.findViewById(R.id.name);
         recipesNum = view.findViewById(R.id.recipes_num);
+        cookbooksNum = view.findViewById(R.id.cookbook_num);
         viewPager = view.findViewById(R.id.viewpager);
         tabLayout = view.findViewById(R.id.tab_layout);
-        logout = view.findViewById(R.id.logout);
-        editProfile = view.findViewById(R.id.edit_profile);
         adapter = new ProfileAdapter(getChildFragmentManager(), getLifecycle());
 
         viewPager.setAdapter(adapter);
@@ -105,13 +108,29 @@ public class ProfileFragment extends Fragment {
         });
 
         setupDialog();
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.edit_profile){
+                    dialog.show();
+                    return true;
+                }
+                else if(item.getItemId() == R.id.logout){
+                    alertDialog.show();
+                    return true;
+                }
+                return false;
+
+            }
+        });
+
     }
 
     private void setupDialog() {
         dialog = new BottomSheetDialog(requireContext());
         dialog.setContentView(R.layout.dialog_profile);
         dialog.setCancelable(true);
-        editProfile.setOnClickListener(v -> dialog.show());
 
         editImage = dialog.findViewById(R.id.edit_image);
         editEmail = dialog.findViewById(R.id.edit_email);
@@ -133,12 +152,9 @@ public class ProfileFragment extends Fragment {
                 .setPositiveButton(getString(R.string.signout), (dialog, which) -> {
                     dialog.dismiss();
                     FirebaseAuth.getInstance().signOut();
+                    viewModel.clearTable();
                     startActivity(new Intent(requireActivity(), IntroActivity.class));
                 });
-
-        logout.setOnClickListener(v -> {
-            alertDialog.show();
-        });
 
     }
 

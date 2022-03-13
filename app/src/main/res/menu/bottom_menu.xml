@@ -9,7 +9,7 @@
 
 
     <item android:title="Groceries"
-        android:id="@+id/shoppingFragment"
+        android:id="@+id/groceriesFragment"
         android:enabled="true"
         android:icon="@drawable/ic_checklist"/>
 

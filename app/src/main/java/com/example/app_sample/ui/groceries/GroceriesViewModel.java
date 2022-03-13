@@ -32,7 +32,17 @@ public class GroceriesViewModel extends AndroidViewModel {
         return repo.getGroceryList(id);
     }
 
+    public void deleteGroceryList(int id){
+        repo.deleteGroceryList(id);
+    }
+
     public void updateGroceriesList(GroceryList gl){
         repo.updateGroceryList(gl);
     }
+
+    public void updateGroceryServings(int id, int servings){
+        repo.updateGroceryServings(id, servings);
+    }
+
+
 }

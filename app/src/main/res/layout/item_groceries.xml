@@ -17,7 +17,7 @@
         <LinearLayout
             android:id="@+id/details"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="110dp"
             android:weightSum="20"
             android:foreground="?android:attr/selectableItemBackground">
 
@@ -54,53 +54,67 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@id/recipe_name"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginBottom="20dp"
                     android:text="2/7 ingredients"
                     android:textColor="@color/dark_grey"
                     android:textSize="15sp" />
 
                 <ImageView
-                    android:id="@+id/go"
+                    android:id="@+id/options"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:scaleType="fitCenter"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/ic_menu"
                     app:tint="@color/blue" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/ingredients"
-                    android:layout_alignParentEnd="true">
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp">
 
-                    <ImageView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/minus"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@drawable/shape_round"
-                        android:src="@drawable/ic_minus"
-                        android:backgroundTint="@color/dark_grey"
+                        app:iconGravity="textStart"
+                        android:layout_gravity="center"
+                        android:insetBottom="0dp"
+                        android:insetTop="0dp"
+                        android:padding="0dp"
+                        app:iconPadding="0dp"
+                        app:cornerRadius="100dp"
+                        app:icon="@drawable/ic_minus"
+                        app:iconTint="@color/white"
+                        app:rippleColor="@color/white"
+                        app:backgroundTint="@color/dark_grey"
                         app:tint="@color/white" />
 
                     <TextView
                         android:id="@+id/servings"
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
                         android:text="4"
                         android:textSize="15sp"
                         android:layout_marginHorizontal="5dp"
                         android:layout_gravity="center"/>
 
-                    <ImageView
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/plus"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@drawable/shape_round"
-                        android:src="@drawable/ic_add"
-                        android:backgroundTint="@color/sky"
+                        android:padding="0dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:cornerRadius="100dp"
+                        app:icon="@drawable/ic_add"
+                        app:backgroundTint="@color/sky"
                         app:tint="@color/white" />
                 </LinearLayout>
 

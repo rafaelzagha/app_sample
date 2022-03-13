@@ -35,8 +35,8 @@ public class SavedRecipesViewModel extends AndroidViewModel {
         recipeRepository.setRecipeColor(id, color);
     }
 
-    public void addToGroceries(int id, int size){
-        recipeRepository.saveGroceryList(new GroceryList(id, size));
+    public void addToGroceries(Recipes.Recipe recipe){
+        recipeRepository.saveGroceryList(recipe);
     }
 
     public void deleteFromGroceries(int id){

@@ -7,10 +7,12 @@
 
     <com.aitsuki.swipe.SwipeMenuRecyclerView
         android:id="@+id/saved_rv"
-        tools:context=".ui.profile.SavedRecipesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"/>
+        android:clipToPadding="false"
+        android:paddingBottom="60dp"
+        android:visibility="invisible"
+        tools:context=".ui.profile.SavedRecipesFragment" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/indicator"
@@ -19,6 +21,52 @@
         android:indeterminate="true"
         app:indicatorSize="100dp"
         android:layout_centerInParent="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:visibility="gone"
+        android:layout_margin="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_swipe_intro_fade"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/ic_swipe_right"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Swipe right on recipes to save them. All saved recipes will be shown here." />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/swipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start swiping"
+                android:textColor="@color/pink"
+                android:layout_gravity="center"
+                android:layout_marginVertical="25dp"
+                app:cornerRadius="15dp"
+                app:backgroundTint="@color/white" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
 

@@ -29,7 +29,6 @@ public class FirebaseManager {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference("UserData").child(auth.getCurrentUser().getUid());
         storage = FirebaseStorage.getInstance().getReference().child("profile_pictures");
-
     }
 
     public LiveData<String> getUsername() {
@@ -102,5 +101,7 @@ public class FirebaseManager {
         return storage.child(auth.getUid() + ".jpg");
     }
 
-
+    public void updateGroceryServings(int id, int servings){
+        database.child("groceries").child(String.valueOf(id)).child("servings").setValue(servings);
+    }
 }

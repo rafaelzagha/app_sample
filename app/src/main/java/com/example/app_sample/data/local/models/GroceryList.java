@@ -1,41 +1,29 @@
 package com.example.app_sample.data.local.models;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-
-import com.google.firebase.database.Exclude;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
-@Entity(tableName = "groceries")
+
 public class GroceryList {
 
-    @PrimaryKey
     private int id;
-
     private ArrayList<Boolean> list;
-
-    @Ignore
     private String push;
+    private int servings;
 
-    public GroceryList(int id, int size) {
+    public GroceryList() {
+    }
+
+    public GroceryList(int id, int servings, int size) {
         this.id = id;
+        this.servings = servings;
         list = new ArrayList<>(Collections.nCopies(size, Boolean.FALSE));
     }
 
-    public GroceryList(int id, ArrayList<Boolean> list) {
+    public GroceryList(int id, int servings, ArrayList<Boolean> list) {
         this.id = id;
+        this.servings = servings;
         this.list = list;
-    }
-
-    public GroceryList() {
     }
 
     public int getId() {
@@ -60,5 +48,13 @@ public class GroceryList {
 
     public void setPush(String push) {
         this.push = push;
+    }
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
     }
 }

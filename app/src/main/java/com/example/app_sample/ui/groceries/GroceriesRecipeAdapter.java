@@ -29,6 +29,7 @@ import java.util.Collections;
 public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipeAdapter.ViewHolder>{
 
     Recipes.Recipe recipe;
+    int servings;
     GroceriesFragment fragment;
     ArrayList<Boolean> local;
     boolean updated;
@@ -37,6 +38,7 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
     public GroceriesRecipeAdapter(Recipes.Recipe recipe, GroceriesFragment fragment) {
         this.recipe = recipe;
         this.fragment = fragment;
+        this.servings = recipe.getServings();
         this.context = fragment.getContext();
         local = new ArrayList<>();
         updated = false;
@@ -53,8 +55,9 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
 
         Ingredient ingredient = recipe.getIngredients().get(position);
         holder.checkBox.setText(toCaps(ingredient.getName()));
-        String amount = toMixedFraction(ingredient.getAmount()) + " " + ingredient.getUnit();
-        holder.amount.setText(amount);
+        double amount = (ingredient.getAmount()/recipe.getIngredients().size())*servings;
+        String amountString = toMixedFraction(amount) + " " + ingredient.getUnit();
+        holder.amount.setText(amountString);
 
         if(local.size() > position){
             holder.checkBox.setOnCheckedChangeListener(null);
@@ -70,7 +73,7 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
                 if(local.size() > position){
                     local.set(position, isChecked);
                     updated = true;
-                    fragment.updateGroceriesList(new GroceryList(recipe.getId(), local));
+                    fragment.updateGroceriesList(new GroceryList(recipe.getId(), recipe.getServings(), local));
                 }
                 holder.checkBox.setPaintFlags(isChecked? holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : holder.checkBox.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
                 holder.checkBox.setTextColor(fragment.getResources().getColor(isChecked? R.color.grey : R.color.black));
@@ -126,5 +129,10 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
             this.local = list;
             notifyDataSetChanged();
         }
+    }
+
+    public void setServings(int servings){
+        this.servings = servings;
+        notifyDataSetChanged();
     }
 }

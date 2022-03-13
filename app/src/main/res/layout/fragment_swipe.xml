@@ -107,7 +107,7 @@
                     android:layout_height="60dp"
                     android:backgroundTint="@color/almost_white"
                     android:padding="18dp"
-                    android:src="@drawable/ic_return"
+                    android:src="@drawable/ic_rewind"
                     app:tint="@color/blue" />
 
             </androidx.cardview.widget.CardView>

@@ -7,13 +7,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.example.app_sample.data.local.dao.GroceriesDao;
 import com.example.app_sample.data.local.dao.IngredientsConverter;
 import com.example.app_sample.data.local.dao.RecipeDao;
 import com.example.app_sample.data.local.dao.StepsConverter;
 import com.example.app_sample.data.local.dao.StringListBooleanConverter;
 import com.example.app_sample.data.local.dao.StringListConverter;
-import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
 
 @Database(entities = {Recipes.Recipe.class}, version = 2, exportSchema = false)

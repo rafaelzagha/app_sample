@@ -57,4 +57,8 @@ public class ProfileViewModel extends AndroidViewModel {
                 .addOnSuccessListener(uri -> picture.setValue(uri.toString()))
                 .addOnFailureListener(e -> picture.setValue("error"));
     }
+
+    public void clearTable(){
+        repo.clearTable();
+    }
 }

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/logout"
+        app:showAsAction="always"
+        android:title="Sign out"
+        android:icon="@drawable/ic_logout"/>
     <item android:id="@+id/edit_profile"
         app:showAsAction="always"
         android:title="Edit profile"
-        android:icon="@drawable/ic_write"/>
+        android:icon="@drawable/ic_edit_profile"/>
+
 </menu>

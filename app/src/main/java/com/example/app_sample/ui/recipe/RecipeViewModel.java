@@ -45,7 +45,7 @@ public class RecipeViewModel extends AndroidViewModel {
     }
 
     public Task<Void> saveToGroceries(){
-        return repo.saveGroceryList(new GroceryList(recipe.getId(), recipe.getIngredients().size()));
+        return repo.saveGroceryList(recipe);
     }
 
     public Task<Void> deleteFromGroceries(){

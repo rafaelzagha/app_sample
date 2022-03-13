@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:backgroundTint="#FEFEFE"
+        android:backgroundTint="@color/sky"
         android:padding="0dp"
         android:visibility="visible"
         app:cardCornerRadius="15dp"
@@ -26,7 +26,7 @@
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_load"
-                app:tint="@color/blue" />
+                app:tint="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="Load More"
-                android:textColor="@color/blue"
+                android:textColor="@color/white"
                 android:textFontWeight="500"
                 android:textSize="30sp" />
 

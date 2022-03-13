@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/edit_image"
+        android:id="@+id/go_to_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="7dp"
@@ -16,14 +16,14 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_margin="5dp"
-            android:padding="1dp"
-            android:src="@drawable/ic_edit_image"
+            android:padding="6dp"
+            android:src="@drawable/ic_external"
             app:tint="@color/dark_grey" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change profile picture"
+            android:text="Go to recipe page"
             android:layout_gravity="center"
             android:textSize="17sp"
             android:textColor="@color/medium_dark_gray"
@@ -31,7 +31,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/edit_email"
+        android:id="@+id/delete_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="7dp"
@@ -42,13 +42,13 @@
             android:layout_height="35dp"
             android:layout_margin="5dp"
             android:padding="2dp"
-            android:src="@drawable/ic_email"
+            android:src="@drawable/ic_delete"
             app:tint="@color/dark_grey" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change email address"
+            android:text="Delete grocery list"
             android:layout_gravity="center"
             android:textSize="17sp"
             android:textColor="@color/medium_dark_gray"
@@ -56,7 +56,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/edit_username"
+        android:id="@+id/clear_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="7dp"
@@ -67,13 +67,13 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_margin="5dp"
-            android:src="@drawable/ic_person"
+            android:src="@drawable/ic_clear"
             app:tint="@color/dark_grey" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change username"
+            android:text="Clear list"
             android:layout_gravity="center"
             android:textSize="17sp"
             android:textColor="@color/medium_dark_gray"

@@ -75,7 +75,7 @@ public class SearchViewModel extends AndroidViewModel {
             sortDirection = "desc";
         else sortDirection = "asc";
 
-        recipeRepository.loadRecipesByQuery(20, query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
+        recipeRepository.loadRecipesByQuery(query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
             @Override
             public void onResponse(Call<RecipesResults> call, Response<RecipesResults> response) {
                 if (response.isSuccessful()) {

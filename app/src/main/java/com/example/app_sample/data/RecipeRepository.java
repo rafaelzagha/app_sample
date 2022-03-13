@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 
@@ -53,10 +54,8 @@ public class RecipeRepository {
 
     }
 
-    public LiveData<Recipes.Recipe> getRecipe(int id) {
-        MutableLiveData<Recipes.Recipe> recipe = new MutableLiveData<>();
-        appExecutors.diskIO().execute(() -> recipe.postValue(recipeDao.getRecipe(id)));
-        return recipe;
+    public LiveData<String> getUsername() {
+        return firebaseManager.getUsername();
     }
 
     public Task<Void> saveRecipe(Recipes.Recipe recipe) {
@@ -65,10 +64,10 @@ public class RecipeRepository {
     }
 
     public Task<Void> removeRecipe(int id) {
-        firebaseManager.isInGroceries(id).addValueEventListener(new ValueEventListener() {
+        firebaseManager.isInGroceries(id).addValueEventListener(new ValueEventListener() { //check if recipe in groceries
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists())
+                if (!snapshot.exists())
                     appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
             }
 
@@ -84,7 +83,7 @@ public class RecipeRepository {
         return recipesRemoteDataSource.getRandomRecipes(number);
     }
 
-    public Call<RecipesResults> loadRecipesByQuery(int number, String query,
+    public Call<RecipesResults> loadRecipesByQuery(String query,
                                                    String diet,
                                                    String intolerances,
                                                    String cuisine,
@@ -111,11 +110,12 @@ public class RecipeRepository {
     public LiveData<List<Recipes.Recipe>> getSavedRecipes() {
         MutableLiveData<List<Recipes.Recipe>> recipes = new MutableLiveData<>();
         List<Recipes.Recipe> list = new ArrayList<>();
+        recipes.setValue(list);
         firebaseManager.getFavorites().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 appExecutors.diskIO().execute(() -> {
-                    Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(snapshot.getKey()));
+                    Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(Objects.requireNonNull(snapshot.getKey())));
                     if (recipe != null)
                         list.add(recipeDao.getRecipe(Integer.parseInt(snapshot.getKey())));
                     else {
@@ -139,8 +139,8 @@ public class RecipeRepository {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                for(Recipes.Recipe i : list){
-                    if(i.getId().equals(Integer.valueOf(snapshot.getKey()))){
+                for (Recipes.Recipe i : list) {
+                    if (i.getId().equals(Integer.valueOf(Objects.requireNonNull(snapshot.getKey())))) {
                         list.remove(i);
                         appExecutors.diskIO().execute(() -> removeRecipe(i.getId()));
                         recipes.setValue(list);
@@ -180,16 +180,15 @@ public class RecipeRepository {
     }
 
     public void setRecipeColor(int id, int color) {
-        appExecutors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                recipeDao.setRecipeColor(id, color);
-            }
-        });
+        appExecutors.diskIO().execute(() -> recipeDao.setRecipeColor(id, color));
     }
 
-    public Task<Void> saveGroceryList(GroceryList gl) {
-        return firebaseManager.saveGroceryList(gl);
+    public Task<Void> saveGroceryList(Recipes.Recipe recipe) {
+
+        appExecutors.diskIO().execute(() -> recipeDao.insert(recipe));
+
+        return firebaseManager.saveGroceryList(new GroceryList(recipe.getId(),recipe.getServings(), recipe.getIngredients().size() ));
+
     }
 
     public void updateGroceryList(GroceryList gl) {
@@ -202,7 +201,7 @@ public class RecipeRepository {
         firebaseManager.isSaved(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.exists())
+                if (!snapshot.exists())
                     appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
             }
 
@@ -237,7 +236,7 @@ public class RecipeRepository {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 appExecutors.diskIO().execute(() -> {
-                    Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(snapshot.getKey()));
+                    Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(Objects.requireNonNull(snapshot.getKey())));
                     if (recipe != null)
                         list.add(recipeDao.getRecipe(Integer.parseInt(snapshot.getKey())));
                     else {
@@ -261,8 +260,8 @@ public class RecipeRepository {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-                for(Recipes.Recipe i : list){
-                    if(i.getId().equals(Integer.valueOf(snapshot.getKey()))){
+                for (Recipes.Recipe i : list) {
+                    if (i.getId().equals(Integer.valueOf(Objects.requireNonNull(snapshot.getKey())))) {
                         list.remove(i);
                         recipes.setValue(list);
                         break;
@@ -284,7 +283,7 @@ public class RecipeRepository {
         return recipes;
     }
 
-    public LiveData<Integer> getSavedNum(){
+    public LiveData<Integer> getSavedNum() {
         MutableLiveData<Integer> size = new MutableLiveData<>();
         firebaseManager.getFavorites().addValueEventListener(new ValueEventListener() {
             @Override
@@ -301,7 +300,7 @@ public class RecipeRepository {
     }
 
 
-    public LiveData<Boolean> isInGroceries(int id){
+    public LiveData<Boolean> isInGroceries(int id) {
         MutableLiveData<Boolean> data = new MutableLiveData<>();
         firebaseManager.isInGroceries(id).addValueEventListener(new ValueEventListener() {
             @Override
@@ -317,20 +316,20 @@ public class RecipeRepository {
         return data;
     }
 
-    public LiveData<String> getUsername(){
-        return firebaseManager.getUsername();
-    }
-
-    public UploadTask setProfilePicture(InputStream inputStream){
+    public UploadTask setProfilePicture(InputStream inputStream) {
         return firebaseManager.setProfilePicture(inputStream);
     }
 
-    public StorageReference getProfilePicture(){
+    public StorageReference getProfilePicture() {
         return firebaseManager.getProfilePicture();
     }
 
 
-    public Call<RecipeImage> getRecipeCard(long id){
+    public Call<RecipeImage> getRecipeCard(long id) {
         return recipesRemoteDataSource.getRecipeCard(id);
+    }
+
+    public void updateGroceryServings(int id, int servings){
+        firebaseManager.updateGroceryServings(id, servings);
     }
 }

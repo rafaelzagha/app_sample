@@ -122,13 +122,9 @@ public class RecipeFragment extends Fragment {
     private void setupMenu() {
         Drawable saved_filled = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite_filled);
         Drawable saved_outlined = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_favorite);
-        saved_filled.setTint(requireContext().getColor(R.color.white));
-        saved_outlined.setTint(requireContext().getColor(R.color.white));
 
         Drawable grocery_filled = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_basket_filled);
         Drawable grocery_outlined = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_basket);
-        grocery_filled.setTint(requireContext().getColor(R.color.white));
-        grocery_outlined.setTint(requireContext().getColor(R.color.white));
 
         ActionMenuItemView save = toolbar.findViewById(R.id.save);
         ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
@@ -155,13 +151,14 @@ public class RecipeFragment extends Fragment {
 
 
         BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
-        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId()).addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe removed from saved", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
+        
+        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId()).addOnCompleteListener(task -> snack(getString(R.string.recipe_unsaved)));
 
-        View.OnClickListener notSaved = v -> viewModel.saveRecipe(recipe).addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe saved successfully", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
+        View.OnClickListener notSaved = v -> viewModel.saveRecipe(recipe).addOnCompleteListener(task -> snack(getString(R.string.recipe_saved)));
 
-        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe removed from Groceries", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
+        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> snack(getString(R.string.grocery_removed)));
 
-        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> Snackbar.make(requireActivity().findViewById(android.R.id.content), "Recipe added to Groceries", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show());
+        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> snack(getString(R.string.grocery_added)));
 
         viewModel.getIsSaved().observe(getViewLifecycleOwner(), saved -> {
             save.setIcon(saved ? saved_filled : saved_outlined);
@@ -173,6 +170,11 @@ public class RecipeFragment extends Fragment {
             groceries.setOnClickListener(grocery ? isInGroceries : notInGroceries);
         });
 
+    }
+
+    private void snack(String msg){
+        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
+        Snackbar.make(requireActivity().findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show();
     }
 
     private String toCaps(String s) {
