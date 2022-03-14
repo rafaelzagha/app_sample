@@ -28,6 +28,7 @@ public class DiscoverViewModel extends AndroidViewModel {
         recipeRepository = new RecipeRepository(getApplication());
         recipes = new MutableLiveData<>();
         error = new MutableLiveData<>();
+        newRequest();
     }
 
     public LiveData<Recipes> getRecipes() {
@@ -66,5 +67,9 @@ public class DiscoverViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> getError() {
         return error;
+    }
+
+    public void clearError(){
+        error.setValue(null);
     }
 }

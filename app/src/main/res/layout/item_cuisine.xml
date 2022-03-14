@@ -6,6 +6,8 @@
     android:layout_height="140dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="@dimen/elevation"
+    android:layout_marginBottom="8dp"
+    android:layout_marginHorizontal="5dp"
     android:backgroundTint="@color/almost_white"
     android:foreground="?android:attr/selectableItemBackground">
 

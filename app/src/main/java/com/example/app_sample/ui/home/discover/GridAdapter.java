@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
@@ -14,50 +16,51 @@ import com.example.app_sample.data.local.models.Filters;
 
 import java.util.ArrayList;
 
-public class GridAdapter extends BaseAdapter {
+public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     private Context context;
     private Filters.Cuisine[] cuisines;
     DiscoverFragment fragment;
 
-    public GridAdapter(Context context, DiscoverFragment fragment) {
-        this.context = context;
+    public GridAdapter(DiscoverFragment fragment) {
+        this.context = fragment.getContext();
         this.fragment = fragment;
         this.cuisines = Filters.Cuisine.values();
     }
 
+    @NonNull
     @Override
-    public int getCount() {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_cuisine, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Filters.Cuisine cuisine = cuisines[position];
+        holder.img.setImageResource(cuisine.img());
+        holder.name.setText(cuisine.name());
+
+        holder.itemView.setOnClickListener(v -> {
+            ArrayList<Filter> filter = new ArrayList<>();
+            filter.add(cuisine);
+            fragment.goToSearchScreen(null, filter);
+        });
+    }
+
+    @Override
+    public int getItemCount() {
         return cuisines.length;
     }
 
-    @Override
-    public Filters.Cuisine getItem(int position) {
-        return cuisines[position];
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
+        ImageView img;
+        TextView name;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        convertView = LayoutInflater.from(context).inflate(R.layout.item_cuisine, parent, false);
-        ImageView img = convertView.findViewById(R.id.img_dish);
-        TextView name = convertView.findViewById(R.id.category_name);
-        img.setImageResource(getItem(position).img());
-        name.setText(getItem(position).name());
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Filters.Cuisine type = cuisines[position];
-                ArrayList<Filter> filter = new ArrayList<>();
-                filter.add(type);
-                fragment.goToSearchScreen(null, filter);
-            }
-        });
-        return convertView;
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            img = itemView.findViewById(R.id.img_dish);
+            name = itemView.findViewById(R.id.category_name);
+        }
     }
 }

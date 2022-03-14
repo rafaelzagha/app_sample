@@ -104,4 +104,7 @@ public class FirebaseManager {
     public void updateGroceryServings(int id, int servings){
         database.child("groceries").child(String.valueOf(id)).child("servings").setValue(servings);
     }
+
+    //todo - playlist object, playlist managing classes
+
 }

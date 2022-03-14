@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="transparent">#00FFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="dark_grey">#333333</color>
-    <color name="grey">#8E8E93</color>
-    <color name="light_grey">#d3d3d3</color>
-    <color name="lighter_grey">#eeeeee</color>
-
-    <color name="blue">#0685e7</color>
-    <color name="light_blue">#69BDFF</color>
     <color name="almost_white">#fefefe</color>
-    <color name="ice">#fbfbfb</color>
-    <color name="pink">#f55b75</color>
-    <color name="medium_grey">#6c7f9f</color>
-
-    <color name="transparent">#00FFFFFF</color>
-
-    <color name="green">#88bc3f</color>
-    <color name="yellow">#f1c259</color>
-    <color name="red">#eb5654</color>
-    <color name="flat_blue">#5AB9F8</color>
-
+    <color name="lightGrayBackground">#fbfcfe</color>
+    <color name="light_grey">#eeeeee</color>
     <color name="another_grey">#A6A4A5</color>
+    <color name="grey">#8E8E93</color>
+    <color name="flat_grey">#6c7f9f</color>
+    <color name="medium_dark_gray">#747474</color>
+    <color name="the_other_grey">#6E6E6E</color>
+    <color name="dark_grey">#333333</color>
 
+    <color name="pink">#f55b75</color>
+    <color name="blue">#0685e7</color>
+    <color name="green">#88bc3f</color>
+    <color name="red">#eb5654</color>
 
     <color name="sand">#F6B73B</color>
     <color name="coral">#ff7f50</color>
@@ -33,19 +28,8 @@
     <color name="greek">#5352ed</color>
     <color name="peace">#57606f</color>
 
-    <color name="lightPrimaryGrayBackground">#f1f1f1</color>
-    <color name="lightGrayBackground">#fbfcfe</color>
-    <color name="lightItemBackground">#fffdfe</color>
-    <color name="lightTextColor">#202125</color>
-    <color name="lightGrayTextColor">#5f6267</color>
-    <color name="lightIconColor">#5f6267</color>
-
     <color name="faded_black">#66000000</color>
-
     <color name="overlay_black">#80000000</color>
 
-    <color name="the_other_grey">#6E6E6E</color>
-
-    <color name="medium_dark_gray">#747474</color>
 
 </resources>

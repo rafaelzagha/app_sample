@@ -55,7 +55,7 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
 
         Ingredient ingredient = recipe.getIngredients().get(position);
         holder.checkBox.setText(toCaps(ingredient.getName()));
-        double amount = (ingredient.getAmount()/recipe.getIngredients().size())*servings;
+        double amount = (ingredient.getAmount()/recipe.getServings())*servings;
         String amountString = toMixedFraction(amount) + " " + ingredient.getUnit();
         holder.amount.setText(amountString);
 
@@ -122,17 +122,15 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
         return String.format("%s %s/%s", whole == 0? "" : whole, numerator, denominator);
     }
 
-    public void setLocalList(ArrayList<Boolean> list){
+    public void updateList(GroceryList gl){
         if(updated)
             updated = false;
         else{
-            this.local = list;
-            notifyDataSetChanged();
+            this.local = gl.getList();
         }
-    }
-
-    public void setServings(int servings){
-        this.servings = servings;
+        this.servings = gl.getServings();
         notifyDataSetChanged();
     }
+
+
 }

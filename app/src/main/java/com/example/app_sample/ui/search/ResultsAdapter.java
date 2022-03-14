@@ -55,12 +55,12 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 RecipeViewHolder recipeHolder = (RecipeViewHolder) holder;
 
                 recipeHolder.recipe_name.setText(recipe.getTitle());
-                String type = recipe.getDishTypes().isEmpty()?"No Type":recipe.getDishTypes().get(0).substring(0,1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
+                String type = recipe.getDishTypes().isEmpty() ? "No Type" : recipe.getDishTypes().get(0).substring(0, 1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
                 recipeHolder.meal_type.setText(type);
                 RecipeRepository.loadImage(context, recipe.getImage(), recipeHolder.img);
                 recipeHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
                 recipeHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
-                if(recipe.getColor() == 0){
+                if (recipe.getColor() == 0) {
                     int x = new Random().nextInt(7);
                     recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
                 }
@@ -77,22 +77,26 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             loadingViewHolder.loadMore.setVisibility(View.VISIBLE);
             loadingViewHolder.progress.setVisibility(View.GONE);
             if (recipes != null) {
-                if(recipes.size() >= 20){
-                    ((LoadingViewHolder) holder).loadMore.setText("Load more results");
-                    loadingViewHolder.loadMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            loadingViewHolder.loadMore.setVisibility(View.INVISIBLE);
-                            loadingViewHolder.progress.setVisibility(View.VISIBLE);
-                            fragment.doSearch(false);
-                        }
-                    });
-                }
-                else if (recipes.size() < 20 && recipes.size() > 1)
-                    loadingViewHolder.loadMore.setText("No more results");
+                if ((recipes.size() - 1) % 20 == 0) {
+                    if (recipes.size() > 1) {
+                        loadingViewHolder.loadMore.setText("Load more results");
+                        loadingViewHolder.loadMore.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                loadingViewHolder.loadMore.setVisibility(View.INVISIBLE);
+                                loadingViewHolder.progress.setVisibility(View.VISIBLE);
+                                fragment.doSearch(false);
+                            }
+                        });
+                    } else {
+                        loadingViewHolder.loadMore.setText("No results");
+                        loadingViewHolder.loadMore.setOnClickListener(null);
+                    }
 
-                else
-                    loadingViewHolder.loadMore.setText("No results");
+                } else {
+                    loadingViewHolder.loadMore.setText("No more results");
+                    loadingViewHolder.loadMore.setOnClickListener(null);
+                }
 
             }
 
@@ -119,7 +123,6 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (recipes.size() <= 20)
             notifyDataSetChanged();
         else {
-
             notifyItemRangeChanged(length - 1, getItemCount());
         }
     }

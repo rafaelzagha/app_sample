@@ -8,15 +8,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.local.models.Recipes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
+import java.util.List;
 
 public class ProfileViewModel extends AndroidViewModel {
 
     private RecipeRepository repo;
-    private LiveData<Integer> saved;
+    private LiveData<List<Recipes.Recipe>> saved;
     private LiveData<String> username;
     private MutableLiveData<String> picture;
     private String email;
@@ -24,15 +26,14 @@ public class ProfileViewModel extends AndroidViewModel {
     public ProfileViewModel(@NonNull Application application) {
         super(application);
         repo = new RecipeRepository(application);
-        saved = repo.getSavedNum();
         username = repo.getUsername();
-        picture = new MutableLiveData<>();
         email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        picture = new MutableLiveData<>();
+        saved = repo.getSavedRecipes();
         fetchProfilePicture();
     }
 
-
-    public LiveData<Integer> getSaved() {
+    public LiveData<List<Recipes.Recipe>> getRecipes() {
         return saved;
     }
 
@@ -44,7 +45,7 @@ public class ProfileViewModel extends AndroidViewModel {
         return email;
     }
 
-    public UploadTask setProfilePicture(InputStream inputStream){
+    public UploadTask setProfilePicture(InputStream inputStream) {
         return repo.setProfilePicture(inputStream);
     }
 
@@ -58,7 +59,27 @@ public class ProfileViewModel extends AndroidViewModel {
                 .addOnFailureListener(e -> picture.setValue("error"));
     }
 
-    public void clearTable(){
+    public void clearTable() {
         repo.clearTable();
+    }
+
+    public void deleteRecipe(int id) {
+        repo.removeRecipe(id);
+    }
+
+    public void setRecipeColor(int id, int color) {
+        repo.setRecipeColor(id, color);
+    }
+
+    public void addToGroceries(Recipes.Recipe recipe) {
+        repo.saveGroceryList(recipe);
+    }
+
+    public void deleteFromGroceries(int id) {
+        repo.deleteGroceryList(id);
+    }
+
+    public LiveData<Boolean> isInGroceries(int id) {
+        return repo.isInGroceries(id);
     }
 }

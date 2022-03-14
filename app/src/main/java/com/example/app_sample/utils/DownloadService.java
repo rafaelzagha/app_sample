@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 
 import com.example.app_sample.data.RecipeRepository;
 
+import java.io.IOException;
+
 public class DownloadService extends Service {
 
     RecipeRepository repo;
@@ -106,37 +108,37 @@ public class DownloadService extends Service {
         return null;
     }
 
-    class DownloadAsyncTask extends AsyncTask<Integer, Void, String> {
+    class  DownloadAsyncTask extends AsyncTask<Integer, Void, String> {
 
         @Override
         protected String doInBackground(Integer... ids) {
             long id = ids[0];
+            String url;
+
             try {
-                String url = repo.getRecipeCard(id).execute().body().getUrl();
-
-                String fileName = "Recipe_" + id + ".jpeg";
-
-                Uri uri = Uri.parse(url);
-                DownloadManager.Request request = new DownloadManager.Request(uri);
-                request.setTitle(fileName);
-                request.setDescription(fileName);
-                request.setVisibleInDownloadsUi(true);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, fileName);
-
-                downloadManager.enqueue(request);
-
-
-            } catch (Exception e) {
-                return "Something went wrong";
+                url = repo.loadRecipeCard(id).execute().body().getUrl();
+            } catch (IOException e) {
+                return "Recipe does not support the feature";
             }
+
+            String fileName = "Recipe_" + id + ".jpeg";
+
+            Uri uri = Uri.parse(url);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setTitle(fileName);
+            request.setDescription(fileName);
+            request.setVisibleInDownloadsUi(true);
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, fileName);
+
+            downloadManager.enqueue(request);
+
             return null;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             if (s != null)
                 Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
         }

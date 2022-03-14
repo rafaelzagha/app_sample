@@ -34,7 +34,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/shape_round_square"
-                    android:backgroundTint="@color/lighter_grey"
+                    android:backgroundTint="@color/light_grey"
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="5dp"
                     android:hint="Search"

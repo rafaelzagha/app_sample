@@ -29,7 +29,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 public class SavedRecipesFragment extends Fragment {
 
-    private SavedRecipesViewModel viewModel;
+    private ProfileViewModel viewModel;
     private SwipeMenuRecyclerView recyclerView;
     private SavedRecipesAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -50,7 +50,7 @@ public class SavedRecipesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = ViewModelProviders.of(requireActivity()).get(SavedRecipesViewModel.class);
+        viewModel = ViewModelProviders.of(requireActivity()).get(ProfileViewModel.class);
         recyclerView = view.findViewById(R.id.saved_rv);
         indicator = view.findViewById(R.id.indicator);
         adapter = new SavedRecipesAdapter(this);

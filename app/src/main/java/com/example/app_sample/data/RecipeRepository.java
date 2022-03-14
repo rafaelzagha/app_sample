@@ -95,6 +95,10 @@ public class RecipeRepository {
         return recipesRemoteDataSource.getRecipesByQuery(query, diet, intolerances, cuisine, type, sort, sortDirection, offset);
     }
 
+    public Call<RecipeImage> loadRecipeCard(long id) {
+        return recipesRemoteDataSource.getRecipeCard(id);
+    }
+
     public void clearTable() {
         appExecutors.diskIO().execute(recipeDao::clearTable);
     }
@@ -184,11 +188,8 @@ public class RecipeRepository {
     }
 
     public Task<Void> saveGroceryList(Recipes.Recipe recipe) {
-
         appExecutors.diskIO().execute(() -> recipeDao.insert(recipe));
-
-        return firebaseManager.saveGroceryList(new GroceryList(recipe.getId(),recipe.getServings(), recipe.getIngredients().size() ));
-
+        return firebaseManager.saveGroceryList(new GroceryList(recipe.getId(), recipe.getServings(), recipe.getIngredients().size()));
     }
 
     public void updateGroceryList(GroceryList gl) {
@@ -197,7 +198,6 @@ public class RecipeRepository {
 
 
     public Task<Void> deleteGroceryList(int id) {
-
         firebaseManager.isSaved(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -283,23 +283,6 @@ public class RecipeRepository {
         return recipes;
     }
 
-    public LiveData<Integer> getSavedNum() {
-        MutableLiveData<Integer> size = new MutableLiveData<>();
-        firebaseManager.getFavorites().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                size.setValue((int) snapshot.getChildrenCount());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return size;
-    }
-
-
     public LiveData<Boolean> isInGroceries(int id) {
         MutableLiveData<Boolean> data = new MutableLiveData<>();
         firebaseManager.isInGroceries(id).addValueEventListener(new ValueEventListener() {
@@ -324,12 +307,9 @@ public class RecipeRepository {
         return firebaseManager.getProfilePicture();
     }
 
-
-    public Call<RecipeImage> getRecipeCard(long id) {
-        return recipesRemoteDataSource.getRecipeCard(id);
-    }
-
-    public void updateGroceryServings(int id, int servings){
+    public void updateGroceryServings(int id, int servings) {
         firebaseManager.updateGroceryServings(id, servings);
     }
+
+
 }

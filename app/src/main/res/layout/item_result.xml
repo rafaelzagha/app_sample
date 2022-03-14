@@ -51,7 +51,7 @@
                 android:layout_alignStart="@id/recipe_name"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_round"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/lime"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
                 android:text="Breakfast"

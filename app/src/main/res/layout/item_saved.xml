@@ -103,8 +103,8 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:orientation="horizontal"
             android:layout_marginHorizontal="2dp"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="@dimen/elevation">
+            app:cardCornerRadius="14dp"
+            app:cardElevation="@dimen/light_elevation">
 
 
             <LinearLayout

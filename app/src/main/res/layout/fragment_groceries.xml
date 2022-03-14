@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.groceries.GroceriesFragment"
     android:clickable="true"
-    android:background="@color/white">
+    android:background="@color/lightGrayBackground">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"

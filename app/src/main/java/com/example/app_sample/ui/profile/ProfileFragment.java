@@ -95,7 +95,7 @@ public class ProfileFragment extends Fragment {
 
         viewModel.getUsername().observe(getViewLifecycleOwner(), string -> name.setText(string));
 
-        viewModel.getSaved().observe(getViewLifecycleOwner(), integer -> recipesNum.setText(String.valueOf(integer)));
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> recipesNum.setText(String.valueOf(recipes.size())));
 
         email.setText(viewModel.getEmail());
 

@@ -82,14 +82,14 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
 
             goToPage.setOnClickListener(v -> {
                 fragment.goToRecipePage(recipe);
-                        dialog.dismiss();
+                dialog.dismiss();
             });
             deleteList.setOnClickListener(v -> {
                 fragment.deleteGroceryList(recipe.getId());
                 dialog.dismiss();
             });
-            clearList.setOnClickListener( v -> {
-                fragment.updateGroceriesList(new GroceryList(recipe.getId(),recipe.getServings(), recipe.getIngredients().size()));
+            clearList.setOnClickListener(v -> {
+                fragment.updateGroceriesList(new GroceryList(recipe.getId(), recipe.getServings(), recipe.getIngredients().size()));
                 dialog.dismiss();
             });
 
@@ -97,14 +97,13 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                 @Override
                 public void onChanged(GroceryList groceryList) {
                     if (groceryList != null) {
-                        adapter.setLocalList(groceryList.getList());
+                        adapter.updateList(groceryList);
                         int count = 0;
                         for (boolean i : groceryList.getList()) if (i) count++;
                         String text = count + "/" + groceryList.getList().size() + " " + fragment.getString(R.string.ingredients);
                         holder.ingredients.setText(text);
                         servings[position] = groceryList.getServings();
                         holder.servings.setText(String.valueOf(servings[position]));
-                        adapter.setServings(groceryList.getServings());
                     }
                 }
             });
@@ -112,8 +111,8 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
             holder.plus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(servings[position] != 100){
-                        servings[position] ++;
+                    if (servings[position] != 100) {
+                        servings[position]++;
                         fragment.updateGroceryServings(recipe.getId(), servings[position]);
                     }
                 }
@@ -122,7 +121,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
             holder.minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(servings[position] != 1){
+                    if (servings[position] != 1) {
                         servings[position]--;
                         fragment.updateGroceryServings(recipe.getId(), servings[position]);
                     }
