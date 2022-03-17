@@ -2,8 +2,10 @@ package com.example.app_sample.ui.groceries;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.metrics.Event;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,7 +15,10 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,33 +57,32 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
 
         boolean isExpanded = position == expandedPosition;
 
-        //todo: servings calculator
         if (adapters.length > position && adapters[position] == null) {//do all this only once
             Recipes.Recipe recipe = recipes.get(position);
             GroceriesRecipeAdapter adapter = new GroceriesRecipeAdapter(recipe, fragment);
             adapters[position] = adapter;
             holder.list.setAdapter(adapter);
             holder.list.setLayoutManager(new LinearLayoutManager(context));
-            holder.details.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("tag", "onclick");
-                    int previous = expandedPosition;
-                    expandedPosition = position == expandedPosition ? -1 : position;
-                    notifyItemChanged(position);
-                    if (previous > -1 && previous != position)
-                        notifyItemChanged(previous);
-                }
+            holder.details.setOnClickListener(v -> {
+                int previous = expandedPosition;
+                expandedPosition = position == expandedPosition ? -1 : position;
+                notifyItemChanged(position);
+                if (previous > -1 && previous != position)
+                    notifyItemChanged(previous);
             });
 
             BottomSheetDialog dialog = new BottomSheetDialog(context);
             dialog.setContentView(R.layout.dialog_groceries);
             dialog.setCancelable(true);
-            holder.options.setOnClickListener(v -> dialog.show());
+            holder.options.setOnClickListener(v -> fragment.goToRecipePage(recipe));
 
             LinearLayout goToPage = dialog.findViewById(R.id.go_to_page);
             LinearLayout deleteList = dialog.findViewById(R.id.delete_list);
             LinearLayout clearList = dialog.findViewById(R.id.clear_list);
+            ImageView img = dialog.findViewById(R.id.img);
+            TextView txt = dialog.findViewById(R.id.txt);
+            RecipeRepository.loadImage(context, recipe.getImage(), img);
+            txt.setText(recipe.getTitle());
 
             goToPage.setOnClickListener(v -> {
                 fragment.goToRecipePage(recipe);
@@ -87,6 +91,8 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
             deleteList.setOnClickListener(v -> {
                 fragment.deleteGroceryList(recipe.getId());
                 dialog.dismiss();
+                if(expandedPosition == position)
+                    expandedPosition = -1;
             });
             clearList.setOnClickListener(v -> {
                 fragment.updateGroceriesList(new GroceryList(recipe.getId(), recipe.getServings(), recipe.getIngredients().size()));
@@ -102,8 +108,10 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                         for (boolean i : groceryList.getList()) if (i) count++;
                         String text = count + "/" + groceryList.getList().size() + " " + fragment.getString(R.string.ingredients);
                         holder.ingredients.setText(text);
-                        servings[position] = groceryList.getServings();
-                        holder.servings.setText(String.valueOf(servings[position]));
+                        if(servings.length > position){
+                            servings[position] = groceryList.getServings();
+                            holder.servings.setText(String.valueOf(servings[position]));
+                        }
                     }
                 }
             });
@@ -143,9 +151,10 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
         else return 0;
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView img, options;
+        ImageView img ,options;
         MaterialButton minus, plus;
         TextView name, ingredients, servings;
         LinearLayout checklist, details;
@@ -171,8 +180,9 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
             RecipeRepository.loadImage(context, recipe.getImage(), img);
             name.setText(recipe.getTitle());
             servings.setText(String.valueOf(recipe.getServings()));
-
         }
+
+
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
@@ -181,4 +191,5 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
         this.recipes = recipes;
         notifyDataSetChanged();
     }
+
 }

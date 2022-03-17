@@ -4,10 +4,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +17,15 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.Constants;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.button.MaterialButton;
 
 public class GroceriesFragment extends Fragment {
 
@@ -28,8 +33,14 @@ public class GroceriesFragment extends Fragment {
     RecyclerView recyclerView;
     GroceriesAdapter adapter;
     GroceriesViewModel viewModel;
+    LinearLayout empty;
+    MaterialButton discover;
+    Toolbar toolbar;
+    CollapsingToolbarLayout collapsingToolbar;
+    AppBarLayout appbar;
 
-    public GroceriesFragment() {}
+    public GroceriesFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,37 +53,52 @@ public class GroceriesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = ViewModelProviders.of(getActivity()).get(GroceriesViewModel.class);
         recyclerView = view.findViewById(R.id.recyclerview);
+        empty = view.findViewById(R.id.empty);
+        toolbar = view.findViewById(R.id.toolbar);
+        discover = view.findViewById(R.id.discover);
+        appbar = view.findViewById(R.id.appbar);
         adapter = new GroceriesAdapter(this);
+        collapsingToolbar = view.findViewById(R.id.collapsingToolbarLayout);
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        viewModel = ViewModelProviders.of(getActivity()).get(GroceriesViewModel.class);
 
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
+            if (!recipes.isEmpty()) {
+                adapter.setRecipes(recipes);
+                empty.setVisibility(View.GONE);
+            } else
+                empty.setVisibility(View.VISIBLE);
+        });
 
+        discover.setOnClickListener(v -> NavHostFragment.findNavController(GroceriesFragment.this).navigate(R.id.homeFragment));
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> adapter.setRecipes(recipes));
     }
+    //todo - give adapter access to viewmodel
 
-    public LiveData<GroceryList> getGroceryList(int id){
+    public LiveData<GroceryList> getGroceryList(int id) {
         return viewModel.getGroceryList(id);
     }
 
-    public void deleteGroceryList(int id){
+    public void deleteGroceryList(int id) {
         viewModel.deleteGroceryList(id);
     }
 
-    public void updateGroceriesList(GroceryList gl){
+    public void updateGroceriesList(GroceryList gl) {
         viewModel.updateGroceriesList(gl);
     }
 
-    public void goToRecipePage(Recipes.Recipe recipe){
+    public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_shoppingFragment_to_recipeFragment, bundle);
     }
 
-    public void updateGroceryServings(int id, int servings){
+    public void updateGroceryServings(int id, int servings) {
         viewModel.updateGroceryServings(id, servings);
     }
+
 }

@@ -2,6 +2,7 @@ package com.example.app_sample.ui.home.swipe;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
@@ -10,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.AppExecutors;
@@ -24,6 +26,7 @@ import retrofit2.Response;
 public class SwipeViewModel extends AndroidViewModel {
 
     MutableLiveData<Recipes> recipes;
+    MutableLiveData<String> error;
     RecipeRepository recipeRepository;
     int position;
 
@@ -32,6 +35,7 @@ public class SwipeViewModel extends AndroidViewModel {
 
         recipeRepository = new RecipeRepository(getApplication());
         recipes = new MutableLiveData<>();
+        error = new MutableLiveData<>();
         position = 0;
         newRequest();
     }
@@ -44,7 +48,7 @@ public class SwipeViewModel extends AndroidViewModel {
         if (data != null && recipes.getValue() != null && recipes.getValue().getRecipes() != null) {
             List<Recipes.Recipe> list = recipes.getValue().getRecipes();
             list.addAll(data.getRecipes());
-            recipes.setValue(new Recipes(list).setCode(data.getCode()).setMessage(data.getMessage()));
+            recipes.setValue(new Recipes(list));
         } else recipes.setValue(data);
     }
 
@@ -54,20 +58,19 @@ public class SwipeViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
                 if(response.body() != null){
-                    addToRecipes(response.body().setCode(response.code()).setMessage(response.message()));
+                    addToRecipes(response.body());
                 }
                 else{
-                    addToRecipes(new Recipes(null).setCode(response.code()).setMessage(response.message()));
+                    if(response.code() == 403)
+                        error.setValue(getApplication().getString(R.string.request_limit));
+                    else
+                        error.setValue(response.errorBody().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<Recipes> call, Throwable t) {
-                if(recipes.getValue() != null)
-                    recipes.setValue(recipes.getValue().setCode(0).setMessage(t.getMessage()));
-                else{
-                    recipes.setValue(new Recipes(null).setCode(0).setMessage(t.getMessage()));
-                }
+                error.setValue(getApplication().getString(R.string.no_internet));
             }
         });
 
@@ -95,7 +98,11 @@ public class SwipeViewModel extends AndroidViewModel {
         return position;
     }
 
+    public LiveData<String> getError() {
+        return error;
+    }
+
     public void resetError(){
-        recipes.getValue().setCode(200);
+        error.setValue(null);
     }
 }

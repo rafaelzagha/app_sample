@@ -2,6 +2,7 @@ package com.example.app_sample.ui.profile;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.intro.IntroActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,9 +34,10 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 
 public class ProfileFragment extends Fragment {
 
@@ -48,7 +51,7 @@ public class ProfileFragment extends Fragment {
     BottomSheetDialog dialog;
     LinearLayout editImage, editEmail, editUsername;
     MaterialAlertDialogBuilder alertDialog;
-    Toolbar toolbar ;
+    Toolbar toolbar;
 
 
     @Override
@@ -102,7 +105,7 @@ public class ProfileFragment extends Fragment {
         viewModel.getPicture().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if(!s.equals("error"))
+                if (!s.equals("error"))
                     RecipeRepository.loadImage(getContext(), s, picture);
             }
         });
@@ -112,11 +115,10 @@ public class ProfileFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.edit_profile){
+                if (item.getItemId() == R.id.edit_profile) {
                     dialog.show();
                     return true;
-                }
-                else if(item.getItemId() == R.id.logout){
+                } else if (item.getItemId() == R.id.logout) {
                     alertDialog.show();
                     return true;
                 }

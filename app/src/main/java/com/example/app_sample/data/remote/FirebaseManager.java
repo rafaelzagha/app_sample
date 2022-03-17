@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.app_sample.data.local.models.Cookbook;
 import com.example.app_sample.data.local.models.GroceryList;
+import com.example.app_sample.data.local.models.Recipes;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -105,6 +107,16 @@ public class FirebaseManager {
         database.child("groceries").child(String.valueOf(id)).child("servings").setValue(servings);
     }
 
+    public String createCookbook(String name){
+        String push = database.push().getKey();
+        Cookbook cookbook = new Cookbook(name, push);
+        database.child("cookbooks").child(push).setValue(cookbook);
+        return push;
+    }
+
+    public void addToCookbook(String bookID, int id){
+        database.child("cookbooks").child(bookID).child("recipes").child(String.valueOf(id)).setValue(database.push().getKey());
+    }
     //todo - playlist object, playlist managing classes
 
 }

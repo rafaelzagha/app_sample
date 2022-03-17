@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aitsuki.swipe.SwipeMenuRecyclerView;
@@ -34,7 +35,7 @@ public class SavedRecipesFragment extends Fragment {
     private SavedRecipesAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private CircularProgressIndicator indicator;
-    private CardView card;
+    private LinearLayout card;
     private MaterialButton swipe;
 
 

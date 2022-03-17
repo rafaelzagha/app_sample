@@ -45,7 +45,8 @@ public class SwipeFragment extends Fragment implements CardStackListener {
     CardView rewind, clear, save;
     CircularProgressIndicator indicator;
 
-    public SwipeFragment() { }
+    public SwipeFragment() {
+    }
 
 
     @Override
@@ -83,14 +84,14 @@ public class SwipeFragment extends Fragment implements CardStackListener {
                 .build();
 
         clear.setOnClickListener(v -> {
-            if(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1){
+            if (cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount() - 1) {
                 cardStackLayoutManager.setSwipeAnimationSetting(left);
                 csv.swipe();
             }
         });
 
         save.setOnClickListener(v -> {
-            if(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1){
+            if (cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount() - 1) {
 
                 cardStackLayoutManager.setSwipeAnimationSetting(right);
                 csv.swipe();
@@ -100,18 +101,22 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
         rewind.setOnClickListener(v -> csv.rewind());
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesApiResponse -> {
-            if (recipesApiResponse != null) {
-                if (recipesApiResponse.getRecipes() != null){
-                    csv.setVisibility(View.VISIBLE);
-                    indicator.setVisibility(View.INVISIBLE);
-                    cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());
-                    cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
-                    cardStackLayoutManager.setCanScrollHorizontal(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount()-1);
-                }
 
-                if(recipesApiResponse.getCode() != 200 && viewModel.getPosition() % 20 == 0)
-                    showError(recipesApiResponse.getCode(), recipesApiResponse.getMessage());
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesApiResponse -> {
+            if (recipesApiResponse.getRecipes() != null) {
+                csv.setVisibility(View.VISIBLE);
+                indicator.setVisibility(View.INVISIBLE);
+                cardStackAdapter.setRecipes(recipesApiResponse.getRecipes());
+                cardStackLayoutManager.scrollToPosition(viewModel.getPosition());
+                cardStackLayoutManager.setCanScrollHorizontal(cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount() - 1);
+            }
+
+        });
+
+        viewModel.getError().observe(getViewLifecycleOwner(), string -> {
+            if(string != null){
+                showError(string);
+                viewModel.resetError();
             }
         });
 
@@ -123,16 +128,11 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
     }
 
-    private void showError(int code, String message) {
+    private void showError(String message) {
         csv.setVisibility(View.INVISIBLE);
         indicator.setVisibility(View.INVISIBLE);
         errorLayout.setVisibility(View.VISIBLE);
-        if (code == 0)
-            errorMessage.setText(getString(R.string.no_internet));
-        else if(code == 402)
-            errorMessage.setText(getString(R.string.request_limit));
-        else
-            errorMessage.setText(message);
+        errorMessage.setText(message);
         viewModel.resetError();
     }
 
@@ -152,10 +152,10 @@ public class SwipeFragment extends Fragment implements CardStackListener {
     @Override
     public void onCardSwiped(Direction direction) {
 
-        if(cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount()-1)
+        if (cardStackLayoutManager.getTopPosition() == cardStackAdapter.getItemCount() - 1)
             cardStackLayoutManager.setCanScrollHorizontal(false);
-        else{
-            if(direction == Direction.Right)
+        else {
+            if (direction == Direction.Right)
                 viewModel.saveRecipe(cardStackAdapter.getRecipe(viewModel.getPosition()));
             else if (direction == Direction.Left)
                 viewModel.deleteRecipe(cardStackAdapter.getRecipe(viewModel.getPosition()).getId());
