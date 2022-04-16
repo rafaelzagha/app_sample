@@ -33,10 +33,13 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/groceries_svgrepo_com.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_add.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_arrow.xml" value="0.18076923076923077" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_arrow_back.xml" value="0.177" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_arrow_back_black.xml" value="0.177" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_basket.xml" value="0.1735" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_basket_filled.xml" value="0.1715" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_clear.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_delete.xml" value="0.1435" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_edit.xml" value="0.177" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_edit_profile.xml" value="0.1715" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_edit_profile_test.xml" value="0.1715" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_email.xml" value="0.18076923076923077" />
@@ -51,6 +54,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_person_green.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_search_card.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_select_all.xml" value="0.1435" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_share.xml" value="0.177" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_time.xml" value="0.2203125" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_time_card.xml" value="0.18076923076923077" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/drawable/ic_type.xml" value="0.2203125" />
@@ -86,6 +90,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v23/fragment_recipe.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v23/fragment_saved.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v23/fragment_search.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v23/item_cookbook_list.xml" value="0.2" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v28/fragment_recipe.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout-v28/item_stack.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/activity_filter.xml" value="0.25" />
@@ -100,15 +105,18 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/category_item_small.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/cuisine_item.xml" value="0.33" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/dialog_add_to_cookbook.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/dialog_groceries.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/dialog_profile.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_blank.xml" value="0.1675213675213675" />
-        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_cookbooks.xml" value="0.1641025641025641" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_cookbook_page.xml" value="0.25" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_cookbooks.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_discover.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_favorites.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_filter.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_groceries.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_new_cookbook.xml" value="0.3282051282051282" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_recipe.xml" value="0.21626617375231053" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/fragment_results.xml" value="0.1675213675213675" />
@@ -120,9 +128,10 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/grid_item.xml" value="0.67" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_category.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_cookbook.xml" value="0.33" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_cookbook_list.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_cuisine.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_equipment.xml" value="0.33" />
-        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_groceries.xml" value="0.3518248175182482" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_groceries.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_grocery_ingredient.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_icon_edit.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_ingredient.xml" value="0.5" />
@@ -131,6 +140,7 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_meal_type.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_popular.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_popular_load_more.xml" value="0.1675213675213675" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_recipe_cookbook.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_result.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_results_load_more.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/item_saved.xml" value="0.4273381294964029" />
@@ -146,8 +156,11 @@
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/viewpager_icon.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/layout/viewpager_item.xml" value="0.33" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/cookbook_menu.xml" value="0.67" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/groceries_actionmode_menu.xml" value="0.1641025641025641" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/groceries_menu.xml" value="0.22" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/menu_profille.xml" value="0.25" />
+        <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/menu_test.xml" value="0.5" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/profile_menu.xml" value="0.1675213675213675" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/recipe_menu.xml" value="0.25" />
         <entry key="..\:/Users/rafae/AndroidStudioProjects/app_sample/app/src/main/res/menu/saved_menu.xml" value="0.25" />

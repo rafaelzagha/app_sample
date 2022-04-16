@@ -2,6 +2,7 @@ package com.example.app_sample.ui.profile;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,11 +56,13 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             RecipeRepository.loadImage(context, recipe.getImage(), holder.img);
             String time = recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
             holder.time.setText(time);
+
             if (recipe.getColor() == 0) {
                 int x = new Random().nextInt(7);
                 int color = context.getResources().getColor(Filters.MealType.values()[x].color());
                 recipe.setColor(color);
                 fragment.setRecipeColor(recipe.getId(), color);
+
             }
             holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
 

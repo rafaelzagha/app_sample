@@ -8,7 +8,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.local.models.Cookbook;
 import com.example.app_sample.data.local.models.Recipes;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.UploadTask;
 
@@ -18,7 +20,8 @@ import java.util.List;
 public class ProfileViewModel extends AndroidViewModel {
 
     private RecipeRepository repo;
-    private LiveData<List<Recipes.Recipe>> saved;
+    private LiveData<List<Recipes.Recipe>> recipes;
+    private LiveData<List<Cookbook>> cookbooks;
     private LiveData<String> username;
     private MutableLiveData<String> picture;
     private String email;
@@ -29,12 +32,17 @@ public class ProfileViewModel extends AndroidViewModel {
         username = repo.getUsername();
         email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         picture = new MutableLiveData<>();
-        saved = repo.getSavedRecipes();
+        recipes = repo.getSavedRecipes();
+        cookbooks = repo.getCookbooks();
         fetchProfilePicture();
     }
 
+    public LiveData<Cookbook> getCookbook(String id) {
+        return repo.getCookbook(id);
+    }
+
     public LiveData<List<Recipes.Recipe>> getRecipes() {
-        return saved;
+        return recipes;
     }
 
     public LiveData<String> getUsername() {
@@ -43,6 +51,10 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public String getEmail() {
         return email;
+    }
+
+    public LiveData<List<Cookbook>> getCookbooks() {
+        return cookbooks;
     }
 
     public UploadTask setProfilePicture(InputStream inputStream) {
@@ -81,5 +93,21 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public LiveData<Boolean> isInGroceries(int id) {
         return repo.isInGroceries(id);
+    }
+
+    public LiveData<List<String>> getCookbookImages(String id) {
+        return repo.getCookbookImages(id);
+    }
+
+    public Task<Void> removeFromCookbook(String cbId, int recipeId) {
+        return repo.removeFromCookbook(cbId, recipeId);
+    }
+
+    public void deleteCookbook(String id) {
+        repo.deleteCookbook(id);
+    }
+
+    public void changeCookbookName(String id, String name) {
+        repo.changeCookbookName(id, name);
     }
 }

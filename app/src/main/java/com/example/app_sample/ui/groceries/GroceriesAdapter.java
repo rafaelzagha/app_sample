@@ -2,20 +2,14 @@ package com.example.app_sample.ui.groceries;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.metrics.Event;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
@@ -26,8 +20,10 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.example.app_sample.utils.MyItemDetail;
 import com.google.android.material.button.MaterialButton;
+
+import net.igenius.customcheckbox.CustomCheckBox;
 
 import java.util.List;
 
@@ -39,6 +35,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
     int expandedPosition;
     GroceriesRecipeAdapter[] adapters;
     int[] servings;
+    SelectionTracker selectionTracker;
 
     public GroceriesAdapter(GroceriesFragment fragment) {
         this.fragment = fragment;
@@ -55,10 +52,10 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        boolean isExpanded = position == expandedPosition;
+        Recipes.Recipe recipe = recipes.get(position);
 
         if (adapters.length > position && adapters[position] == null) {//do all this only once
-            Recipes.Recipe recipe = recipes.get(position);
+            holder.servings.setText(String.valueOf(recipe.getServings()));
             GroceriesRecipeAdapter adapter = new GroceriesRecipeAdapter(recipe, fragment);
             adapters[position] = adapter;
             holder.list.setAdapter(adapter);
@@ -71,34 +68,6 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                     notifyItemChanged(previous);
             });
 
-            BottomSheetDialog dialog = new BottomSheetDialog(context);
-            dialog.setContentView(R.layout.dialog_groceries);
-            dialog.setCancelable(true);
-            holder.options.setOnClickListener(v -> fragment.goToRecipePage(recipe));
-
-            LinearLayout goToPage = dialog.findViewById(R.id.go_to_page);
-            LinearLayout deleteList = dialog.findViewById(R.id.delete_list);
-            LinearLayout clearList = dialog.findViewById(R.id.clear_list);
-            ImageView img = dialog.findViewById(R.id.img);
-            TextView txt = dialog.findViewById(R.id.txt);
-            RecipeRepository.loadImage(context, recipe.getImage(), img);
-            txt.setText(recipe.getTitle());
-
-            goToPage.setOnClickListener(v -> {
-                fragment.goToRecipePage(recipe);
-                dialog.dismiss();
-            });
-            deleteList.setOnClickListener(v -> {
-                fragment.deleteGroceryList(recipe.getId());
-                dialog.dismiss();
-                if(expandedPosition == position)
-                    expandedPosition = -1;
-            });
-            clearList.setOnClickListener(v -> {
-                fragment.updateGroceriesList(new GroceryList(recipe.getId(), recipe.getServings(), recipe.getIngredients().size()));
-                dialog.dismiss();
-            });
-
             fragment.getGroceryList(recipes.get(position).getId()).observe(fragment.getViewLifecycleOwner(), new Observer<GroceryList>() {
                 @Override
                 public void onChanged(GroceryList groceryList) {
@@ -108,13 +77,15 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                         for (boolean i : groceryList.getList()) if (i) count++;
                         String text = count + "/" + groceryList.getList().size() + " " + fragment.getString(R.string.ingredients);
                         holder.ingredients.setText(text);
-                        if(servings.length > position){
+                        if (servings.length > position) {
                             servings[position] = groceryList.getServings();
                             holder.servings.setText(String.valueOf(servings[position]));
                         }
                     }
                 }
             });
+
+            holder.options.setOnClickListener(v -> fragment.goToRecipePage(recipe));
 
             holder.plus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,8 +107,27 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
                 }
             });
 
-            holder.setRecipe(recipe);
+
         }
+
+        holder.details.setOnClickListener(v -> {
+            int previous = expandedPosition;
+            expandedPosition = position == expandedPosition ? -1 : position;
+            notifyItemChanged(position);
+            if (previous > -1 && previous != position)
+                notifyItemChanged(previous);
+        });
+
+        holder.setRecipe(recipe);
+        boolean isExpanded = position == expandedPosition;
+        boolean selected = selectionTracker.hasSelection();
+
+        holder.checkBox.setVisibility(selected?View.VISIBLE : View.GONE);
+        holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
+        holder.plus.setVisibility(selected? View.GONE : View.VISIBLE);
+        holder.minus.setVisibility(selected? View.GONE : View.VISIBLE);
+        holder.servings.setVisibility(selected? View.GONE : View.VISIBLE);
+        holder.ingredients.setVisibility(selected? View.GONE : View.VISIBLE);
 
         holder.checklist.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.itemView.setActivated(isExpanded);
@@ -154,11 +144,12 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView img ,options;
+        ImageView img, options;
         MaterialButton minus, plus;
         TextView name, ingredients, servings;
         LinearLayout checklist, details;
         RecyclerView list;
+        CustomCheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -173,16 +164,27 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
             details = itemView.findViewById(R.id.details);
             list = itemView.findViewById(R.id.ingredient_list);
             options = itemView.findViewById(R.id.options);
+            checkBox = itemView.findViewById(R.id.checkbox);
 
+        }
+
+        public ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
+            return new MyItemDetail(getAdapterPosition(), recipes.get(getAdapterPosition()).getId());
         }
 
         public void setRecipe(Recipes.Recipe recipe) {
             RecipeRepository.loadImage(context, recipe.getImage(), img);
             name.setText(recipe.getTitle());
-            servings.setText(String.valueOf(recipe.getServings()));
+            if(GroceriesAdapter.this.servings.length > getAdapterPosition() && GroceriesAdapter.this.servings[getAdapterPosition()] != 0)
+                servings.setText(String.valueOf(GroceriesAdapter.this.servings[getAdapterPosition()]));
+            else
+                servings.setText(String.valueOf(recipe.getServings()));
         }
 
+    }
 
+    public void setSelectionTracker(SelectionTracker selectionTracker) {
+        this.selectionTracker = selectionTracker;
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
@@ -192,4 +194,13 @@ public class GroceriesAdapter extends RecyclerView.Adapter<GroceriesAdapter.View
         notifyDataSetChanged();
     }
 
+    public void reset(){
+        adapters = new GroceriesRecipeAdapter[recipes.size()];
+        servings = new int[recipes.size()];
+        notifyDataSetChanged();
+    }
+
+    public List<Recipes.Recipe> getRecipes() {
+        return recipes;
+    }
 }

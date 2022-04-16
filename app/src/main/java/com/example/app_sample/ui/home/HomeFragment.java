@@ -12,11 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +29,13 @@ import android.widget.TextView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
-import com.example.app_sample.data.remote.FirebaseManager;
+import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.ui.search.FilterActivity;
 import com.example.app_sample.utils.Constants;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -61,7 +60,7 @@ public class HomeFragment extends Fragment {
         search = view.findViewById(R.id.et_search);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
-        appBarLayout = view.findViewById(R.id.app_bar_layout);
+        appBarLayout = view.findViewById(R.id.appbar);
         username = view.findViewById(R.id.username);
         filter = view.findViewById(R.id.filter);
         homeAdapter = new HomeAdapter(getChildFragmentManager(), getLifecycle());
@@ -125,7 +124,6 @@ public class HomeFragment extends Fragment {
                     if (search.getText().toString().length() >= 3) {
                         goToSearchScreen(search.getText().toString(), null);
                         search.setText("");
-                        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
                     }
                 }
                 return false;

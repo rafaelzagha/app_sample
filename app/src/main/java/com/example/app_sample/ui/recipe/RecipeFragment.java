@@ -30,13 +30,17 @@ import android.widget.TextView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.DownloadService;
 import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialDialogs;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Random;
 
 
 public class RecipeFragment extends Fragment {
@@ -53,20 +57,16 @@ public class RecipeFragment extends Fragment {
     private ViewPager2 instructionsViewPager;
     private String typeString, timeString, servingsString;
     private RecipeViewModel viewModel;
+    private AddToCookbookDialog dialog;
 
     public RecipeFragment() {
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        requireView().requestLayout();
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_recipe, container, false);
 
         ViewCompat.setTranslationZ(view, 10F);
         viewModel = ViewModelProviders.of(this, new MyViewModelFactory(requireActivity().getApplication(), recipe)).get(RecipeViewModel.class);
@@ -79,7 +79,7 @@ public class RecipeFragment extends Fragment {
         servings = view.findViewById(R.id.tv_servings);
         instructionsViewPager = view.findViewById(R.id.vp_instructions);
         shortInstructions = view.findViewById(R.id.short_instructions);
-
+        dialog = new AddToCookbookDialog(recipe);
 
         recipeName.setText(recipe.getTitle());
         typeString = recipe.getDishTypes().isEmpty() ? "No Type" : toCaps(recipe.getDishTypes().get(0));
@@ -88,6 +88,10 @@ public class RecipeFragment extends Fragment {
         time.setText(timeString);
         servingsString = recipe.getServings() + " " + getResources().getString(R.string.servings);
         servings.setText(servingsString);
+        if (recipe.getColor() == 0) {
+            int x = new Random().nextInt(7);
+            recipe.setColor(requireContext().getResources().getColor(Filters.MealType.values()[x].color()));
+        }
         mealType.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
         RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
 
@@ -114,7 +118,7 @@ public class RecipeFragment extends Fragment {
             else
                 shortInstructions.setText(getString(R.string.no_instructions));
         }
-
+        return view;
     }
 
     @SuppressLint("RestrictedApi")
@@ -132,33 +136,34 @@ public class RecipeFragment extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.share){
+                if (item.getItemId() == R.id.share) {
                     Intent i = new Intent(Intent.ACTION_SEND);
                     i.setType("text/plain");
                     i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                    i.putExtra(Intent.EXTRA_TEXT, recipe.getSourceUrl());
+                    String url = getString(R.string.host)+ "/recipe/" + recipe.getId();
+                    i.putExtra(Intent.EXTRA_TEXT, url);
                     startActivity(Intent.createChooser(i, "Share recipe URL"));
                     return true;
-                }
-                else if(item.getItemId() == R.id.download){
+                } else if (item.getItemId() == R.id.download) {
                     Intent i = new Intent(getContext(), DownloadService.class).putExtra("id", recipe.getId());
                     getContext().startService(i);
                     return true;
+                } else if (item.getItemId() == R.id.cookbook) {
+                    openCookBooksDialog();
                 }
                 return false;
             }
+
+
         });
 
-
-        BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
-        
-        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId()).addOnCompleteListener(task -> snack(getString(R.string.recipe_unsaved)));
+        View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId()).addOnCompleteListener(task -> snack(requireActivity().getString(R.string.recipe_unsaved)));
 
         View.OnClickListener notSaved = v -> viewModel.saveRecipe(recipe).addOnCompleteListener(task -> snack(getString(R.string.recipe_saved)));
 
-        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> snack(getString(R.string.grocery_removed)));
+        View.OnClickListener isInGroceries = v -> viewModel.deleteFromGroceries().addOnCompleteListener(task -> snack(requireActivity().getString(R.string.grocery_removed)));
 
-        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> snack(getString(R.string.grocery_added)));
+        View.OnClickListener notInGroceries = v -> viewModel.saveToGroceries().addOnCompleteListener(task -> snack(requireActivity().getString(R.string.grocery_added)));
 
         viewModel.getIsSaved().observe(getViewLifecycleOwner(), saved -> {
             save.setIcon(saved ? saved_filled : saved_outlined);
@@ -172,7 +177,11 @@ public class RecipeFragment extends Fragment {
 
     }
 
-    private void snack(String msg){
+    private void openCookBooksDialog() {
+        dialog.show(getChildFragmentManager(), "dialog");
+    }
+
+    protected void snack(String msg) {
         BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
         Snackbar.make(requireActivity().findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show();
     }
@@ -189,10 +198,5 @@ public class RecipeFragment extends Fragment {
         } else requireActivity().onBackPressed();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe, container, false);
-    }
+
 }

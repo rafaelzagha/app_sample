@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.app_sample.data.local.models.Cookbook;
 import com.example.app_sample.data.local.models.GroceryList;
-import com.example.app_sample.data.local.models.Recipes;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -58,7 +57,7 @@ public class FirebaseManager {
                 database.push().getKey());
     }
 
-    public Task<Void> deleteRecipe(int id){
+    public Task<Void> deleteRecipe(int id) {
         return database.child("saved").child(String.valueOf(id)).removeValue();
     }
 
@@ -70,53 +69,71 @@ public class FirebaseManager {
         return database.child("saved").child(String.valueOf(id));
     }
 
-    public Task<Void> saveGroceryList(GroceryList gl){
+    public Task<Void> saveGroceryList(GroceryList gl) {
         gl.setPush(database.push().getKey());
         return database.child("groceries").child(String.valueOf(gl.getId())).setValue(gl);
     }
 
-    public void updateGroceryList(GroceryList gl){
+    public void updateGroceryList(GroceryList gl) {
         database.child("groceries").child(String.valueOf(gl.getId())).child("list").setValue(gl.getList());
     }
 
-    public DatabaseReference getGroceryList(int id){
+    public DatabaseReference getGroceryList(int id) {
         return database.child("groceries").child(String.valueOf(id));
     }
 
-    public Task<Void> deleteGroceryList(int id){
+    public Task<Void> deleteGroceryList(int id) {
         return database.child("groceries").child(String.valueOf(id)).removeValue();
     }
 
-    public Query getGroceries(){
+    public Query getGroceries() {
         return database.child("groceries").orderByChild("push");
     }
 
-    public DatabaseReference isInGroceries(int id){
+    public DatabaseReference isInGroceries(int id) {
         return database.child("groceries").child(String.valueOf(id));
     }
 
-    public UploadTask setProfilePicture(InputStream inputStream){
-        return storage.child(auth.getUid()+".jpg").putStream(inputStream);
+    public UploadTask setProfilePicture(InputStream inputStream) {
+        return storage.child(auth.getUid() + ".jpg").putStream(inputStream);
     }
 
-    public StorageReference getProfilePicture(){
+    public StorageReference getProfilePicture() {
         return storage.child(auth.getUid() + ".jpg");
     }
 
-    public void updateGroceryServings(int id, int servings){
+    public void updateGroceryServings(int id, int servings) {
         database.child("groceries").child(String.valueOf(id)).child("servings").setValue(servings);
     }
 
-    public String createCookbook(String name){
+    public DatabaseReference getCookbooks() {
+        return database.child("cookbooks");
+    }
+
+    public String createCookbook(String name) {
         String push = database.push().getKey();
         Cookbook cookbook = new Cookbook(name, push);
         database.child("cookbooks").child(push).setValue(cookbook);
-        return push;
+        return cookbook.getId();
     }
 
-    public void addToCookbook(String bookID, int id){
-        database.child("cookbooks").child(bookID).child("recipes").child(String.valueOf(id)).setValue(database.push().getKey());
+    public void deleteCookbook(String id){
+        database.child("cookbooks").child(id).removeValue();
     }
-    //todo - playlist object, playlist managing classes
 
+    public Task<Void> addToCookbook(String bookID, int id) {
+        return database.child("cookbooks").child(bookID).child("recipes").child(String.valueOf(id)).setValue(database.push().getKey());
+    }
+
+    public Task<Void> removeFromCookbook(String bookId, int recipeId){
+        return database.child("cookbooks").child(bookId).child("recipes").child(String.valueOf(recipeId)).removeValue();
+    }
+
+    public DatabaseReference getCookbook(String id) {
+        return database.child("cookbooks").child(id);
+    }
+
+    public void changeCookbookName(String id, String name){
+        database.child("cookbooks").child(id).child("name").setValue(name);
+    }
 }

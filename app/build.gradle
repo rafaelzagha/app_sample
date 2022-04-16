@@ -84,7 +84,7 @@ dependencies {
     //SwipeMenuRecyclerView
     implementation 'com.github.aitsuki:SwipeMenuRecyclerView:2.1.0'
 
-
+    implementation 'net.igenius:customcheckbox:1.3'
 
 
 }

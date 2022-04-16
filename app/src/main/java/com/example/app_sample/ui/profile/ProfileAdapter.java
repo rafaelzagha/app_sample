@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.app_sample.ui.home.discover.DiscoverFragment;
+import com.example.app_sample.ui.profile.cookbooks.CookbooksFragment;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class ProfileAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
         fragments = new ArrayList<>();
         fragments.add(new SavedRecipesFragment());
-        fragments.add(new DiscoverFragment());
+        fragments.add(new CookbooksFragment());
     }
 
     @NonNull

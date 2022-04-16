@@ -44,12 +44,28 @@
             app:enterAnim="@anim/slide_in_right"
             app:popExitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/profileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_newCookbookFragment"
+            app:destination="@id/newCookbookFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_profileFragment_to_cookbookPageFragment"
+            app:destination="@id/cookbookPageFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.app_sample.ui.recipe.RecipeFragment"
         android:label="fragment_recipe"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_recipe" >
+        <action
+            android:id="@+id/action_recipeFragment_to_newCookbookFragment"
+            app:destination="@id/newCookbookFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.app_sample.ui.search.SearchFragment"
@@ -61,6 +77,28 @@
             app:enterAnim="@anim/slide_in_right"
             app:launchSingleTop="false"
             app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/newCookbookFragment"
+        android:name="com.example.app_sample.ui.profile.cookbooks.NewCookbookFragment"
+        android:label="fragment_new_cookbook"
+        tools:layout="@layout/fragment_new_cookbook" >
+        <action
+            android:id="@+id/action_newCookbookFragment_to_cookbookPageFragment"
+            app:destination="@id/cookbookPageFragment"
+            app:enterAnim="@anim/slide_up"
+            app:popExitAnim="@anim/slide_down" />
+    </fragment>
+    <fragment
+        android:id="@+id/cookbookPageFragment"
+        android:name="com.example.app_sample.ui.profile.cookbooks.CookbookPageFragment"
+        android:label="fragment_cookbook_page"
+        tools:layout="@layout/fragment_cookbook_page" >
+        <action
+            android:id="@+id/action_cookbookPageFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
 </navigation>

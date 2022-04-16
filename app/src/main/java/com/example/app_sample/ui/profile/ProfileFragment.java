@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -24,12 +25,14 @@ import android.widget.Toast;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
+import com.example.app_sample.data.local.models.Cookbook;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.intro.IntroActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +41,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
@@ -52,6 +56,7 @@ public class ProfileFragment extends Fragment {
     LinearLayout editImage, editEmail, editUsername;
     MaterialAlertDialogBuilder alertDialog;
     Toolbar toolbar;
+    FloatingActionButton add;
 
 
     @Override
@@ -74,6 +79,7 @@ public class ProfileFragment extends Fragment {
         cookbooksNum = view.findViewById(R.id.cookbook_num);
         viewPager = view.findViewById(R.id.viewpager);
         tabLayout = view.findViewById(R.id.tab_layout);
+        add = view.findViewById(R.id.add);
         adapter = new ProfileAdapter(getChildFragmentManager(), getLifecycle());
 
         viewPager.setAdapter(adapter);
@@ -83,6 +89,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                add.setVisibility(tab.getPosition()==0 ? View.GONE : View.VISIBLE);
             }
 
             @Override
@@ -99,6 +106,8 @@ public class ProfileFragment extends Fragment {
         viewModel.getUsername().observe(getViewLifecycleOwner(), string -> name.setText(string));
 
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> recipesNum.setText(String.valueOf(recipes.size())));
+
+        viewModel.getCookbooks().observe(getViewLifecycleOwner(), cookbooks -> cookbooksNum.setText(String.valueOf(cookbooks.size())));
 
         email.setText(viewModel.getEmail());
 
@@ -126,6 +135,8 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        add.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_profileFragment_to_newCookbookFragment));
 
     }
 
@@ -187,5 +198,11 @@ public class ProfileFragment extends Fragment {
                 Toast.makeText(getContext(), "Error retrieving image", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tabLayout.selectTab(tabLayout.getTabAt(viewPager.getCurrentItem()));
     }
 }

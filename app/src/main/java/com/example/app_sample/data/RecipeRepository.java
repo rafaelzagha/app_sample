@@ -2,6 +2,7 @@ package com.example.app_sample.data;
 
 import android.app.Application;
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.RecipeDatabase;
 import com.example.app_sample.data.local.dao.RecipeDao;
+import com.example.app_sample.data.local.models.Cookbook;
+import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.RecipeImage;
 import com.example.app_sample.data.local.models.Recipes;
@@ -21,6 +24,7 @@ import com.example.app_sample.data.local.models.RecipesResults;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.AppExecutors;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -34,8 +38,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RecipeRepository {
 
@@ -64,11 +71,25 @@ public class RecipeRepository {
     }
 
     public Task<Void> removeRecipe(int id) {
-        firebaseManager.isInGroceries(id).addValueEventListener(new ValueEventListener() { //check if recipe in groceries
+        firebaseManager.isInGroceries(id).addListenerForSingleValueEvent(new ValueEventListener() { //check if recipe in groceries
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists())
-                    appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+                    firebaseManager.getCookbooks().addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot ds : snapshot.getChildren()){
+                                if(ds.child("recipes").hasChild(String.valueOf(id)))
+                                    return;
+                            }
+                            appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
             }
 
             @Override
@@ -95,6 +116,23 @@ public class RecipeRepository {
         return recipesRemoteDataSource.getRecipesByQuery(query, diet, intolerances, cuisine, type, sort, sortDirection, offset);
     }
 
+    public LiveData<Recipes.Recipe> loadRecipe(int id){
+        MutableLiveData<Recipes.Recipe> recipe = new MutableLiveData<>();
+        recipesRemoteDataSource.getRecipeById(id).enqueue(new Callback<Recipes.Recipe>() {
+            @Override
+            public void onResponse(Call<Recipes.Recipe> call, Response<Recipes.Recipe> response) {
+                if(response.isSuccessful())
+                    recipe.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Recipes.Recipe> call, Throwable t) {
+
+            }
+        });
+        return recipe;
+    }
+
     public Call<RecipeImage> loadRecipeCard(long id) {
         return recipesRemoteDataSource.getRecipeCard(id);
     }
@@ -108,6 +146,13 @@ public class RecipeRepository {
                 .load(url)
                 .error(R.drawable.example_no_image)
                 .fitCenter()
+                .into(imageView);
+    }
+    public static void loadCenterCrop(Context context, String url, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                .error(R.drawable.example_no_image)
+                .centerCrop()
                 .into(imageView);
     }
 
@@ -198,11 +243,25 @@ public class RecipeRepository {
 
 
     public Task<Void> deleteGroceryList(int id) {
-        firebaseManager.isSaved(id).addValueEventListener(new ValueEventListener() {
+        firebaseManager.isSaved(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists())
-                    appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+                    firebaseManager.getCookbooks().addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot ds : snapshot.getChildren()){
+                                if(ds.child("recipes").hasChild(String.valueOf(id)))
+                                    return;
+                            }
+                            appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(id));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
             }
 
             @Override
@@ -311,5 +370,222 @@ public class RecipeRepository {
         firebaseManager.updateGroceryServings(id, servings);
     }
 
+    public LiveData<List<Cookbook>> getCookbooks(){
+        MutableLiveData<List<Cookbook>> cookbooks = new MutableLiveData<>();
+        List<Cookbook> list = new ArrayList<>();
+        firebaseManager.getCookbooks().addChildEventListener(new ChildEventListener() {
 
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                list.add(snapshot.getValue(Cookbook.class));
+                cookbooks.setValue(list);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Cookbook cookbook = snapshot.getValue(Cookbook.class);
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getId().equals(cookbook.getId())) {
+                        list.set(i, cookbook);
+                        break;
+                    }
+                }
+                cookbooks.setValue(list);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                Cookbook cookbook = snapshot.getValue(Cookbook.class);
+                if (!list.isEmpty())
+                    for (Cookbook c : list) {
+                        if (c.getId().equals(cookbook.getId())) {
+                            list.remove(c);
+                            break;
+                        }
+                    }
+                cookbooks.setValue(list);
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return cookbooks;
+    }
+
+    public Task<Void> addToCookbook(String id, Recipes.Recipe recipe){
+        appExecutors.diskIO().execute(() -> recipeDao.insert(recipe));
+        return firebaseManager.addToCookbook(id, recipe.getId());
+    }
+
+    public LiveData<List<String>> getCookbookImages(String id){
+        MutableLiveData<List<String>> images = new MutableLiveData<>();
+        List<String> list = new ArrayList<>();
+        images.setValue(list);
+        firebaseManager.getCookbook(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                Cookbook cookbook= task.getResult().getValue(Cookbook.class);
+
+                if(cookbook.getRecipes() != null)
+                for(String id : cookbook.getRecipes().keySet()){
+                    appExecutors.diskIO().execute(() -> {
+                        Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(id));
+                        if (recipe != null)
+                            list.add(recipe.getImage());
+                        else {
+                            try {
+                                recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(id)).execute().body();
+                                recipeDao.insert(recipe);
+                                list.add(recipe.getImage());
+                            } catch (IOException e) {
+                                Log.d("tag", "Couldn't retrieve saved recipes");
+                            }
+                        }
+                        images.postValue(list);
+                    });
+                    if(list.size() == 3) break;
+                }
+            }
+        });
+        return images;
+    }
+
+    public MutableLiveData<Cookbook> getCookbook(String id){
+        MutableLiveData<Cookbook> data = new MutableLiveData<>();
+        Cookbook tmp = new Cookbook(null, id);
+        List<Recipes.Recipe> recipes = new ArrayList<>();
+        firebaseManager.getCookbook(id).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    tmp.setName(snapshot.getValue(String.class));
+                    data.setValue(tmp);
+                }
+                else
+                    data.setValue(null);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        firebaseManager.getCookbook(id).child("recipes").orderByKey().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                appExecutors.diskIO().execute(() -> {
+
+                    Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(Objects.requireNonNull(snapshot.getKey())));
+                    if (recipe != null)
+                        recipes.add(recipeDao.getRecipe(Integer.parseInt(snapshot.getKey())));
+                    else {
+                        try {
+                            recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(snapshot.getKey())).execute().body();
+                            int x = new Random().nextInt(7);
+                            int color = Filters.MealType.values()[x].color();
+                            Log.d("tag", "x: " + x);
+                            Log.d("tag", "color: " + color);
+
+                            recipe.setColor(color);
+                            recipeDao.insert(recipe);
+                            recipes.add(recipe);
+                        } catch (IOException e) {
+                            Log.d("tag", "Couldn't retrieve saved recipes");
+                        }
+                    }
+                    tmp.setObjects(recipes);
+                    data.postValue(tmp);
+                });
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                for (Recipes.Recipe i : recipes) {
+                    if (i.getId().equals(Integer.valueOf(Objects.requireNonNull(snapshot.getKey())))) {
+                        recipes.remove(i);
+                        tmp.setObjects(recipes);
+                        data.setValue(tmp);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return data;
+    }
+
+    public Task<Void> removeFromCookbook(String bookId, int recipeId){
+
+        firebaseManager.isSaved(recipeId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    firebaseManager.isInGroceries(recipeId).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(!snapshot.exists())
+                                appExecutors.diskIO().execute(() -> recipeDao.deleteRecipe(recipeId));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return firebaseManager.removeFromCookbook(bookId, recipeId);
+
+    }
+
+    public void deleteCookbook(String id){
+        firebaseManager.getCookbook(id).child("recipes").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()){
+                    removeFromCookbook(id, Integer.parseInt(ds.getKey()));
+                }
+                firebaseManager.deleteCookbook(id);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    public void changeCookbookName(String id, String name){
+        firebaseManager.changeCookbookName(id, name);
+    }
 }

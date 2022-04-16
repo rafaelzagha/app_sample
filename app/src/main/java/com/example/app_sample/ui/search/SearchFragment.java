@@ -146,7 +146,7 @@ public class SearchFragment extends Fragment {
                     }
                 });
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black);
         toolbar.setNavigationOnClickListener(V -> requireActivity().onBackPressed());
 
         searchBar.setText(query);
