@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.selection.ItemDetailsLookup;
+import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aitsuki.swipe.SwipeLayout;
@@ -21,8 +23,11 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
+import com.example.app_sample.utils.MyItemDetail;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import net.igenius.customcheckbox.CustomCheckBox;
 
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +38,7 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
     private List<Recipes.Recipe> recipes;
     private Context context;
     private SavedRecipesFragment fragment;
+    private SelectionTracker selectionTracker;
 
     public SavedRecipesAdapter(SavedRecipesFragment fragment) {
         this.fragment = fragment;
@@ -101,10 +107,20 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
                         holder.groceriesIcon.setImageResource(R.drawable.ic_add);
                         holder.groceries.setOnClickListener(notInGroceries);
                     }
-
-
                 }
             });
+
+            if(selectionTracker != null){
+                boolean selected = selectionTracker.hasSelection();
+
+                holder.checkBox.setVisibility(selected?View.VISIBLE : View.GONE);
+                holder.meal_type.setVisibility(selected?View.GONE : View.VISIBLE);
+                holder.time.setVisibility(selected?View.GONE : View.VISIBLE);
+                ((SwipeLayout)holder.itemView).setSwipeFlags(selected ? SwipeLayout.STATE_IDLE : SwipeLayout.RIGHT);
+
+                holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
+
+            }
 
         }
     }
@@ -120,13 +136,14 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
         else return 0;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img, favorite, groceriesIcon;
         View fix;
         TextView recipe_name, meal_type, time;
         CardView cardView;
         LinearLayout delete, groceries;
+        CustomCheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -140,11 +157,20 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             groceries = itemView.findViewById(R.id.groceries);
             groceriesIcon = itemView.findViewById(R.id.icon);
             fix = itemView.findViewById(R.id.fix);
+            checkBox = itemView.findViewById(R.id.checkbox);
+        }
+
+        public ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
+            return new MyItemDetail(getAdapterPosition(), recipes.get(getAdapterPosition()).getId());
         }
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
         this.recipes = recipes;
         notifyDataSetChanged();
+    }
+
+    public void setSelectionTracker(SelectionTracker selectionTracker) {
+        this.selectionTracker = selectionTracker;
     }
 }

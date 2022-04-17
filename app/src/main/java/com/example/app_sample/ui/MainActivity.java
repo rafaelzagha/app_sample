@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         handleLink();
-        new RecipeRepository(getApplication()).clearTable();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 

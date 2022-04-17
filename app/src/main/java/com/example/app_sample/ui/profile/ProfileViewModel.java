@@ -110,4 +110,9 @@ public class ProfileViewModel extends AndroidViewModel {
     public void changeCookbookName(String id, String name) {
         repo.changeCookbookName(id, name);
     }
+
+
+    public void addToCookbook(String bookID, int recipeId){
+        repo.addToCookbook(bookID, recipeId);
+    }
 }

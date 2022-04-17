@@ -17,4 +17,11 @@
         android:title="Delete"
         android:icon="@drawable/ic_delete"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/add_from_saved"
+        android:title="Add recipes from saved"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="never"/>
+
+
 </menu>

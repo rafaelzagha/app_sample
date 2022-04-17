@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.app_sample.R;
@@ -39,6 +40,7 @@ import com.example.app_sample.ui.profile.ProfileViewModel;
 import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.MyItemKeyProvider;
 import com.example.app_sample.utils.MyItemLookup;
+import com.google.android.material.button.MaterialButton;
 
 public class CookbookPageFragment extends Fragment {
 
@@ -49,10 +51,12 @@ public class CookbookPageFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProfileViewModel viewModel;
     private CookbookRecipesAdapter adapter;
-    SelectionTracker<Long> selectionTracker;
-    MyItemKeyProvider itemKeyProvider;
-    ActionMode actionMode;
-    ActionMode.Callback actionModeCallback;
+    private LinearLayout card;
+    private MaterialButton swipe;
+    private SelectionTracker<Long> selectionTracker;
+    private MyItemKeyProvider itemKeyProvider;
+    private ActionMode actionMode;
+    private ActionMode.Callback actionModeCallback;
 
     public CookbookPageFragment() {
         // Required empty public constructor
@@ -74,6 +78,8 @@ public class CookbookPageFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview);
         adapter = new CookbookRecipesAdapter(this);
         title = view.findViewById(R.id.title);
+        card = view.findViewById(R.id.card);
+        swipe = view.findViewById(R.id.swipe);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -94,6 +100,8 @@ public class CookbookPageFragment extends Fragment {
                     title.setText(cookbook.getName());
                     adapter.setRecipes(cookbook.getObjects());
                     itemKeyProvider.setItemList(cookbook.getObjects());
+                    boolean hasItems = cookbook.getObjects() != null && !cookbook.getObjects().isEmpty();
+                    card.setVisibility(hasItems ? View.GONE : View.VISIBLE);
                 } else {
                     requireActivity().onBackPressed();
                 }
@@ -129,12 +137,8 @@ public class CookbookPageFragment extends Fragment {
                 "selection",
                 recyclerView,
                 itemKeyProvider,
-                new
-
-                        MyItemLookup(recyclerView),
-                StorageStrategy.createLongStorage()).
-
-                build();
+                new MyItemLookup(recyclerView),
+                StorageStrategy.createLongStorage()).build();
 
         selectionTracker.addObserver(new SelectionTracker.SelectionObserver<Long>() {
             @Override
@@ -147,10 +151,10 @@ public class CookbookPageFragment extends Fragment {
                 boolean hasSelection = selectionTracker.hasSelection();
                 if (hasSelection) {
                     if (actionMode == null) {
-                        actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+                        actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
                         adapter.notifyDataSetChanged();
                     }
-                    actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size() + " selected"));
+                    actionMode.setTitle(selectionTracker.getSelection().size() + " selected");
                 } else if (actionMode != null) {
                     actionMode.finish();
                 }
@@ -196,9 +200,13 @@ public class CookbookPageFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 actionMode = null;
             }
-        }
+        };
 
-        ;
+        swipe.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("bookId", id);
+            NavHostFragment.findNavController(CookbookPageFragment.this).navigate(R.id.action_cookbookPageFragment_to_addToCookbookFragment, bundle);
+        });
 
     }
 
@@ -219,9 +227,10 @@ public class CookbookPageFragment extends Fragment {
         } else if (item.getItemId() == R.id.delete) {
             viewModel.deleteCookbook(id);
             return true;
-        }else if(item.getItemId() == android.R.id.home){
-            Log.d("tag", "pressed");
+        } else if (item.getItemId() == android.R.id.home) {
             requireActivity().onBackPressed();
+        } else if (item.getItemId() == R.id.add_from_saved) {
+            swipe.performClick();
         }
         return super.onOptionsItemSelected(item);
     }

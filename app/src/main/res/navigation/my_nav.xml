@@ -99,6 +99,15 @@
             app:destination="@id/recipeFragment"
             app:enterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_cookbookPageFragment_to_addToCookbookFragment"
+            app:destination="@id/addToCookbookFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:popExitAnim="@anim/exit_anim" />
     </fragment>
+    <fragment
+        android:id="@+id/addToCookbookFragment"
+        android:name="com.example.app_sample.ui.profile.cookbooks.AddToCookbookFragment"
+        android:label="AddToCookbookFragment" />
 
 </navigation>

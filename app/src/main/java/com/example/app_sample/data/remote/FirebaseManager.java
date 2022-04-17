@@ -106,8 +106,8 @@ public class FirebaseManager {
         database.child("groceries").child(String.valueOf(id)).child("servings").setValue(servings);
     }
 
-    public DatabaseReference getCookbooks() {
-        return database.child("cookbooks");
+    public Query getCookbooks() {
+        return database.child("cookbooks").orderByChild("id");
     }
 
     public String createCookbook(String name) {

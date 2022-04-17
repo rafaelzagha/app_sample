@@ -71,10 +71,6 @@ public class CookbookRecipesAdapter extends RecyclerView.Adapter<CookbookRecipes
         }
     }
 
-    private void snack(String msg) {
-        BottomNavigationView bottomNavigationView = fragment.requireActivity().findViewById(R.id.bottomNavigationView);
-        Snackbar.make(fragment.requireActivity().findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show();
-    }
 
     @Override
     public int getItemCount() {

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.ui.groceries.GroceriesAdapter;
 import com.example.app_sample.ui.profile.cookbooks.CookbookRecipesAdapter;
+import com.example.app_sample.ui.profile.cookbooks.RecipesAdapter;
 
 public class MyItemLookup extends ItemDetailsLookup<Long> {
 
@@ -27,11 +28,12 @@ public class MyItemLookup extends ItemDetailsLookup<Long> {
             RecyclerView.ViewHolder viewHolder = recyclerView.getChildViewHolder(view);
             if (viewHolder instanceof GroceriesAdapter.ViewHolder) {
                 return ((GroceriesAdapter.ViewHolder) viewHolder).getItemDetails();
-            }else if(viewHolder instanceof CookbookRecipesAdapter.ViewHolder){
-                return ((CookbookRecipesAdapter.ViewHolder)viewHolder).getItemDetails();
+            } else if (viewHolder instanceof CookbookRecipesAdapter.ViewHolder) {
+                return ((CookbookRecipesAdapter.ViewHolder) viewHolder).getItemDetails();
+            } else if (viewHolder instanceof RecipesAdapter.ViewHolder) {
+                return ((RecipesAdapter.ViewHolder) viewHolder).getItemDetails();
             }
         }
-
         return null;
     }
 }
