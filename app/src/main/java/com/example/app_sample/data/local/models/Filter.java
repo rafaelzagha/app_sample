@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface Filter {
+public interface Filter extends Serializable{
     String tag();
     String group();
     String name();

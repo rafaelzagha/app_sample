@@ -11,7 +11,8 @@
     android:focusable="true"
     android:foreground="?android:selectableItemBackground"
     app:cardCornerRadius="15dp"
-    app:cardElevation="@dimen/elevation">
+    app:cardElevation="@dimen/elevation"
+    tools:ignore="UnusedAttribute,ContentDescription">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +44,7 @@
                 android:backgroundTint="@color/red"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
-                android:text="Breakfast"
+                android:text="@string/breakfast"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
 
@@ -56,7 +57,7 @@
                 android:layout_toEndOf="@id/meal_type"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
-                android:text="20 mins."
+                android:text="@string/time"
                 android:textColor="#A6A4A5"
                 android:textSize="15sp"
                 app:drawableLeftCompat="@drawable/ic_time"
@@ -71,7 +72,7 @@
                 android:layout_toEndOf="@id/time"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
-                android:text="2 servings"
+                android:text="@string/servings"
                 android:textColor="#A6A4A5"
                 android:textSize="15sp"
                 app:drawableLeftCompat="@drawable/ic_dish"
@@ -88,7 +89,7 @@
                 android:maxLines="2"
                 android:layout_marginBottom="5dp"
                 android:paddingHorizontal="10dp"
-                android:text="Recipe Name even when its long"
+                android:text="@string/recipe_name"
                 android:textFontWeight="700"
                 android:textSize="25sp" />
 

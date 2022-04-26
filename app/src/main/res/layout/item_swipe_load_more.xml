@@ -2,18 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedAttribute,ContentDescription">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/load_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:backgroundTint="@color/sky"
+        android:backgroundTint="@color/white"
         android:padding="0dp"
         android:visibility="visible"
         app:cardCornerRadius="15dp"
-        app:cardElevation="0dp">
+        app:cardElevation="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,7 +28,7 @@
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/ic_load"
-                app:tint="@color/white" />
+                app:tint="@color/blue" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,8 +36,8 @@
                 android:layout_below="@id/img"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Load More"
-                android:textColor="@color/white"
+                android:text="@string/load_more"
+                android:textColor="@color/blue"
                 android:textFontWeight="500"
                 android:textSize="30sp" />
 

@@ -19,5 +19,7 @@ fcb2fbc745aa4dc48eb3a330f203377c
     public final static String QUERY_KEY = "search_query";
     public final static String FILTER_KEY = "search_filter";
     public final static String RECIPE_KEY = "recipe";
+    public final static String URL_KEY = "url";
+    public final static String DOWNLOAD_COMPLETE = "download_complete";
 
 }

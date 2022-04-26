@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_grey"
-    tools:context=".ui.profile.cookbooks.CookbookPageFragment">
+    tools:context=".ui.profile.cookbooks.CookbookPageFragment"
+    tools:ignore="ContentDescription">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -22,12 +23,13 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cookbook title"
-                android:textSize="20sp"
+                android:autofillHints="name"
+                android:backgroundTint="@color/white"
+                android:ellipsize="end"
+                android:hint="@string/cookbook"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:ellipsize="end"
-                android:backgroundTint="@color/white" />
+                android:textSize="20sp" />
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -44,8 +46,8 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="30dp">
+        android:layout_margin="30dp"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/image"
@@ -53,30 +55,29 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:src="@drawable/ic_add_to_list"/>
+            android:src="@drawable/ic_add_to_list" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark_grey"
-            android:textSize="20sp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Add recipes to cookbook to sort them and share them all together later!" />
+            android:text="@string/cookbook_intro_text"
+            android:textColor="@color/dark_grey"
+            android:textSize="20sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/swipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add from saved"
-            android:textColor="@color/black"
             android:layout_gravity="center"
             android:layout_marginVertical="25dp"
-            app:cornerRadius="5dp"
-            app:backgroundTint="@color/baby_blue" />
+            android:text="@string/add_from_saved"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/baby_blue"
+            app:cornerRadius="5dp" />
 
     </LinearLayout>
-
 
 </RelativeLayout>

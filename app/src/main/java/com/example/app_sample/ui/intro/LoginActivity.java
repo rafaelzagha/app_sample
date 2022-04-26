@@ -35,13 +35,14 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputEditText inputEmail, inputPassword;
-    TextView tv_login;
-    TextInputLayout emailLayout, passwordLayout;
-    String email, password;
-    MaterialButton login;
-    TextView forgotPassword;
-    FirebaseAuth firebaseAuth;
+    private TextInputEditText inputEmail, inputPassword;
+    private TextView tv_login;
+    private TextInputLayout emailLayout, passwordLayout;
+    private String email, password;
+    private MaterialButton login;
+    private TextView forgotPassword;
+    private FirebaseAuth firebaseAuth;
+    private CustomProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
         tv_login = findViewById(R.id.title);
         firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new CustomProgressDialog();
 
         addTextWatchers();
 
@@ -66,9 +68,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (!validateEmail() | !validatePassword()) {
                     return;
                 }
+
+                progressDialog.show(getSupportFragmentManager(), "tag", "Signing in...");
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, getString(R.string.ui_signed_in), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -81,14 +86,16 @@ public class LoginActivity extends AppCompatActivity {
             }
             else{
                 if(validateEmail())
+                    progressDialog.show(getSupportFragmentManager(), "tag", "Sending email...");
                     firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
+                            progressDialog.dismiss();
+                            if (task.isSuccessful())
                                 Toast.makeText(LoginActivity.this, getString(R.string.ui_reset_link_sent), Toast.LENGTH_SHORT).show();
-                            } else {
+                            else
                                 Snackbar.make(findViewById(android.R.id.content), task.getException().getMessage(), BaseTransientBottomBar.LENGTH_LONG).show();
-                            }
+
                         }
                     });
             }

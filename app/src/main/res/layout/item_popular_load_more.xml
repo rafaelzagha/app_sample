@@ -8,8 +8,8 @@
         android:id="@+id/tv_load_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Load More \n recipes"
-        android:textSize="25dp"
+        android:text="@string/load_more_n_recipes"
+        android:textSize="25sp"
         android:textColor="@color/blue"
         android:gravity="center"
         android:layout_centerInParent="true"/>

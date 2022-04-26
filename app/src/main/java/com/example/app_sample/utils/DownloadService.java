@@ -1,7 +1,9 @@
 package com.example.app_sample.utils;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.Service;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,20 +17,28 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.app_sample.BuildConfig;
 import com.example.app_sample.data.RecipeRepository;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 public class DownloadService extends Service {
 
     RecipeRepository repo;
     DownloadManager downloadManager;
+    long downloadId;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        downloadId = -1;
         repo = new RecipeRepository(getApplication());
         downloadManager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
 
@@ -39,22 +49,28 @@ public class DownloadService extends Service {
             @Override
             public void onReceive(Context context, Intent intent) {
                 long downloadReference = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                Log.i("GenerateTurePDfAsync", "Download completed");
+
+                if (downloadId == -1)
+                    return;
 
                 DownloadManager.Query query = new DownloadManager.Query();
                 query.setFilterById(downloadReference);
-
                 Cursor cur = downloadManager.query(query);
 
                 if (cur.moveToFirst()) {
                     int columnIndex = cur.getColumnIndex(DownloadManager.COLUMN_STATUS);
 
+                    if (DownloadManager.STATUS_SUCCESSFUL == cur.getInt(columnIndex)) {
 
-                    if (DownloadManager.STATUS_SUCCESSFUL == cur.getInt(columnIndex))
-                        Toast.makeText(context, "File has been downloaded successfully.", Toast.LENGTH_SHORT).show();
+                        Uri mostRecentDownload = downloadManager.getUriForDownloadedFile(downloadId);
+                        downloadId = -1;
+                        Intent i = new Intent(Constants.DOWNLOAD_COMPLETE);
+                        i.putExtra("uri", mostRecentDownload.toString());
+
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(i);
 
 
-                    else if (DownloadManager.STATUS_FAILED == cur.getInt(columnIndex)) {
+                    } else if (DownloadManager.STATUS_FAILED == cur.getInt(columnIndex)) {
                         int columnReason = cur.getColumnIndex(DownloadManager.COLUMN_REASON);
                         int reason = cur.getInt(columnReason);
                         switch (reason) {
@@ -68,7 +84,6 @@ public class DownloadService extends Service {
                             case DownloadManager.ERROR_INSUFFICIENT_SPACE:
                                 Toast.makeText(context, "Download Failed due to insufficient space in internal storage", Toast.LENGTH_LONG).show();
                                 break;
-
                             case DownloadManager.ERROR_UNHANDLED_HTTP_CODE:
                                 Toast.makeText(context, "Download Failed. Http Code Error Found.", Toast.LENGTH_LONG).show();
                                 break;
@@ -108,7 +123,7 @@ public class DownloadService extends Service {
         return null;
     }
 
-    class  DownloadAsyncTask extends AsyncTask<Integer, Void, String> {
+    class DownloadAsyncTask extends AsyncTask<Integer, Void, String> {
 
         @Override
         protected String doInBackground(Integer... ids) {
@@ -117,11 +132,11 @@ public class DownloadService extends Service {
 
             try {
                 url = repo.loadRecipeCard(id).execute().body().getUrl();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 return "Recipe does not support the feature";
             }
 
-            String fileName = "Recipe_" + id + ".jpeg";
+            String fileName = "Recipe_" + id + ".jpg";
 
             Uri uri = Uri.parse(url);
             DownloadManager.Request request = new DownloadManager.Request(uri);
@@ -131,7 +146,7 @@ public class DownloadService extends Service {
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, fileName);
 
-            downloadManager.enqueue(request);
+            downloadId = downloadManager.enqueue(request);
 
             return null;
         }

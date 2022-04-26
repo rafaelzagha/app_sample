@@ -1,23 +1,15 @@
 package com.example.app_sample.ui.profile.cookbooks;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.remote.FirebaseManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,19 +22,12 @@ public class NewCookbookFragment extends Fragment {
     private Toolbar toolbar;
     private String name;
 
-    public NewCookbookFragment() {
-    }
+    public NewCookbookFragment() { }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_cookbook, container, false);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view =  inflater.inflate(R.layout.fragment_new_cookbook, container, false);
 
         toolbar = view.findViewById(R.id.toolbar);
         create = view.findViewById(R.id.create);
@@ -56,11 +41,13 @@ public class NewCookbookFragment extends Fragment {
             if (checkName()) {
                 create.setEnabled(false);
 
-                String id = new FirebaseManager().createCookbook(toCaps(name));
+                new FirebaseManager().createCookbook(toCaps(name));
                 requireActivity().onBackPressed();
 
             }
         });
+
+        return view;
     }
 
     private boolean checkName() {

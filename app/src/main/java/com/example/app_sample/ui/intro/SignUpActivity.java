@@ -36,12 +36,13 @@ import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    TextInputEditText inputUsername, inputEmail, inputPassword;
-    TextInputLayout usernameLayout, emailLayout, passwordLayout;
-    MaterialButton signup;
-    FirebaseAuth firebaseAuth;
-    DatabaseReference firebaseDatabase;
-    String username, email, password;
+    private TextInputEditText inputUsername, inputEmail, inputPassword;
+    private TextInputLayout usernameLayout, emailLayout, passwordLayout;
+    private MaterialButton signup;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference firebaseDatabase;
+    private String username, email, password;
+    private CustomProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+        progressDialog = new CustomProgressDialog();
 
         addTextWatchers();
 
@@ -66,6 +68,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (!validateUsername() | !validateEmail() | !validatePassword()) {
                     return;
                 }
+                progressDialog.show(getSupportFragmentManager(), "tag", "Signing up...");
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -74,6 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                             new FirebaseManager().setUsername(username).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    progressDialog.dismiss();
                                     if (task.isSuccessful())
                                         startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                                     else

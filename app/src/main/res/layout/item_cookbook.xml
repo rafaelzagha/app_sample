@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="20dp"
     android:layout_marginVertical="5dp"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="5dp"
     app:cardElevation="2dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    app:contentPadding="15dp">
+    app:contentPadding="15dp"
+    tools:ignore="UnusedAttribute,ContentDescription">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +41,7 @@
                 android:layout_height="73.5dp"
                 android:layout_alignBottom="@id/image1"
                 android:layout_toEndOf="@id/image1"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
         </RelativeLayout>
 
@@ -47,23 +49,23 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cookbook name"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/product_sans"
-            android:textFontWeight="500"
+            android:text="@string/cookbook_name"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_marginTop="20dp"/>
+            android:textFontWeight="500"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5 items"
-            android:textColor="@color/medium_dark_gray"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/product_sans"
+            android:text="@string/items"
+            android:textColor="@color/medium_dark_gray"
             android:textFontWeight="300"
-            android:textSize="12sp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 

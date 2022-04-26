@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.swipe.SwipeFragment">
+    tools:context=".ui.home.swipe.SwipeFragment"
+    tools:ignore="UnusedAttribute,ContentDescription" >
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/indicator"
@@ -31,7 +32,7 @@
                 android:id="@+id/retry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Retry connection..."
+                android:text="@string/retry_connection"
                 app:icon="@drawable/ic_load"
                 app:iconSize="30dp"
                 android:layout_gravity="center"
@@ -44,7 +45,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="No internet connection, try again later"
+                android:text="@string/no_internet_connection"
                 android:textFontWeight="300"
                 android:textSize="18sp" />
 

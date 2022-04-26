@@ -1,16 +1,6 @@
 package com.example.app_sample.ui.home.swipe;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +8,13 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.utils.Constants;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -30,8 +24,6 @@ import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.Duration;
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
-
-import java.util.List;
 
 public class SwipeFragment extends Fragment implements CardStackListener {
 
@@ -45,13 +37,12 @@ public class SwipeFragment extends Fragment implements CardStackListener {
     CardView rewind, clear, save;
     CircularProgressIndicator indicator;
 
-    public SwipeFragment() {
-    }
-
+    public SwipeFragment() { }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_swipe, container, false);
 
         viewModel = ViewModelProviders.of(requireActivity()).get(SwipeViewModel.class);
         errorLayout = view.findViewById(R.id.error_layout);
@@ -92,7 +83,6 @@ public class SwipeFragment extends Fragment implements CardStackListener {
 
         save.setOnClickListener(v -> {
             if (cardStackLayoutManager.getTopPosition() != cardStackAdapter.getItemCount() - 1) {
-
                 cardStackLayoutManager.setSwipeAnimationSetting(right);
                 csv.swipe();
             }
@@ -116,7 +106,6 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         viewModel.getError().observe(getViewLifecycleOwner(), string -> {
             if(string != null){
                 showError(string);
-                viewModel.resetError();
             }
         });
 
@@ -126,22 +115,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
             viewModel.newRequest();
         });
 
-    }
-
-    private void showError(String message) {
-        csv.setVisibility(View.INVISIBLE);
-        indicator.setVisibility(View.INVISIBLE);
-        errorLayout.setVisibility(View.VISIBLE);
-        errorMessage.setText(message);
-        viewModel.resetError();
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_swipe, container, false);
+        return view;
     }
 
     @Override
@@ -200,5 +174,11 @@ public class SwipeFragment extends Fragment implements CardStackListener {
         viewModel.newRequest();
     }
 
+    private void showError(String message) {
+        csv.setVisibility(View.INVISIBLE);
+        indicator.setVisibility(View.INVISIBLE);
+        errorLayout.setVisibility(View.VISIBLE);
+        errorMessage.setText(message);
+    }
 
 }

@@ -2,7 +2,6 @@ package com.example.app_sample.data;
 
 import android.app.Application;
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -25,6 +24,7 @@ import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.AppExecutors;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -62,7 +62,29 @@ public class RecipeRepository {
     }
 
     public LiveData<String> getUsername() {
-        return firebaseManager.getUsername();
+        MutableLiveData<String> username = new MutableLiveData<>();
+        firebaseManager.getUsername().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                username.setValue(snapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return username;
+    }
+
+    public LiveData<String> getPublicUsername(String uid){
+        MutableLiveData<String> username = new MutableLiveData<>();
+        firebaseManager.getPublicUsername(uid).get().addOnSuccessListener(dataSnapshot -> username.setValue(dataSnapshot.getValue(String.class)));
+        return username;
+    }
+
+    public Task<Void> setUsername(String str) {
+        return firebaseManager.setUsername(str);
     }
 
     public Task<Void> saveRecipe(Recipes.Recipe recipe) {
@@ -496,14 +518,12 @@ public class RecipeRepository {
                             recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(snapshot.getKey())).execute().body();
                             int x = new Random().nextInt(7);
                             int color = Filters.MealType.values()[x].color();
-                            Log.d("tag", "x: " + x);
-                            Log.d("tag", "color: " + color);
 
                             recipe.setColor(color);
                             recipeDao.insert(recipe);
                             recipes.add(recipe);
                         } catch (IOException e) {
-                            Log.d("tag", "Couldn't retrieve saved recipes");
+                            Log.i("tag", "Couldn't retrieve saved recipes");
                         }
                     }
                     tmp.setObjects(recipes);
@@ -538,6 +558,48 @@ public class RecipeRepository {
 
             }
         });
+        return data;
+    }
+
+    public MutableLiveData<Cookbook> getPublicCookbook(String uid, String id) {
+        MutableLiveData<Cookbook> data = new MutableLiveData<>();
+        List<Recipes.Recipe> recipes = new ArrayList<>();
+
+        firebaseManager.getPublicCookbook(uid, id).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    data.setValue(null);
+                    return;
+                }
+                Cookbook tmp = dataSnapshot.getValue(Cookbook.class);
+                if (tmp != null && tmp.getRecipes() != null)
+                    for (String id : tmp.getRecipes().keySet()) {
+
+                        appExecutors.diskIO().execute(() -> {
+                            Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(id));
+                            if (recipe != null)
+                                recipes.add(recipeDao.getRecipe(Integer.parseInt(id)));
+                            else {
+                                try {
+                                    recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(id)).execute().body();
+                                    int x = new Random().nextInt(7);
+                                    int color = Filters.MealType.values()[x].color();
+
+                                    recipe.setColor(color);
+                                    recipes.add(recipe);
+                                } catch (IOException e) {
+                                    Log.i("tag", "Couldn't retrieve saved recipes");
+                                }
+                            }
+                            tmp.setObjects(recipes);
+                            data.postValue(tmp);
+                        });
+                    }
+            }
+        });
+
+
         return data;
     }
 
@@ -588,8 +650,16 @@ public class RecipeRepository {
         });
     }
 
-
     public void changeCookbookName(String id, String name) {
         firebaseManager.changeCookbookName(id, name);
     }
+
+    public void savePublicCookbook(Cookbook cookbook){
+        for(Recipes.Recipe r : cookbook.getObjects()){
+            appExecutors.diskIO().execute(() -> recipeDao.insert(r));
+        }
+        firebaseManager.savePublicCookbook(cookbook);
+    }
+
+
 }

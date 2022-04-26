@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedAttribute">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -20,7 +22,7 @@
                 android:id="@+id/tv_equipment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Equipment:"
+                android:text="@string/equipment"
                 android:textFontWeight="400"
                 android:textSize="20sp" />
 
@@ -37,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rv_equipment"
-                android:text="Directions:"
+                android:text="@string/directions"
                 android:textFontWeight="400"
                 android:textSize="20sp" />
 
@@ -47,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_directions"
                 android:layout_marginTop="15dp"
-                android:text="Hello"
+                android:text=""
                 android:textColor="@color/dark_grey"
                 android:textFontWeight="300"
                 android:textSize="17sp" />
@@ -75,9 +77,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="3"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

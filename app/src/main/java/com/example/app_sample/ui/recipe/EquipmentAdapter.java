@@ -20,8 +20,8 @@ import java.util.List;
 
 public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.ViewHolder> {
 
-    Context context;
-    List<Equipment> equipment;
+    private Context context;
+    private List<Equipment> equipment;
 
     public EquipmentAdapter(Context context, List<Equipment> equipment) {
         this.context = context;

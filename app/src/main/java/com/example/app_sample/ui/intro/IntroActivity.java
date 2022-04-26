@@ -35,11 +35,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class IntroActivity extends AppCompatActivity {
 
-    VideoView videoView;
-    MediaPlayer mediaPlayer;
-    int currentPosition;
-    MaterialButton google, email;
-    TextView login;
+    private VideoView videoView;
+    private MediaPlayer mediaPlayer;
+    private int currentPosition;
+    private MaterialButton google, email;
+    private TextView login;
 
     int RC_SIGN_IN;
 
@@ -48,7 +48,9 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        setupVideo();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setupVideo();
+        }
         RC_SIGN_IN = 1;
         email = findViewById(R.id.sign_up_with_email);
         google = findViewById(R.id.sign_up_with_google);

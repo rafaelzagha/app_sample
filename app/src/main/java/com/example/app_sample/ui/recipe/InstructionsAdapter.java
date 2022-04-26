@@ -21,9 +21,9 @@ import java.util.List;
 
 public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapter.ViewHolder> {
 
-    Context context;
-    List<Steps.Step> steps;
-    int color;
+    private Context context;
+    private List<Steps.Step> steps;
+    private int color;
 
     public InstructionsAdapter(Context context, List<Steps.Step> steps, int color) {
         this.context = context;

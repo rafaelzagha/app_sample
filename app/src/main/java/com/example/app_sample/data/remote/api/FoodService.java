@@ -1,6 +1,5 @@
 package com.example.app_sample.data.remote.api;
 
-import com.example.app_sample.utils.LiveDataCallAdapterFactory;
 import com.example.app_sample.utils.Constants;
 
 import java.io.IOException;
@@ -21,7 +20,6 @@ public class FoodService {
             new Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(new LiveDataCallAdapterFactory())
             .client(provideOkHttp());
 
     private static Retrofit retrofit = retrofitBuilder.build();

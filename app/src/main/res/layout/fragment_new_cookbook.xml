@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.profile.cookbooks.NewCookbookFragment">
+    tools:context=".ui.profile.cookbooks.NewCookbookFragment"
+    tools:ignore="UnusedAttribute">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -18,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="Crete cookbook"/>
+            app:title="Create cookbook"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:text="Cookbook name"
+        android:text="@string/cookbook_name"
         android:textAllCaps="true"
         android:textFontWeight="500" />
 
@@ -47,11 +48,12 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter a name for this cookbook"
+            android:hint="@string/cookbook_title_hint"
             android:paddingVertical="10dp"
             android:imeOptions="actionDone"
             android:inputType="text"
-            android:paddingStart="0dp" />
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundTint="@color/dark_grey"
-        android:text="Create"
+        android:text="@string/create"
         android:layout_marginHorizontal="20dp"/>
 
 </LinearLayout>

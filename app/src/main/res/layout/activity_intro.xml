@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.intro.IntroActivity">
+    tools:context=".ui.intro.IntroActivity"
+    tools:ignore="UnusedAttribute">
 
     <VideoView
         android:id="@+id/video"
@@ -48,7 +49,7 @@
         android:layout_marginHorizontal="25dp"
         android:layout_marginBottom="10dp"
         android:paddingVertical="15dp"
-        android:text="Sign up with Email"
+        android:text="@string/sign_up_with_email"
         app:cornerRadius="20dp"
         app:elevation="3dp"
         app:icon="@drawable/ic_email"
@@ -63,7 +64,7 @@
         android:layout_marginHorizontal="25dp"
         android:layout_marginBottom="20dp"
         android:paddingVertical="15dp"
-        android:text="Continue with Google"
+        android:text="@string/continue_with_google"
         android:textColor="@color/black"
         app:backgroundTint="@color/white"
         app:cornerRadius="20dp"
@@ -85,17 +86,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account?"
+            android:text="@string/already_have_an_account"
             android:textColor="@color/white"
-            android:textSize="20dp"/>
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/log_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Log in"
+            android:text="@string/login"
             android:textColor="@color/blue"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:foreground="?android:selectableItemBackgroundBorderless"/>
 
     </LinearLayout>

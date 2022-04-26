@@ -1,19 +1,12 @@
 package com.example.app_sample.data.remote;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.app_sample.data.local.models.Cookbook;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,20 +25,8 @@ public class FirebaseManager {
         storage = FirebaseStorage.getInstance().getReference().child("profile_pictures");
     }
 
-    public LiveData<String> getUsername() {
-        MutableLiveData<String> username = new MutableLiveData<>();
-        database.child("username").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                username.setValue(snapshot.getValue(String.class));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return username;
+    public DatabaseReference getUsername() {
+        return database.child("username");
     }
 
     public Task<Void> setUsername(String name) {
@@ -133,7 +114,26 @@ public class FirebaseManager {
         return database.child("cookbooks").child(id);
     }
 
+    public DatabaseReference getPublicCookbook(String uid, String id){
+        return database.getParent().child(uid).child("cookbooks").child(id);
+    }
+
+    public DatabaseReference getPublicUsername(String uid){
+        return database.getParent().child(uid).child("username");
+    }
+
     public void changeCookbookName(String id, String name){
         database.child("cookbooks").child(id).child("name").setValue(name);
     }
+
+    public void savePublicCookbook(Cookbook cookbook){
+        Cookbook tmp = cookbook;
+        if(!cookbook.getObjects().isEmpty())
+            tmp.setObjects(null);
+        DatabaseReference push = database.child("cookbooks").push();
+        tmp.setId(push.getKey());
+        push.setValue(tmp);
+
+    }
+
 }

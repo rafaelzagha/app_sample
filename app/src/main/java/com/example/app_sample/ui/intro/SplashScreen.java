@@ -30,11 +30,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreen extends AppCompatActivity {
 
-    ImageView img;
-    Handler handler;
-    FirebaseAuth firebaseAuth;
-    TextView txt;
-    String str;
+    private ImageView img;
+    private FirebaseAuth firebaseAuth;
+    private TextView txt;
+    private String str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +52,21 @@ public class SplashScreen extends AppCompatActivity {
         img.startAnimation(fade_down);
         txt.startAnimation(fade_up);
 
-        handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() -> {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             getWindow().setExitTransition(new AutoTransition());
-            if(firebaseAuth.getCurrentUser() == null)
+            if (firebaseAuth.getCurrentUser() == null)
                 startActivity(new Intent(SplashScreen.this, IntroActivity.class));
             else
-                startActivity(new Intent(SplashScreen.this, MainActivity.class).putExtra(Constants.RECIPE_KEY, str));
+                startActivity(new Intent(SplashScreen.this, MainActivity.class).putExtra(Constants.URL_KEY, str));
+            finish();
         }, 700);
     }
 
     private void handleLink() {
         Uri uri = getIntent().getData();
-        if(uri != null){
+        if (uri != null) {
             str = uri.toString();
         }
-
     }
 
 }

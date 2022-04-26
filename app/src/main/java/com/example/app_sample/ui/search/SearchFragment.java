@@ -66,37 +66,14 @@ public class SearchFragment extends Fragment {
     ArrayAdapter<String> spinnerAdapter;
 
 
-    public SearchFragment() { }
+    public SearchFragment() {
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
-    }
 
-    public static SearchFragment newInstance(String query, ArrayList<Filter> filters) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(Constants.QUERY_KEY, query);
-        args.putSerializable(Constants.FILTER_KEY, filters);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        query = getArguments().getString(Constants.QUERY_KEY);
-        filters = (ArrayList<Filter>) getArguments().getSerializable(Constants.FILTER_KEY);
-
-        if (query == null) query = "";
-        if (filters == null) filters = new ArrayList<>();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         tv_sorting = view.findViewById(R.id.tv_sorting);
@@ -122,8 +99,9 @@ public class SearchFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                tv_sorting.setText(parent.getSelectedItem().toString());
-                if(firstSpinnerSelection)
+                sort = Filters.Sort.valueOf(parent.getSelectedItem().toString());
+                tv_sorting.setText( sort.name() + ((Filters.Sort)sort).getOrder());
+                if (firstSpinnerSelection)
                     firstSpinnerSelection = false;
                 else
                     doSearch(true);
@@ -151,7 +129,7 @@ public class SearchFragment extends Fragment {
 
         searchBar.setText(query);
 
-        tv_filters .setOnClickListener(v -> {
+        tv_filters.setOnClickListener(v -> {
             Intent newIntent = new Intent(requireContext(), FilterActivity.class);
             newIntent.putExtra(Constants.FILTER_KEY, filters);
             newIntent.putExtra(Constants.QUERY_KEY, query);
@@ -161,7 +139,7 @@ public class SearchFragment extends Fragment {
 
         tv_sorting.setOnClickListener(v -> spinner.performClick());
 
-        if(viewModel.getRecipes().getValue() == null)
+        if (viewModel.getRecipes().getValue() == null)
             doSearch(true);
 
         setUpChipGroup(filterChips);
@@ -196,7 +174,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                clearText.setVisibility(s.length() > 0? View.VISIBLE : View.INVISIBLE);
+                clearText.setVisibility(s.length() > 0 ? View.VISIBLE : View.INVISIBLE);
             }
         });
 
@@ -217,7 +195,7 @@ public class SearchFragment extends Fragment {
             public void onChanged(Boolean value) {
                 if (value != null) {
                     indicator.setVisibility(value ? View.VISIBLE : View.INVISIBLE);
-                    recyclerView.setVisibility(value? View.INVISIBLE : View.VISIBLE);
+                    recyclerView.setVisibility(value ? View.INVISIBLE : View.VISIBLE);
                 }
             }
         });
@@ -225,13 +203,25 @@ public class SearchFragment extends Fragment {
         viewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if(s != null){
+                if (s != null) {
                     Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
                     indicator.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
+        return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        query = getArguments().getString(Constants.QUERY_KEY);
+        filters = (ArrayList<Filter>) getArguments().getSerializable(Constants.FILTER_KEY);
+
+        if (query == null) query = "";
+        if (filters == null) filters = new ArrayList<>();
     }
 
 
@@ -267,13 +257,11 @@ public class SearchFragment extends Fragment {
 
     protected void doSearch(boolean overwrite) {
 
-        if(overwrite){
+        if (overwrite) {
             diet = null;
             intolerances = new ArrayList<>();
             cuisine = null;
             mealType = null;
-            sort = Filters.Sort.valueOf(tv_sorting.getText().toString());
-
 
             for (Filter i : filters) {
                 switch (i.group()) {
@@ -297,7 +285,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void goToRecipePage(Recipes.Recipe recipe){
+    public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
         NavHostFragment.findNavController(this).navigate(R.id.action_searchFragment_to_recipeFragment, bundle);

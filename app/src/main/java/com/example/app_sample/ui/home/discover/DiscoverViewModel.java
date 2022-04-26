@@ -49,6 +49,7 @@ public class DiscoverViewModel extends AndroidViewModel {
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
                 if (response.isSuccessful()) {
                     addToRecipes(response.body());
+                    clearError();
                 }
                 else {
                     error.setValue("Request Error  " + response.code());

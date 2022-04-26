@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/lightGrayBackground"
     android:clickable="true"
+    android:focusable="true"
     app:layoutDescription="@xml/fragment_recipe_scene"
     tools:context=".ui.recipe.RecipeFragment"
-    tools:showPaths="true">
+    tools:showPaths="true"
+    tools:ignore="UnusedAttribute" >
 
 
     <ImageView
@@ -47,16 +49,16 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginHorizontal="15dp"
                 android:gravity="center"
-                android:text="Recipe Name even when its long"
+                android:text="@string/recipe_name"
                 android:textFontWeight="500"
-                android:textSize="30sp" />
+                android:textSize="30sp"/>
 
             <LinearLayout
-                android:layout_centerHorizontal="true"
                 android:id="@+id/details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/recipe_name"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp">
 
                 <TextView
@@ -68,7 +70,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="5dp"
-                    android:text="Breakfast"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textFontWeight="500"
                     android:textSize="18sp" />
@@ -77,12 +79,10 @@
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/details"
-                    android:layout_toEndOf="@id/details"
                     android:gravity="center"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
-                    android:text="/ 40 min"
+                    android:text=""
                     android:textColor="@color/grey"
                     android:textFontWeight="500"
                     android:textSize="18sp" />
@@ -98,7 +98,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="Ingredients"
+                android:text="@string/ingredients"
                 android:textFontWeight="500"
                 android:textSize="22sp" />
 
@@ -109,9 +109,8 @@
                 android:layout_alignBottom="@id/tv_equipment"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/tv_equipment"
-                android:text="3 servings"
+                android:text="@string/servings"
                 android:textColor="@color/grey"
-                android:textFontWeight="400"
                 android:textSize="22sp" />
 
 
@@ -131,7 +130,7 @@
                 android:layout_below="@id/rv_ingredients"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginTop="25dp"
-                android:text="Instructions"
+                android:text="@string/instructions"
                 android:textFontWeight="500"
                 android:textSize="20sp" />
 
@@ -140,17 +139,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_instructions"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/short_instructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="25dp"
                 android:layout_below="@id/vp_instructions"
-                android:visibility="gone"/>
-
-
+                android:layout_marginHorizontal="25dp"
+                android:visibility="gone" />
 
 
         </RelativeLayout>

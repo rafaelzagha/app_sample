@@ -6,8 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:clickable="true"
-    android:focusable="false"
-    tools:context=".ui.search.SearchFragment">
+    android:focusable="true"
+    tools:context=".ui.search.SearchFragment"
+    tools:ignore="UnusedAttribute,RelativeOverlap" >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/search_layout"
@@ -37,14 +38,14 @@
                     android:backgroundTint="@color/light_grey"
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="5dp"
-                    android:hint="Search"
+                    android:hint="@string/search"
                     android:drawableTint="@color/grey"
                     android:focusable="true"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingHorizontal="8dp"
-                    android:textFontWeight="400"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:autofillHints="name" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/clear_text"
@@ -92,7 +93,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="15dp"
                         android:gravity="center_vertical"
-                        android:text="Popularity"
+                        android:text=""
                         android:textFontWeight="500"
                         android:textSize="18sp"
                         app:drawableEndCompat="@drawable/ic_arrow_down"
@@ -116,7 +117,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="15dp"
-                        android:text="Filters"
+                        android:text="@string/filters"
                         android:textFontWeight="500"
                         android:textSize="18sp" />
 

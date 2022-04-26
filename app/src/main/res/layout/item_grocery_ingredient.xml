@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingVertical="2dp"
-    android:weightSum="5">
+    android:weightSum="5"
+    tools:ignore="UnusedAttribute">
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -13,11 +15,12 @@
         android:buttonTint="@color/sky"
         android:layout_weight="3"
         android:minHeight="0dp"
-        android:text="Ingredient name"
+        android:text="@string/ingredient_name"
         android:fontFamily="@font/product_sans"
         android:textSize="17sp"
         android:textFontWeight="300"
-        android:paddingStart="3dp"/>
+        android:paddingStart="3dp"
+        android:paddingEnd="0dp"/>
 
     <TextView
         android:id="@+id/amount"
@@ -26,7 +29,8 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="2"
         android:paddingEnd="10dp"
-        android:text="2 pcs"
+        android:paddingStart="0dp"
+        android:text=""
         android:gravity="end"
         android:textFontWeight="300"
         android:textColor="@color/grey"

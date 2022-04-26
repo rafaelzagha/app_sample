@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MealMatch</string>
-
+    <string name="host">www.mealmatch.com</string>
 
     <string name="time">min</string>
     <string name="servings">servings</string>
@@ -28,11 +28,58 @@
     <string name="recipe_saved">Recipe saved successfully</string>
     <string name="grocery_removed">Recipe removed from Groceries</string>
     <string name="grocery_added">Recipe added to Groceries</string>
-    <string name="servings_high">Max servings reached</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank dialog</string>
     <string name="recipe_removed_cookbook">Recipe has been removed from cookbook</string>
 
-    <string name="host">www.mealmatch.com</string>
+
+    <string name="clear_all">Clear All</string>
+    <string name="filter">Filter</string>
+    <string name="dish_types">Dish Types</string>
+    <string name="diets">Diets</string>
+    <string name="intolerances">Intolerances</string>
+    <string name="cuisines">Cuisines</string>
+    <string name="show_results">Show Results</string>
+    <string name="sign_up_with_email">Sign up with Email</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="username">Username</string>
+    <string name="sign_up">Sign up</string>
+    <string name="add_to_cookbook">Add to cookbook</string>
+    <string name="no_cookbooks">No cookbooks</string>
+    <string name="cookbook_intro_text">Group your favorite recipes to suit you</string>
+    <string name="create_cookbook">Create cookbook</string>
+    <string name="signing_you_in">Signing you in</string>
+    <string name="add">Add</string>
+    <string name="cookbook">Cookbook title</string>
+    <string name="add_from_saved">Add from saved</string>
+    <string name="groceries_intro">Add recipes to groceries and have an organized checklist of ingredients for each recipe.</string>
+    <string name="discover_recipes">Discover recipes</string>
+    <string name="cookbook_name">Cookbook name</string>
+    <string name="cookbook_title_hint">Enter a name for this cookbook</string>
+    <string name="create">Create</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="instructions">Instructions</string>
+    <string name="search">Search</string>
+    <string name="filters">Filters</string>
+    <string name="retry_connection">Retry connection</string>
+    <string name="no_internet_connection">No internet connection, try again later</string>
+    <string name="items">items</string>
+    <string name="ingredient_name">Ingredient name</string>
+    <string name="equipment">Equipment:</string>
+    <string name="directions">Directions:</string>
+    <string name="load_more_n_recipes">Load More \n recipes</string>
+    <string name="load_more_results">Load more results</string>
+    <string name="groceries">Groceries</string>
+    <string name="delete">Delete</string>
+    <string name="popular">Popular</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="load_more">Load More</string>
+    <string name="about">About</string>
+    <string name="edit_account_details_below">Edit account details below:</string>
+    <string name="save">Save</string>
 
 </resources>

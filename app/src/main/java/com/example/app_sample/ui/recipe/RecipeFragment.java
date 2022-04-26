@@ -6,9 +6,13 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.menu.ActionMenuItemView;
@@ -20,14 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
@@ -37,14 +33,13 @@ import com.example.app_sample.utils.DownloadService;
 import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.dialog.MaterialDialogs;
 import com.google.android.material.snackbar.Snackbar;
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.util.Random;
 
-
 public class RecipeFragment extends Fragment {
-
 
     private Recipes.Recipe recipe;
     private Toolbar toolbar;
@@ -59,13 +54,11 @@ public class RecipeFragment extends Fragment {
     private RecipeViewModel viewModel;
     private AddToCookbookDialog dialog;
 
-    public RecipeFragment() {
-    }
+    public RecipeFragment() { }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_recipe, container, false);
 
         ViewCompat.setTranslationZ(view, 10F);
@@ -108,6 +101,7 @@ public class RecipeFragment extends Fragment {
         if (recipe.getInstructions() != null && !recipe.getInstructions().isEmpty()) {
 
             instructionsAdapter = new InstructionsAdapter(requireContext(), recipe.getInstructions().get(0).getSteps(), recipe.getColor());
+            instructionsViewPager.setOffscreenPageLimit(instructionsAdapter.getItemCount());
             instructionsViewPager.setAdapter(instructionsAdapter);
             instructionsViewPager.setPageTransformer(new ZoomOutPageTransformer());
         } else {
@@ -118,6 +112,7 @@ public class RecipeFragment extends Fragment {
             else
                 shortInstructions.setText(getString(R.string.no_instructions));
         }
+
         return view;
     }
 

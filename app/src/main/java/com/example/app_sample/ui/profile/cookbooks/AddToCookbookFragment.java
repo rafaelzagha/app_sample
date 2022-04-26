@@ -128,12 +128,6 @@ public class AddToCookbookFragment extends Fragment {
                 if(!hasSelection)
                     adapter.notifyDataSetChanged();
 
-                if (actionMode == null) {
-                    actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-                    adapter.notifyDataSetChanged();
-                    actionMode.setTitle("Select items");
-                }
-
             }
         });
 
@@ -167,6 +161,8 @@ public class AddToCookbookFragment extends Fragment {
             }
         };
 
+        actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+        actionMode.setTitle("Select items");
 
     }
 

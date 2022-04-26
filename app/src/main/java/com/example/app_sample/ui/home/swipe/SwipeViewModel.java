@@ -53,15 +53,15 @@ public class SwipeViewModel extends AndroidViewModel {
     }
 
     public void newRequest() {
-
         recipeRepository.loadRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
             public void onResponse(Call<Recipes> call, Response<Recipes> response) {
                 if(response.body() != null){
                     addToRecipes(response.body());
+                    resetError();
                 }
                 else{
-                    if(response.code() == 403)
+                    if(response.code() == 402)
                         error.setValue(getApplication().getString(R.string.request_limit));
                     else
                         error.setValue(response.errorBody().toString());

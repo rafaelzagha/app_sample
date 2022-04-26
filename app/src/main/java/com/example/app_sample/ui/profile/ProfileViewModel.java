@@ -40,6 +40,13 @@ public class ProfileViewModel extends AndroidViewModel {
     public LiveData<Cookbook> getCookbook(String id) {
         return repo.getCookbook(id);
     }
+    public LiveData<Cookbook> getPublicCookbook(String uid, String id){
+        return repo.getPublicCookbook(uid, id);
+    }
+
+    public void savePublicCookbook(Cookbook cookbook){
+        repo.savePublicCookbook(cookbook);
+    }
 
     public LiveData<List<Recipes.Recipe>> getRecipes() {
         return recipes;
@@ -47,6 +54,14 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public LiveData<String> getUsername() {
         return username;
+    }
+
+    public LiveData<String> getPublicUsername(String uid){
+        return repo.getPublicUsername(uid);
+    }
+
+    public Task<Void> setUsername(String str){
+        return repo.setUsername(str);
     }
 
     public String getEmail() {
@@ -110,7 +125,6 @@ public class ProfileViewModel extends AndroidViewModel {
     public void changeCookbookName(String id, String name) {
         repo.changeCookbookName(id, name);
     }
-
 
     public void addToCookbook(String bookID, int recipeId){
         repo.addToCookbook(bookID, recipeId);

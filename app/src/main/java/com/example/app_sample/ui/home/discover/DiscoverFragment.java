@@ -1,6 +1,10 @@
 package com.example.app_sample.ui.home.discover;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,12 +15,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.Toast;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
@@ -32,8 +30,9 @@ public class DiscoverFragment extends Fragment {
     DiscoverViewModel viewModel;
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_discover, container, false);
 
         viewModel = ViewModelProviders.of(requireActivity()).get(DiscoverViewModel.class);
         grid = view.findViewById(R.id.grid);
@@ -42,23 +41,16 @@ public class DiscoverFragment extends Fragment {
 
         setupViews();
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<Recipes>() {
-            @Override
-            public void onChanged(Recipes recipes) {
-                if(recipes != null)
-                    ta.setRecipes(recipes.getRecipes());
-
-            }
-        });
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> ta.setRecipes(recipes.getRecipes()));
 
         viewModel.getError().observe(getViewLifecycleOwner(), s -> {
             if(s != null){
                 Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
-                viewModel.clearError();
             }
 
         });
 
+        return view;
     }
 
     private void setupViews() {
@@ -73,13 +65,6 @@ public class DiscoverFragment extends Fragment {
         GridAdapter ga = new GridAdapter(this);
         grid.setAdapter(ga);
         grid.setLayoutManager(new GridLayoutManager(getContext(), 3));
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_discover, container, false);
     }
 
     public void newRequest(){

@@ -161,11 +161,16 @@ public class Filters {
     }
 
     public enum Sort implements Filter {
-        Popularity,
-        Price,
-        Time,
-        Calories;
+        Popularity(""),
+        Price("(low to high)"),
+        Time("(low to high)"),
+        Calories("(low to high)");
 
+        private String order;
+
+        private Sort(String s) {
+            order = s;
+        }
 
         @Override
         public String group() {
@@ -185,6 +190,9 @@ public class Filters {
             return list;
         }
 
+        public String getOrder() {
+            return order;
+        }
     }
 
 

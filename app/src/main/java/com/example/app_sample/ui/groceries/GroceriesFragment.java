@@ -1,9 +1,16 @@
 package com.example.app_sample.ui.groceries;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
@@ -18,15 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Recipes;
@@ -36,8 +34,6 @@ import com.example.app_sample.utils.MyItemLookup;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
 
 public class GroceriesFragment extends Fragment {
 
@@ -59,15 +55,9 @@ public class GroceriesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_groceries, container, false);
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_groceries, container, false);
 
         this.setHasOptionsMenu(true);
         viewModel = ViewModelProviders.of(getActivity()).get(GroceriesViewModel.class);
@@ -126,14 +116,13 @@ public class GroceriesFragment extends Fragment {
                     boolean allSelected = selectionTracker.getSelection().size() == adapter.getRecipes().size();
                     selectionTracker.setItemsSelected(itemKeyProvider.getKeyIterable(), !allSelected);
                     return true;
-                }
-                else if(item.getItemId() == R.id.delete){
+                } else if (item.getItemId() == R.id.delete) {
                     for (Long aLong : (Iterable<Long>) selectionTracker.getSelection()) {
                         int id = aLong.intValue();
                         if (id != -1)
                             viewModel.deleteGroceryList(id);
                     }
-                    if(actionMode != null)
+                    if (actionMode != null)
                         actionMode.finish();
                 }
                 return false;
@@ -173,7 +162,9 @@ public class GroceriesFragment extends Fragment {
         });
         adapter.setSelectionTracker(selectionTracker);
 
+        return view;
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -183,9 +174,9 @@ public class GroceriesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.edit){
-            if(adapter.getRecipes() != null && !adapter.getRecipes().isEmpty())
-                selectionTracker.select(((GroceriesAdapter.ViewHolder)recyclerView.findViewHolderForLayoutPosition(0)).getItemDetails().getSelectionKey());
+        if (item.getItemId() == R.id.edit) {
+            if (adapter.getRecipes() != null && !adapter.getRecipes().isEmpty())
+                selectionTracker.select(((GroceriesAdapter.ViewHolder) recyclerView.findViewHolderForLayoutPosition(0)).getItemDetails().getSelectionKey());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -193,10 +184,6 @@ public class GroceriesFragment extends Fragment {
 
     public LiveData<GroceryList> getGroceryList(int id) {
         return viewModel.getGroceryList(id);
-    }
-
-    public void deleteGroceryList(int id) {
-        viewModel.deleteGroceryList(id);
     }
 
     public void updateGroceriesList(GroceryList gl) {
@@ -215,8 +202,8 @@ public class GroceriesFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         if (actionMode != null)
             actionMode.finish();
+        super.onDestroyView();
     }
 }

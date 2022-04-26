@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.FilterActivity"
-    tools:ignore="HardcodedText,ContentDescription,Autofill,UnusedAttribute">
+    tools:ignore="UnusedAttribute">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -27,11 +27,10 @@
             android:layout_gravity="end"
             android:layout_marginEnd="20dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:text="Clear All"
+            android:text="@string/clear_all"
             android:textColor="@color/blue"
             android:textFontWeight="500"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -41,7 +40,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Filter"
+        android:text="@string/filter"
         android:textFontWeight="500"
         android:textSize="40sp"
         android:layout_below="@id/toolbar" />
@@ -52,27 +51,25 @@
         android:layout_below="@id/title"
         android:layout_marginBottom="20dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/dish_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="Dish Types"
+                android:text="@string/dish_types"
                 android:textColor="@color/dark_grey"
-                android:textFontWeight="400"
                 android:textSize="20sp" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_dish_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/dish_type"
                 android:layout_marginTop="20dp"
                 app:singleSelection="true" />
 
@@ -80,18 +77,15 @@
                 android:id="@+id/diets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/chip_group_dish_type"
                 android:layout_marginTop="30dp"
-                android:text="Diets"
+                android:text="@string/diets"
                 android:textColor="@color/dark_grey"
-                android:textFontWeight="400"
                 android:textSize="20sp" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_diets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/diets"
                 android:layout_marginTop="20dp"
                 app:singleSelection="true"/>
 
@@ -99,41 +93,35 @@
                 android:id="@+id/intolerances"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/chip_group_diets"
                 android:layout_marginTop="30dp"
-                android:text="Intolerances"
+                android:text="@string/intolerances"
                 android:textColor="@color/dark_grey"
-                android:textFontWeight="400"
                 android:textSize="20sp" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_intolerances"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/intolerances"
                 android:layout_marginTop="20dp" />
 
             <TextView
                 android:id="@+id/cuisines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/chip_group_intolerances"
                 android:layout_marginTop="30dp"
-                android:text="Cuisines"
+                android:text="@string/cuisines"
                 android:textColor="@color/dark_grey"
-                android:textFontWeight="400"
                 android:textSize="20sp" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_cuisines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cuisines"
                 android:layout_marginTop="20dp"
                 app:singleSelection="true"/>
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 
@@ -145,7 +133,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/shape_round"
-        android:text="Show Results"
+        android:text="@string/show_results"
         android:visibility="invisible" />
 
 </RelativeLayout>

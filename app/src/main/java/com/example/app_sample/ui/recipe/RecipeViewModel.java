@@ -15,10 +15,10 @@ import java.util.List;
 
 public class RecipeViewModel extends AndroidViewModel {
 
-    RecipeRepository repo;
-    LiveData<Boolean> isSaved, isInGroceries;
-    Recipes.Recipe recipe;
-    LiveData<List<Cookbook>> cookbooks;
+    private RecipeRepository repo;
+    private LiveData<Boolean> isSaved, isInGroceries;
+    private Recipes.Recipe recipe;
+    private LiveData<List<Cookbook>> cookbooks;
 
     public RecipeViewModel(@NonNull Application application, Recipes.Recipe recipe) {
         super(application);

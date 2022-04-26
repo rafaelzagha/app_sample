@@ -60,14 +60,17 @@ public class CookbookRecipesAdapter extends RecyclerView.Adapter<CookbookRecipes
 
             holder.cardView.setOnClickListener(v -> fragment.goToRecipePage(recipe));
 
-            boolean selected = selectionTracker.hasSelection();
+            if(selectionTracker != null){
+                boolean selected = selectionTracker.hasSelection();
 
-            holder.checkBox.setVisibility(selected?View.VISIBLE : View.GONE);
-            holder.meal_type.setVisibility(selected?View.GONE : View.VISIBLE);
-            holder.go.setVisibility(selected?View.GONE : View.VISIBLE);
-            holder.time.setVisibility(selected?View.GONE : View.VISIBLE);
+                holder.checkBox.setVisibility(selected?View.VISIBLE : View.GONE);
+                holder.meal_type.setVisibility(selected?View.GONE : View.VISIBLE);
+                holder.go.setVisibility(selected?View.GONE : View.VISIBLE);
+                holder.time.setVisibility(selected?View.GONE : View.VISIBLE);
 
-            holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
+                holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
+            }
+
         }
     }
 

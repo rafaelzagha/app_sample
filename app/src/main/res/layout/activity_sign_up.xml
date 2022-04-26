@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.intro.SignUpActivity">
-
+    tools:context=".ui.intro.SignUpActivity"
+    tools:ignore="ContentDescription">
 
     <ImageView
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginHorizontal="20dp"
-                        android:text="Create an account"
+                        android:text="@string/create_an_account"
                         android:textSize="30sp" />
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -55,7 +55,7 @@
                         android:layout_below="@id/title"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="30dp"
-                        android:hint="Username"
+                        android:hint="@string/username"
                         app:endIconMode="clear_text"
                         app:hintTextColor="@color/blue"
                         app:errorEnabled="true"
@@ -76,7 +76,7 @@
                         android:layout_below="@id/textfield_username"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="5dp"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         app:endIconMode="clear_text"
                         app:errorEnabled="true"
                         app:hintTextColor="@color/blue"
@@ -100,7 +100,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="20dp"
                         app:errorEnabled="true"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         app:endIconMode="password_toggle"
                         app:hintTextColor="@color/blue"
                         app:startIconDrawable="@drawable/ic_lock">
@@ -121,7 +121,7 @@
                 android:id="@+id/signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign up"
+                android:text="@string/sign_up"
                 app:elevation="3dp"
                 android:textColor="@color/white"
                 android:layout_marginHorizontal="50dp"
