@@ -9,8 +9,8 @@ import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.ui.recipe.RecipeViewModel;
 
 public class MyViewModelFactory implements ViewModelProvider.Factory {
-    private Application mApplication;
-    private Recipes.Recipe recipe;
+    private final Application mApplication;
+    private final Recipes.Recipe recipe;
 
 
     public MyViewModelFactory(Application application, Recipes.Recipe recipe) {

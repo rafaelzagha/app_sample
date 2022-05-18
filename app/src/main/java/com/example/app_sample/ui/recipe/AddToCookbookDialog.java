@@ -11,14 +11,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
-import com.example.app_sample.data.local.models.Cookbook;
 import com.example.app_sample.data.local.models.Recipes;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -26,6 +24,7 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class AddToCookbookDialog extends BottomSheetDialogFragment {
 
     private LinearLayout emptyCard;
@@ -34,7 +33,7 @@ public class AddToCookbookDialog extends BottomSheetDialogFragment {
     private RecyclerView recyclerView;
     private RecipeViewModel viewModel;
     private CookbooksAdapter adapter;
-    protected Recipes.Recipe recipe;
+    protected final Recipes.Recipe recipe;
 
     public AddToCookbookDialog(Recipes.Recipe recipe) {
         this.recipe = recipe;
@@ -43,30 +42,27 @@ public class AddToCookbookDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.dialog_add_to_cookbook, container, false);
+        View view = inflater.inflate(R.layout.dialog_add_to_cookbook, container, false);
 
         viewModel = ViewModelProviders.of(requireParentFragment()).get(RecipeViewModel.class);
-        emptyCard = v.findViewById(R.id.empty_card);
-        add = v.findViewById(R.id.add);
-        create = v.findViewById(R.id.create);
-        recyclerView = v.findViewById(R.id.recyclerview);
+        emptyCard = view.findViewById(R.id.empty_card);
+        add = view.findViewById(R.id.add);
+        create = view.findViewById(R.id.create);
+        recyclerView = view.findViewById(R.id.recyclerview);
 
         adapter = new CookbooksAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        viewModel.getCookbooks().observe(getViewLifecycleOwner(), new Observer<List<Cookbook>>() {
-            @Override
-            public void onChanged(List<Cookbook> cookbooks) {
-                adapter.setCookbooks(cookbooks);
-                emptyCard.setVisibility(cookbooks.isEmpty() ? View.VISIBLE : View.GONE);
-            }
+        viewModel.getCookbooks().observe(getViewLifecycleOwner(), cookbooks -> {
+            adapter.setCookbooks(cookbooks);
+            emptyCard.setVisibility(cookbooks.isEmpty() ? View.VISIBLE : View.GONE);
         });
 
-        create.setOnClickListener(v1 -> NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_recipeFragment_to_newCookbookFragment));
-        add.setOnClickListener(view -> NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_recipeFragment_to_newCookbookFragment));
+        create.setOnClickListener(v -> NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.global_to_newCookbookFragment));
+        add.setOnClickListener(v -> NavHostFragment.findNavController(requireParentFragment()).navigate(R.id.global_to_newCookbookFragment));
 
-        return v;
+        return view;
     }
 
     public LiveData<List<String>> getCookbookImages(String id) {

@@ -12,6 +12,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class FirebaseManager {
 
@@ -21,7 +22,7 @@ public class FirebaseManager {
 
     public FirebaseManager() {
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference("UserData").child(auth.getCurrentUser().getUid());
+        database = FirebaseDatabase.getInstance().getReference("UserData").child(Objects.requireNonNull(auth.getUid()));
         storage = FirebaseStorage.getInstance().getReference().child("profile_pictures");
     }
 
@@ -91,11 +92,10 @@ public class FirebaseManager {
         return database.child("cookbooks").orderByChild("id");
     }
 
-    public String createCookbook(String name) {
+    public void createCookbook(String name) {
         String push = database.push().getKey();
         Cookbook cookbook = new Cookbook(name, push);
-        database.child("cookbooks").child(push).setValue(cookbook);
-        return cookbook.getId();
+        database.child("cookbooks").child(Objects.requireNonNull(push)).setValue(cookbook);
     }
 
     public void deleteCookbook(String id){
@@ -115,11 +115,11 @@ public class FirebaseManager {
     }
 
     public DatabaseReference getPublicCookbook(String uid, String id){
-        return database.getParent().child(uid).child("cookbooks").child(id);
+        return Objects.requireNonNull(database.getParent()).child(uid).child("cookbooks").child(id);
     }
 
     public DatabaseReference getPublicUsername(String uid){
-        return database.getParent().child(uid).child("username");
+        return Objects.requireNonNull(database.getParent()).child(uid).child("username");
     }
 
     public void changeCookbookName(String id, String name){
@@ -127,12 +127,11 @@ public class FirebaseManager {
     }
 
     public void savePublicCookbook(Cookbook cookbook){
-        Cookbook tmp = cookbook;
         if(!cookbook.getObjects().isEmpty())
-            tmp.setObjects(null);
+            cookbook.setObjects(null);
         DatabaseReference push = database.child("cookbooks").push();
-        tmp.setId(push.getKey());
-        push.setValue(tmp);
+        cookbook.setId(push.getKey());
+        push.setValue(cookbook);
 
     }
 

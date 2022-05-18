@@ -1,22 +1,16 @@
 package com.example.app_sample.ui.home.swipe;
 
 import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.utils.AppExecutors;
 
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,26 +49,30 @@ public class SwipeViewModel extends AndroidViewModel {
     public void newRequest() {
         recipeRepository.loadRandomRecipes(20).enqueue(new Callback<Recipes>() {
             @Override
-            public void onResponse(Call<Recipes> call, Response<Recipes> response) {
+            public void onResponse(@NonNull Call<Recipes> call, @NonNull Response<Recipes> response) {
                 if(response.body() != null){
                     addToRecipes(response.body());
                     resetError();
                 }
                 else{
-                    if(response.code() == 402)
-                        error.setValue(getApplication().getString(R.string.request_limit));
-                    else
-                        error.setValue(response.errorBody().toString());
+                    if(recipeRepository.changeApiKey()){
+                        newRequest();
+                    }
+                    else{
+                        if(response.code() == 402)
+                            error.setValue(getApplication().getString(R.string.request_limit));
+                        else if (response.errorBody() != null) {
+                            error.setValue(response.errorBody().toString());
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<Recipes> call, Throwable t) {
+            public void onFailure(@NonNull Call<Recipes> call, @NonNull Throwable t) {
                 error.setValue(getApplication().getString(R.string.no_internet));
             }
         });
-
-
 
     }
 

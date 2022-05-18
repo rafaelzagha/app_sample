@@ -2,34 +2,31 @@ package com.example.app_sample.ui.home.swipe;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.app_sample.R;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<Recipes.Recipe> recipes;
-    SwipeFragment swipeFragment;
-    Context context;
+    private List<Recipes.Recipe> recipes;
+    private final SwipeFragment swipeFragment;
+    private final Context context;
     private final int LAYOUT_CARDVIEW = 0;
     private final int LAYOUT_LOADMORE = 1;
 
@@ -47,6 +44,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new CardViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_swipe, parent, false));
         else
             return new LoadMoreViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_swipe_load_more, parent, false));
+
     }
 
     @Override
@@ -56,18 +54,15 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Recipes.Recipe recipe = recipes.get(position);
             CardViewHolder cardViewHolder = (CardViewHolder)holder;
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    swipeFragment.goToRecipePage(recipe);
-                }
-            });
+            holder.itemView.setOnClickListener(v -> swipeFragment.goToRecipePage(recipe));
             cardViewHolder.recipe_name.setText(recipe.getTitle());
-            String type = recipe.getDishTypes().isEmpty()?"No Type":recipe.getDishTypes().get(0).substring(0,1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
+            String type = recipe.getDishTypes().isEmpty()?"No Type":toCaps(recipe.getDishTypes().get(0));
             cardViewHolder.meal_type.setText(type);
             RecipeRepository.loadImage(context, recipe.getImage(), cardViewHolder.img );
-            cardViewHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
-            cardViewHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
+            String time = recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
+            String servings = recipe.getServings() + " " + context.getResources().getString(R.string.servings);
+            cardViewHolder.time.setText(time);
+            cardViewHolder.servings.setText(servings);
 
             if(recipe.getColor() == 0){
                 int x = new Random().nextInt(7);
@@ -77,12 +72,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         else{
             holder.itemView.setVisibility(View.VISIBLE);
-            holder.itemView.setOnClickListener(v -> {
-                swipeFragment.loadMore();
-            });
-
+            holder.itemView.setOnClickListener(v -> swipeFragment.loadMore());
         }
-
 
     }
 
@@ -101,7 +92,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return LAYOUT_LOADMORE;
     }
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
 
         TextView meal_type, time, servings, recipe_name;
         ImageView img;
@@ -117,7 +108,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public class LoadMoreViewHolder extends RecyclerView.ViewHolder{
+    public static class LoadMoreViewHolder extends RecyclerView.ViewHolder{
 
         CardView loadMore;
 
@@ -125,6 +116,10 @@ public class CardStackAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             loadMore = itemView.findViewById(R.id.load_more);
         }
+    }
+
+    private String toCaps(String s) {
+        return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {

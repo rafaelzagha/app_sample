@@ -16,21 +16,22 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class ProfileViewModel extends AndroidViewModel {
 
-    private RecipeRepository repo;
-    private LiveData<List<Recipes.Recipe>> recipes;
-    private LiveData<List<Cookbook>> cookbooks;
-    private LiveData<String> username;
-    private MutableLiveData<String> picture;
-    private String email;
+    private final RecipeRepository repo;
+    private final LiveData<List<Recipes.Recipe>> recipes;
+    private final LiveData<List<Cookbook>> cookbooks;
+    private final LiveData<String> username;
+    private final MutableLiveData<String> picture;
+    private final String email;
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
         repo = new RecipeRepository(application);
         username = repo.getUsername();
-        email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        email = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
         picture = new MutableLiveData<>();
         recipes = repo.getSavedRecipes();
         cookbooks = repo.getCookbooks();
@@ -114,8 +115,8 @@ public class ProfileViewModel extends AndroidViewModel {
         return repo.getCookbookImages(id);
     }
 
-    public Task<Void> removeFromCookbook(String cbId, int recipeId) {
-        return repo.removeFromCookbook(cbId, recipeId);
+    public void removeFromCookbook(String cbId, int recipeId) {
+        repo.removeFromCookbook(cbId, recipeId);
     }
 
     public void deleteCookbook(String id) {

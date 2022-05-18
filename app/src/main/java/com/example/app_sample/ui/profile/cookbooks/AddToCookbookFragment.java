@@ -1,13 +1,17 @@
 package com.example.app_sample.ui.profile.cookbooks;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.selection.ItemKeyProvider;
@@ -16,28 +20,15 @@ import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import com.aitsuki.swipe.SwipeMenuRecyclerView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.ui.profile.ProfileViewModel;
-import com.example.app_sample.ui.profile.SavedRecipesAdapter;
 import com.example.app_sample.utils.Constants;
 import com.example.app_sample.utils.MyItemKeyProvider;
 import com.example.app_sample.utils.MyItemLookup;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class AddToCookbookFragment extends Fragment {
 
     private ProfileViewModel viewModel;
@@ -98,12 +89,6 @@ public class AddToCookbookFragment extends Fragment {
     }
 
 
-    public void goToRecipePage(Recipes.Recipe recipe) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_profileFragment_to_recipeFragment, bundle);
-    }
-
     private void setupSelection() {
         itemKeyProvider = new MyItemKeyProvider(ItemKeyProvider.SCOPE_CACHED);
 
@@ -161,9 +146,9 @@ public class AddToCookbookFragment extends Fragment {
             }
         };
 
-        actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-        actionMode.setTitle("Select items");
-
+        actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
+        if( actionMode != null)
+            actionMode.setTitle("Select items");
     }
 
 }

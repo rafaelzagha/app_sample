@@ -1,9 +1,7 @@
 package com.example.app_sample.utils;
 
-import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.Service;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,20 +11,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.app_sample.BuildConfig;
 import com.example.app_sample.data.RecipeRepository;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 
 public class DownloadService extends Service {
 

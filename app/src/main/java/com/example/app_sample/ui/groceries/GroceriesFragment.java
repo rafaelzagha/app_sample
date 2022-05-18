@@ -1,7 +1,6 @@
 package com.example.app_sample.ui.groceries;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +34,8 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Objects;
+
 public class GroceriesFragment extends Fragment {
 
 
@@ -60,7 +61,7 @@ public class GroceriesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_groceries, container, false);
 
         this.setHasOptionsMenu(true);
-        viewModel = ViewModelProviders.of(getActivity()).get(GroceriesViewModel.class);
+        viewModel = ViewModelProviders.of(requireActivity()).get(GroceriesViewModel.class);
         recyclerView = view.findViewById(R.id.recyclerview);
         empty = view.findViewById(R.id.empty);
         toolbar = view.findViewById(R.id.toolbar);
@@ -71,7 +72,7 @@ public class GroceriesFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) Objects.requireNonNull(recyclerView.getItemAnimator())).setSupportsChangeAnimations(false);
 
         viewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
             if (!recipes.isEmpty()) {
@@ -86,7 +87,7 @@ public class GroceriesFragment extends Fragment {
 
         itemKeyProvider = new MyItemKeyProvider(ItemKeyProvider.SCOPE_CACHED);
 
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
 
 
         selectionTracker = new SelectionTracker.Builder<>(
@@ -119,8 +120,10 @@ public class GroceriesFragment extends Fragment {
                 } else if (item.getItemId() == R.id.delete) {
                     for (Long aLong : (Iterable<Long>) selectionTracker.getSelection()) {
                         int id = aLong.intValue();
-                        if (id != -1)
+                        if (id != -1){
+                            adapter.notifyItemRemoved(itemKeyProvider.getPosition(aLong));
                             viewModel.deleteGroceryList(id);
+                        }
                     }
                     if (actionMode != null)
                         actionMode.finish();
@@ -149,12 +152,10 @@ public class GroceriesFragment extends Fragment {
                 boolean hasSelection = selectionTracker.hasSelection();
                 if (hasSelection) {
                     if (actionMode == null) {
-                        Log.d("tag", "hello");
-                        actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-                        adapter.expandedPosition = -1;
+                        actionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(actionModeCallback);
                         adapter.reset();
                     }
-                    actionMode.setTitle(String.valueOf(selectionTracker.getSelection().size() + " selected"));
+                    actionMode.setTitle(selectionTracker.getSelection().size() + " selected");
                 } else if (actionMode != null) {
                     actionMode.finish();
                 }
@@ -176,7 +177,7 @@ public class GroceriesFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.edit) {
             if (adapter.getRecipes() != null && !adapter.getRecipes().isEmpty())
-                selectionTracker.select(((GroceriesAdapter.ViewHolder) recyclerView.findViewHolderForLayoutPosition(0)).getItemDetails().getSelectionKey());
+                selectionTracker.select(Objects.requireNonNull(((GroceriesAdapter.ViewHolder) Objects.requireNonNull(recyclerView.findViewHolderForLayoutPosition(0))).getItemDetails().getSelectionKey()));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -193,7 +194,7 @@ public class GroceriesFragment extends Fragment {
     public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_shoppingFragment_to_recipeFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_recipeFragment_horizontal, bundle);
     }
 
     public void updateGroceryServings(int id, int servings) {

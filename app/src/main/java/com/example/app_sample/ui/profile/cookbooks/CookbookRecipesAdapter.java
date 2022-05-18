@@ -1,5 +1,6 @@
 package com.example.app_sample.ui.profile.cookbooks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,20 +20,19 @@ import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.utils.MyItemDetail;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 import net.igenius.customcheckbox.CustomCheckBox;
 
 import java.util.List;
 import java.util.Locale;
 
+@SuppressLint("NotifyDataSetChanged")
 public class CookbookRecipesAdapter extends RecyclerView.Adapter<CookbookRecipesAdapter.ViewHolder> {
 
     private List<Recipes.Recipe> recipes;
-    private Context context;
-    private CookbookPageFragment fragment;
-    private SelectionTracker selectionTracker;
+    private final Context context;
+    private final CookbookPageFragment fragment;
+    private SelectionTracker<Long> selectionTracker;
 
     public CookbookRecipesAdapter(CookbookPageFragment fragment) {
         this.fragment = fragment;
@@ -56,17 +57,21 @@ public class CookbookRecipesAdapter extends RecyclerView.Adapter<CookbookRecipes
             String time = recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
             holder.time.setText(time);
 
-            holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+            try {
+                holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, recipe.getColor())));
+            } catch (Exception e) {
+                holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+            }
 
             holder.cardView.setOnClickListener(v -> fragment.goToRecipePage(recipe));
 
-            if(selectionTracker != null){
+            if (selectionTracker != null) {
                 boolean selected = selectionTracker.hasSelection();
 
-                holder.checkBox.setVisibility(selected?View.VISIBLE : View.GONE);
-                holder.meal_type.setVisibility(selected?View.GONE : View.VISIBLE);
-                holder.go.setVisibility(selected?View.GONE : View.VISIBLE);
-                holder.time.setVisibility(selected?View.GONE : View.VISIBLE);
+                holder.checkBox.setVisibility(selected ? View.VISIBLE : View.GONE);
+                holder.meal_type.setVisibility(selected ? View.GONE : View.VISIBLE);
+                holder.go.setVisibility(selected ? View.GONE : View.VISIBLE);
+                holder.time.setVisibility(selected ? View.GONE : View.VISIBLE);
 
                 holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
             }
@@ -105,7 +110,7 @@ public class CookbookRecipesAdapter extends RecyclerView.Adapter<CookbookRecipes
         }
     }
 
-    public void setSelectionTracker(SelectionTracker selectionTracker) {
+    public void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
         this.selectionTracker = selectionTracker;
     }
 

@@ -14,6 +14,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Objects;
+
+@SuppressWarnings("FieldCanBeLocal")
 public class NewCookbookFragment extends Fragment {
 
     private MaterialButton create;
@@ -51,7 +54,7 @@ public class NewCookbookFragment extends Fragment {
     }
 
     private boolean checkName() {
-        name = editText.getText().toString();
+        name = Objects.requireNonNull(editText.getText()).toString();
         inputLayout.setError(name.isEmpty() ? "Field required" : null);
         return !name.isEmpty();
     }

@@ -165,7 +165,7 @@ public class SwipeFragment extends Fragment implements CardStackListener {
     public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_recipeFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_recipeFragment_vertical, bundle);
     }
 
     public void loadMore() {

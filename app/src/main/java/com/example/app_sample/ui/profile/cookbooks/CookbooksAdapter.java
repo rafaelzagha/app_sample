@@ -1,5 +1,6 @@
 package com.example.app_sample.ui.profile.cookbooks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,10 +20,11 @@ import com.example.app_sample.data.local.models.Cookbook;
 
 import java.util.List;
 
+@SuppressLint("NotifyDataSetChanged")
 public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.ViewHolder> {
 
-    private CookbooksFragment fragment;
-    private Context context;
+    private final CookbooksFragment fragment;
+    private final Context context;
     private List<Cookbook> cookbooks;
 
     public CookbooksAdapter(CookbooksFragment fragment) {
@@ -41,32 +43,27 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
         Cookbook cookbook = cookbooks.get(position);
 
         holder.name.setText(cookbook.getName());
-        if(cookbook.getRecipes() != null)
-            holder.length.setText(cookbook.getRecipes().size() + " items");
-        else
-            holder.length.setText("0 items");
+        String items = cookbook.getRecipes() != null? cookbook.getRecipes().size() + " items" : "0 items";
+        holder.length.setText(items);
 
-        fragment.getCookbookImages(cookbook.getId()).observe(fragment.getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                if(strings.size() > 0){
-                    RecipeRepository.loadCenterCrop(context, strings.get(0), holder.img1);
-                }
-                else{
-                    holder.img1.setImageResource(R.color.light_grey);
-                }
-                if(strings.size() > 1){
-                    RecipeRepository.loadCenterCrop(context, strings.get(1), holder.img2);
-                }
-                else{
-                    holder.img2.setImageResource(R.color.light_grey);
-                }
-                if(strings.size() > 2){
-                    RecipeRepository.loadCenterCrop(context, strings.get(2), holder.img3);
-                }
-                else{
-                    holder.img3.setImageResource(R.color.light_grey);
-                }
+        fragment.getCookbookImages(cookbook.getId()).observe(fragment.getViewLifecycleOwner(), strings -> {
+            if(strings.size() > 0){
+                RecipeRepository.loadCenterCrop(context, strings.get(0), holder.img1);
+            }
+            else{
+                holder.img1.setImageResource(R.color.light_grey);
+            }
+            if(strings.size() > 1){
+                RecipeRepository.loadCenterCrop(context, strings.get(1), holder.img2);
+            }
+            else{
+                holder.img2.setImageResource(R.color.light_grey);
+            }
+            if(strings.size() > 2){
+                RecipeRepository.loadCenterCrop(context, strings.get(2), holder.img3);
+            }
+            else{
+                holder.img3.setImageResource(R.color.light_grey);
             }
         });
 
@@ -74,7 +71,7 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("id", cookbook.getId());
-            NavHostFragment.findNavController(fragment).navigate(R.id.action_profileFragment_to_cookbookPageFragment, bundle);
+            NavHostFragment.findNavController(fragment).navigate(R.id.global_to_cookbookPageFragment, bundle);
         });
 
     }

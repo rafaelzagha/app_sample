@@ -1,5 +1,6 @@
 package com.example.app_sample.ui.search;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -22,11 +23,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+@SuppressWarnings("FieldCanBeLocal")
+@SuppressLint("NotifyDataSetChanged")
 public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Recipes.Recipe> recipes;
-    private Context context;
-    SearchFragment fragment;
+    private final Context context;
+    private final SearchFragment fragment;
     private final int VIEW_ITEM = 0;
     private final int VIEW_LOAD = 1;
 
@@ -58,19 +61,16 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 String type = recipe.getDishTypes().isEmpty() ? "No Type" : recipe.getDishTypes().get(0).substring(0, 1).toUpperCase(Locale.ROOT) + recipe.getDishTypes().get(0).substring(1);
                 recipeHolder.meal_type.setText(type);
                 RecipeRepository.loadImage(context, recipe.getImage(), recipeHolder.img);
-                recipeHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
-                recipeHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
+                String time = recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
+                String servings = recipe.getServings() + " " + context.getResources().getString(R.string.servings);
+                recipeHolder.time.setText(time);
+                recipeHolder.servings.setText(servings);
                 if (recipe.getColor() == 0) {
                     int x = new Random().nextInt(7);
                     recipe.setColor(context.getResources().getColor(Filters.MealType.values()[x].color()));
                 }
                 recipeHolder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fragment.goToRecipePage(recipe);
-                    }
-                });
+                holder.itemView.setOnClickListener(v -> fragment.goToRecipePage(recipe));
             }
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
@@ -79,22 +79,19 @@ public class ResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (recipes != null) {
                 if ((recipes.size() - 1) % 20 == 0) {
                     if (recipes.size() > 1) {
-                        loadingViewHolder.loadMore.setText("Load more results");
-                        loadingViewHolder.loadMore.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                loadingViewHolder.loadMore.setVisibility(View.INVISIBLE);
-                                loadingViewHolder.progress.setVisibility(View.VISIBLE);
-                                fragment.doSearch(false);
-                            }
+                        loadingViewHolder.loadMore.setText(R.string.load_more_results);
+                        loadingViewHolder.loadMore.setOnClickListener(v -> {
+                            loadingViewHolder.loadMore.setVisibility(View.INVISIBLE);
+                            loadingViewHolder.progress.setVisibility(View.VISIBLE);
+                            fragment.doSearch(false);
                         });
                     } else {
-                        loadingViewHolder.loadMore.setText("No results");
+                        loadingViewHolder.loadMore.setText(R.string.no_results);
                         loadingViewHolder.loadMore.setOnClickListener(null);
                     }
 
                 } else {
-                    loadingViewHolder.loadMore.setText("No more results");
+                    loadingViewHolder.loadMore.setText(R.string.no_more_results);
                     loadingViewHolder.loadMore.setOnClickListener(null);
                 }
 

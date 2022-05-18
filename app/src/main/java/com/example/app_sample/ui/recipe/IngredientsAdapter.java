@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Ingredient;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.Constants;
 
 import java.util.List;
@@ -21,8 +20,8 @@ import java.util.Locale;
 
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder> {
 
-    private List<Ingredient> ingredients;
-    private Context context;
+    private final List<Ingredient> ingredients;
+    private final Context context;
 
     public IngredientsAdapter(List<Ingredient> ingredients, Context context) {
         this.ingredients = ingredients;
@@ -51,7 +50,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         return ingredients.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView name, amount;
 

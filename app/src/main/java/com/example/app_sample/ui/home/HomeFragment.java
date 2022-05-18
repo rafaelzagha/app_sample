@@ -26,6 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class HomeFragment extends Fragment {
 
     private EditText search;
@@ -56,15 +57,16 @@ public class HomeFragment extends Fragment {
         filter = view.findViewById(R.id.filter);
         homeAdapter = new HomeAdapter(getChildFragmentManager(), getLifecycle());
 
-        viewModel.getUsername().observe(getViewLifecycleOwner(), str -> username.setText(new String("Hi, " + str)));
+        viewModel.getUsername().observe(getViewLifecycleOwner(), str -> username.setText(String.format("Hi, %s", str)));
 
         viewPager.setAdapter(homeAdapter);
-        viewPager.setUserInputEnabled(false);  //disable swiping
+        viewPager.setUserInputEnabled(false);
 
         activityResultLaunch = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getData() != null) {
+                        @SuppressWarnings("unchecked")
                         ArrayList<Filter> filters = (ArrayList<Filter>) result.getData().getSerializableExtra(Constants.FILTER_KEY);
                         goToSearchScreen(null, filters);
                     }
@@ -117,7 +119,7 @@ public class HomeFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.QUERY_KEY, query);
         bundle.putSerializable(Constants.FILTER_KEY, filters);
-        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_searchFragment, bundle);
     }
 
     @Override

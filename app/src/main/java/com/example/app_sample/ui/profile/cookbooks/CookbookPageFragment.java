@@ -1,7 +1,7 @@
 package com.example.app_sample.ui.profile.cookbooks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,12 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.selection.ItemKeyProvider;
@@ -42,6 +42,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
+@SuppressWarnings("FieldCanBeLocal")
+@SuppressLint("NotifyDataSetChanged")
 public class CookbookPageFragment extends Fragment {
 
     private String uid, id;
@@ -58,7 +62,7 @@ public class CookbookPageFragment extends Fragment {
     private MyItemKeyProvider itemKeyProvider;
     private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback;
-    private MaterialAlertDialogBuilder aboutDialog;
+    private MaterialAlertDialogBuilder aboutDialog, deleteDialog;
 
     public CookbookPageFragment() {
     }
@@ -90,27 +94,33 @@ public class CookbookPageFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
+        deleteDialog = new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Are you sure you want to delete this cookbook?")
+                .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteCookbook(id))
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle(null);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        ((AppCompatActivity) requireActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(null);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         if (!external) {
             itemKeyProvider = new MyItemKeyProvider(ItemKeyProvider.SCOPE_CACHED);
 
-            viewModel.getCookbook(id).observe(getViewLifecycleOwner(), new Observer<Cookbook>() {
-                @Override
-                public void onChanged(Cookbook cookbook) {
-                    if (cookbook != null) {
-                        CookbookPageFragment.this.cookbook = cookbook;
-                        title.setText(cookbook.getName());
-                        adapter.setRecipes(cookbook.getObjects());
-                        itemKeyProvider.setItemList(cookbook.getObjects());
-                        boolean hasItems = cookbook.getObjects() != null && !cookbook.getObjects().isEmpty();
-                        card.setVisibility(hasItems ? View.GONE : View.VISIBLE);
-                    } else {
-                        requireActivity().onBackPressed();
-                    }
+            viewModel.getCookbook(id).observe(getViewLifecycleOwner(), cookbook -> {
+                if (cookbook != null) {
+                    CookbookPageFragment.this.cookbook = cookbook;
+                    title.setText(cookbook.getName());
+                    adapter.setRecipes(cookbook.getObjects());
+                    itemKeyProvider.setItemList(cookbook.getObjects());
+                    boolean hasItems = cookbook.getObjects() != null && !cookbook.getObjects().isEmpty();
+                    card.setVisibility(hasItems ? View.GONE : View.VISIBLE);
+                } else {
+                    requireActivity().onBackPressed();
                 }
             });
 
@@ -179,7 +189,7 @@ public class CookbookPageFragment extends Fragment {
                         selectionTracker.setItemsSelected(itemKeyProvider.getKeyIterable(), !allSelected);
                         return true;
                     } else if (item.getItemId() == R.id.delete) {
-                        for (Long aLong : (Iterable<Long>) selectionTracker.getSelection()) {
+                        for (Long aLong : selectionTracker.getSelection()) {
                             int recipeId = aLong.intValue();
                             if (recipeId != -1)
                                 viewModel.removeFromCookbook(id, recipeId);
@@ -206,30 +216,22 @@ public class CookbookPageFragment extends Fragment {
             });
         } else {
             card.setVisibility(View.GONE);
-            viewModel.getPublicUsername(uid).observe(getViewLifecycleOwner(), new Observer<String>() {
-                @Override
-                public void onChanged(String s) {
-                    aboutDialog = new MaterialAlertDialogBuilder(requireContext())
-                            .setTitle("You are viewing a public cookbook")
-                            .setMessage("This cookbook belongs to " + s +". You can save it to your own library if you wish to.")
-                            .setPositiveButton("Save cookbook", (dialog, which) -> saveCookbook());
-                }
-            });
+            viewModel.getPublicUsername(uid).observe(getViewLifecycleOwner(), s -> aboutDialog = new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("You are viewing a public cookbook")
+                    .setMessage("This cookbook belongs to " + s + ". You can save it to your own library if you wish to.")
+                    .setPositiveButton("Save cookbook", (dialog, which) -> saveCookbook()));
 
-            viewModel.getPublicCookbook(uid, id).observe(getViewLifecycleOwner(), new Observer<Cookbook>() {
-                @Override
-                public void onChanged(Cookbook cookbook) {
-                    if(cookbook == null){
-                        Toast.makeText(getContext(), "Invalid link", Toast.LENGTH_SHORT).show();
-                        requireActivity().onBackPressed();
-                        return;
-                    }
-                    CookbookPageFragment.this.cookbook = cookbook;
-                    title.setText(cookbook.getName());
-                    title.setFocusable(false);
-                    title.setEnabled(false);
-                    adapter.setRecipes(cookbook.getObjects());
+            viewModel.getPublicCookbook(uid, id).observe(getViewLifecycleOwner(), cookbook -> {
+                if (cookbook == null) {
+                    Toast.makeText(getContext(), "Invalid link", Toast.LENGTH_SHORT).show();
+                    requireActivity().onBackPressed();
+                    return;
                 }
+                CookbookPageFragment.this.cookbook = cookbook;
+                title.setText(cookbook.getName());
+                title.setFocusable(false);
+                title.setEnabled(false);
+                adapter.setRecipes(cookbook.getObjects());
             });
         }
 
@@ -253,24 +255,24 @@ public class CookbookPageFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.edit) {
             if (adapter.getRecipes() != null && !adapter.getRecipes().isEmpty())
-                selectionTracker.select(((CookbookRecipesAdapter.ViewHolder) recyclerView.findViewHolderForLayoutPosition(0)).getItemDetails().getSelectionKey());
+                selectionTracker.select(Objects.requireNonNull(((CookbookRecipesAdapter.ViewHolder) Objects.requireNonNull(recyclerView.findViewHolderForLayoutPosition(0))).getItemDetails().getSelectionKey()));
             return true;
         } else if (item.getItemId() == R.id.share) {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
             i.putExtra(Intent.EXTRA_SUBJECT, "Sharing cookbook");
-            String url = getString(R.string.host)+ "/cookbook/" + FirebaseAuth.getInstance().getUid() + "/" + id;
+            String url = getString(R.string.host) + "/cookbook/" + FirebaseAuth.getInstance().getUid() + "/" + id;
             i.putExtra(Intent.EXTRA_TEXT, url);
             startActivity(Intent.createChooser(i, "Share cookbook"));
             return true;
         } else if (item.getItemId() == R.id.delete) {
-            viewModel.deleteCookbook(id);
+            deleteDialog.show();
             return true;
         } else if (item.getItemId() == android.R.id.home) {
             requireActivity().onBackPressed();
         } else if (item.getItemId() == R.id.add_from_saved) {
             addFromSaved.performClick();
-        } else if(item.getItemId() == R.id.info){
+        } else if (item.getItemId() == R.id.info) {
             aboutDialog.show();
         }
         return super.onOptionsItemSelected(item);
@@ -279,7 +281,7 @@ public class CookbookPageFragment extends Fragment {
     public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_cookbookPageFragment_to_recipeFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_recipeFragment_horizontal, bundle);
     }
 
 }

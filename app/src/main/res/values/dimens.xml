@@ -2,4 +2,5 @@
 <resources>
     <dimen name="elevation">3dp</dimen>
     <dimen name="light_elevation">2dp</dimen>
+    <dimen name="navAnimTime">150</dimen>
 </resources>

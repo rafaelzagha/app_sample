@@ -6,10 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -74,13 +71,13 @@ public class DiscoverFragment extends Fragment {
     public void goToRecipePage(Recipes.Recipe recipe){
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_recipeFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_recipeFragment_vertical, bundle);
     }
 
     public void goToSearchScreen(String query, ArrayList<Filter> filters){
         Bundle bundle = new Bundle();
         bundle.putString(Constants.QUERY_KEY, query);
         bundle.putSerializable(Constants.FILTER_KEY, filters);
-        NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_searchFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_searchFragment, bundle);
     }
 }

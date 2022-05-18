@@ -1,16 +1,14 @@
 package com.example.app_sample.data.local.models;
 
-import android.graphics.Color;
-
 import com.example.app_sample.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Locale;
 
 public class Filters {
 
     public enum Diet implements Filter {
+
         Vegetarian,
         Vegan,
         Pescatarian;
@@ -25,17 +23,10 @@ public class Filters {
             return this.name().toLowerCase(Locale.ROOT);
         }
 
-        public static ArrayList<String> stringValues() {
-            ArrayList<String> list = new ArrayList<>();
-            for(Filter i : values()){
-                list.add(i.name());
-            }
-            return list;
-        }
-
     }
 
     public enum Intolerance implements Filter {
+
         Dairy,
         Gluten,
         Soy,
@@ -49,27 +40,15 @@ public class Filters {
             return "intolerances";
         }
 
-
-        public String toString() {
-            return super.toString();
-        }
-
         @Override
         public String tag() {
             return this.name().toLowerCase(Locale.ROOT);
         }
 
-        public static ArrayList<String> stringValues() {
-            ArrayList<String> list = new ArrayList<>();
-            for(Filter i : values()){
-                list.add(i.name());
-            }
-            return list;
-        }
-
     }
 
     public enum Cuisine implements Filter {
+
         Thai(R.drawable.cui_thai),
         Japanese(R.drawable.cui_japanese),
         Italian(R.drawable.cui_italian),
@@ -103,16 +82,10 @@ public class Filters {
             return img;
         }
 
-        public static ArrayList<String> stringValues() {
-            ArrayList<String> list = new ArrayList<>();
-            for(Filter i : values()){
-                list.add(i.name());
-            }
-            return list;
-        }
     }
 
     public enum MealType implements Filter {
+
         Salad(R.drawable.cat_salad, R.color.sand),
         Soup(R.drawable.cat_soup, R.color.coral),
         Breakfast(R.drawable.cat_breakfast, R.color.watermelon),
@@ -149,15 +122,6 @@ public class Filters {
             return color;
         }
 
-        public static ArrayList<String> stringValues() {
-            ArrayList<String> list = new ArrayList<>();
-            for(Filter i : values()){
-                list.add(i.name());
-            }
-            return list;
-        }
-
-
     }
 
     public enum Sort implements Filter {
@@ -166,9 +130,9 @@ public class Filters {
         Time("(low to high)"),
         Calories("(low to high)");
 
-        private String order;
+        private final String order;
 
-        private Sort(String s) {
+        Sort(String s) {
             order = s;
         }
 
@@ -205,10 +169,6 @@ public class Filters {
         }
         else return "";
 
-    }
-
-    public static String listToString(Filter[] list) {
-        return listToString(new ArrayList<>(Arrays.asList(list)));
     }
 
 }

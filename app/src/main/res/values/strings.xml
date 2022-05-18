@@ -51,7 +51,7 @@
     <string name="add_to_cookbook">Add to cookbook</string>
     <string name="no_cookbooks">No cookbooks</string>
     <string name="cookbook_intro_text">Group your favorite recipes to suit you</string>
-    <string name="create_cookbook">Create cookbook</string>
+    <string name="create_a_cookbook">Create a cookbook</string>
     <string name="signing_you_in">Signing you in</string>
     <string name="add">Add</string>
     <string name="cookbook">Cookbook title</string>
@@ -81,5 +81,16 @@
     <string name="about">About</string>
     <string name="edit_account_details_below">Edit account details below:</string>
     <string name="save">Save</string>
+    <string name="cookbooks_intro">Group recipes in cookbooks to enjoy them all together later!</string>
+    <string name="profile">Profile</string>
+    <string name="recipes">Recipes</string>
+    <string name="cookbooks">Cookbooks</string>
+    <string name="saved">Saved</string>
+    <string name="enjoy_your_meal">Enjoy your meal!</string>
+    <string name="no_results">No results</string>
+    <string name="no_more_results">No more results</string>
+    <string name="swipe_right_on_recipes_to_save_them_all_saved_recipes_will_be_shown_here">Swipe right on recipes to save them. All saved recipes will be shown here.</string>
+    <string name="start_swiping">Start swiping</string>
+    <string name="select_all">Select all</string>
 
 </resources>

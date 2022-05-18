@@ -10,12 +10,9 @@ import retrofit2.Call;
 
 public class RecipesRemoteDataSource {
 
-    private FoodApi foodApi;
-
     private static RecipesRemoteDataSource instance;
 
     private RecipesRemoteDataSource() {
-        this.foodApi = FoodService.getFoodApi();
     }
 
     public static RecipesRemoteDataSource getInstance() {
@@ -28,7 +25,7 @@ public class RecipesRemoteDataSource {
     }
 
     public Call<Recipes> getRandomRecipes(int number) {
-        return foodApi.getRandomRecipes(number);
+        return FoodService.getFoodApi().getRandomRecipes(number);
     }
 
     public Call<RecipesResults> getRecipesByQuery(String query,
@@ -40,15 +37,15 @@ public class RecipesRemoteDataSource {
                                                                    String sortDirection,
                                                                    int offset) {
 
-        return foodApi.getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort, offset, sortDirection);
+        return FoodService.getFoodApi().getRecipesByQuery(20, query, true, true, diet, intolerances, cuisine, type, sort, offset, sortDirection);
     }
 
     public Call<Recipes.Recipe> getRecipeById(int id){
-        return foodApi.getRecipeById(id);
+        return FoodService.getFoodApi().getRecipeById(id);
     }
 
     public Call<RecipeImage> getRecipeCard(long id){
-        return foodApi.getRecipeCard(id);
+        return FoodService.getFoodApi().getRecipeCard(id);
     }
 
 }

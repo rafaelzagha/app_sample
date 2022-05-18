@@ -1,5 +1,6 @@
 package com.example.app_sample.ui.recipe;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,25 +9,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Cookbook;
-import com.example.app_sample.data.local.models.Recipes;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+@SuppressLint("NotifyDataSetChanged")
 public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.MyViewHolder> {
 
-    private AddToCookbookDialog dialog;
+    private final AddToCookbookDialog dialog;
     private List<Cookbook> cookbooks;
-    private Context context;
-    private RecipeFragment fragment;
+    private final Context context;
+    private final RecipeFragment fragment;
 
     public CookbooksAdapter(AddToCookbookDialog dialog) {
         this.dialog = dialog;
@@ -46,38 +43,27 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.MyVi
 
         holder.name.setText(cookbook.getName());
 
-        dialog.getCookbookImages(cookbook.getId()).observe(dialog.getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                if (strings.size() > 0) {
-                    RecipeRepository.loadCenterCrop(context, strings.get(0), holder.img1);
-                } else {
-                    holder.img1.setImageResource(R.color.light_grey);
-                }
-                if (strings.size() > 1) {
-                    RecipeRepository.loadCenterCrop(context, strings.get(1), holder.img2);
-                } else {
-                    holder.img2.setImageResource(R.color.light_grey);
-                }
-                if (strings.size() > 2) {
-                    RecipeRepository.loadCenterCrop(context, strings.get(2), holder.img3);
-                } else {
-                    holder.img3.setImageResource(R.color.light_grey);
-                }
+        dialog.getCookbookImages(cookbook.getId()).observe(dialog.getViewLifecycleOwner(), strings -> {
+            if (strings.size() > 0) {
+                RecipeRepository.loadCenterCrop(context, strings.get(0), holder.img1);
+            } else {
+                holder.img1.setImageResource(R.color.light_grey);
+            }
+            if (strings.size() > 1) {
+                RecipeRepository.loadCenterCrop(context, strings.get(1), holder.img2);
+            } else {
+                holder.img2.setImageResource(R.color.light_grey);
+            }
+            if (strings.size() > 2) {
+                RecipeRepository.loadCenterCrop(context, strings.get(2), holder.img3);
+            } else {
+                holder.img3.setImageResource(R.color.light_grey);
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                dialog.addToCookbook(cookbook.getId(), dialog.recipe).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        fragment.snack("Recipe added to cookbook successfully");
-                    }
-                });
-            }
+        holder.itemView.setOnClickListener(v -> {
+            dialog.dismiss();
+            dialog.addToCookbook(cookbook.getId(), dialog.recipe).addOnCompleteListener(task -> fragment.snack("Recipe added to cookbook successfully"));
         });
 
 

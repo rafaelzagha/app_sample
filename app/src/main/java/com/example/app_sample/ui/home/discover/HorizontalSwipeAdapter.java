@@ -15,7 +15,6 @@ import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private final Filters.MealType[] items;
     public List<Recipes.Recipe> recipes;
-    private Context context;
+    private final Context context;
     private final LayoutInflater layoutInflater;
     private final int layout;
     DiscoverFragment fragment;
@@ -67,26 +66,20 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     viewHolder.name.setText(recipe.getTitle());
                     viewHolder.type.setText(recipe.getDishTypes().isEmpty() ? "No Type" : recipe.getDishTypes().get(0));
                     RecipeRepository.loadImage(context, recipe.getImage(), viewHolder.img);
-                    viewHolder.time.setText(recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time));
-                    viewHolder.servings.setText(recipe.getServings() + " " + context.getResources().getString(R.string.servings));
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            fragment.goToRecipePage(recipe);
-                        }
-                    });
+                    String time =recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
+                    viewHolder.time.setText(time);
+                    String servings = recipe.getServings() + " " + context.getResources().getString(R.string.servings);
+                    viewHolder.servings.setText(servings);
+                    holder.itemView.setOnClickListener(v -> fragment.goToRecipePage(recipe));
                 }
                 else{
                     LoadMoreViewHolder viewHolder = (LoadMoreViewHolder) holder;
                     viewHolder.loadMore.setVisibility(View.VISIBLE);
                     viewHolder.indicator.setVisibility(View.INVISIBLE);
-                    viewHolder.loadMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            fragment.newRequest();
-                            viewHolder.loadMore.setVisibility(View.INVISIBLE);
-                            viewHolder.indicator.setVisibility(View.VISIBLE);
-                        }
+                    viewHolder.loadMore.setOnClickListener(v -> {
+                        fragment.newRequest();
+                        viewHolder.loadMore.setVisibility(View.INVISIBLE);
+                        viewHolder.indicator.setVisibility(View.VISIBLE);
                     });
                 }
 
@@ -96,13 +89,10 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             Filters.MealType type = items[position];
             viewHolder.tv.setText(type.name());
             viewHolder.img.setImageResource(type.img());
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ArrayList<Filter> filter = new ArrayList<>();
-                    filter.add(type);
-                    fragment.goToSearchScreen(null, filter);
-                }
+            viewHolder.itemView.setOnClickListener(v -> {
+                ArrayList<Filter> filter = new ArrayList<>();
+                filter.add(type);
+                fragment.goToSearchScreen(null, filter);
             });
         }
     }
@@ -116,8 +106,8 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private static class MealTypeViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv;
-        private ImageView img;
+        private final TextView tv;
+        private final ImageView img;
 
         public MealTypeViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,8 +119,8 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private static class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name, time, servings, type;
-        private ImageView img;
+        private final TextView name, time, servings, type;
+        private final ImageView img;
 
         public RecipeViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,13 +1,6 @@
 package com.example.app_sample.ui.intro;
 
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHostController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,16 +11,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app_sample.R;
-import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.ui.MainActivity;
-import com.example.app_sample.ui.home.HomeFragment;
 import com.example.app_sample.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 
+@SuppressLint("CustomSplashScreen")
+@SuppressWarnings("FieldCanBeLocal")
 public class SplashScreen extends AppCompatActivity {
 
     private ImageView img;

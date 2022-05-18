@@ -3,14 +3,6 @@ package com.example.app_sample.ui.profile;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -20,30 +12,35 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.app_sample.ui.intro.CustomProgressDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Objects;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class EditProfileFragment extends Fragment {
 
-    private static final int PICK_IMAGE = 1;
     private ProfileViewModel viewModel;
     private Toolbar toolbar;
     private TextInputLayout usernameLayout;
     private TextInputEditText username, email;
     private Button save;
     private ImageView image;
+    private ActivityResultLauncher<Intent> resultLauncher;
 
     public EditProfileFragment() {
     }
@@ -80,7 +77,10 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        viewModel.getPicture().observe(getViewLifecycleOwner(), s -> RecipeRepository.loadImage(getContext(), s, image));
+        viewModel.getPicture().observe(getViewLifecycleOwner(), s -> {
+            if (!s.equals("error"))
+                RecipeRepository.loadImage(getContext(), s, image);
+        });
 
         email.setText(viewModel.getEmail());
 
@@ -102,53 +102,51 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, PICK_IMAGE);
-            }
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+
+
+                        InputStream inputStream;
+                        CustomProgressDialog dialog = new CustomProgressDialog();
+                        dialog.show(getChildFragmentManager(), "dialog", "Updating photo");
+                        try {
+                            assert result.getData() != null;
+                            inputStream = requireContext().getContentResolver().openInputStream(result.getData().getData());
+
+                            viewModel.setProfilePicture(inputStream).addOnFailureListener(exception -> {
+                                dialog.dismiss();
+                                Toast.makeText(getContext(), "Failed to update profile picture", Toast.LENGTH_SHORT).show();
+                            }).addOnSuccessListener(taskSnapshot -> {
+                                dialog.dismiss();
+                                Toast.makeText(getContext(), "Profile picture updated successfully", Toast.LENGTH_SHORT).show();
+                                viewModel.fetchProfilePicture();
+                            });
+
+                        } catch (FileNotFoundException e) {
+                            dialog.dismiss();
+                            Toast.makeText(getContext(), "Error retrieving image", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        image.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            resultLauncher.launch(intent);
         });
 
-        save.setOnClickListener(v -> viewModel.setUsername(username.getText().toString()).addOnCompleteListener(task -> snack("Username updated successfully")));
+        save.setOnClickListener(v -> viewModel.setUsername(Objects.requireNonNull(username.getText()).toString()).addOnCompleteListener(task -> snack()));
 
 
         return view;
     }
 
-    protected void snack(String msg) {
+    protected void snack() {
         BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bottomNavigationView);
-        Snackbar.make(requireActivity().findViewById(android.R.id.content), msg, Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show();
+        Snackbar.make(requireActivity().findViewById(android.R.id.content), "Username updated successfully", Snackbar.LENGTH_SHORT).setAnchorView(bottomNavigationView).show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-
-            InputStream inputStream = null;
-            try {
-                inputStream = requireContext().getContentResolver().openInputStream(data.getData());
-
-                viewModel.setProfilePicture(inputStream).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(getContext(), "Failed to update profile picture", Toast.LENGTH_SHORT).show();
-
-                    }
-                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(getContext(), "Profile picture updated successfully", Toast.LENGTH_SHORT).show();
-                        viewModel.fetchProfilePicture();
-                    }
-                });
-
-            } catch (FileNotFoundException e) {
-                Toast.makeText(getContext(), "Error retrieving image", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

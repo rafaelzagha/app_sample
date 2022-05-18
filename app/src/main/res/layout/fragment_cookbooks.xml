@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.profile.cookbooks.CookbooksFragment">
+    tools:context=".ui.profile.cookbooks.CookbooksFragment"
+    tools:ignore="ContentDescription">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -34,13 +35,13 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Group recipes in cookbooks to enjoy them all together later!" />
+            android:text="@string/cookbooks_intro" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create a cookbook"
+            android:text="@string/create_a_cookbook"
             android:textColor="@color/white"
             android:layout_gravity="center"
             android:layout_marginVertical="25dp"

@@ -2,9 +2,6 @@ package com.example.app_sample.ui.recipe;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.hardware.lights.Light;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +18,9 @@ import java.util.List;
 
 public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Steps.Step> steps;
-    private int color;
+    private final Context context;
+    private final List<Steps.Step> steps;
+    private final int color;
 
     public InstructionsAdapter(Context context, List<Steps.Step> steps, int color) {
         this.context = context;
@@ -64,7 +61,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
             }
         }
         else {
-            holder.tv_directions.setText("End of instructions");
+            holder.tv_directions.setText(R.string.enjoy_your_meal);
             holder.step.setVisibility(View.GONE);
             holder.number.setVisibility(View.GONE);
             holder.dot.setVisibility(View.GONE);
@@ -80,7 +77,7 @@ public class InstructionsAdapter extends RecyclerView.Adapter<InstructionsAdapte
         return steps.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView number, step, tv_equipment, tv_directions;
         RecyclerView equipment;

@@ -1,17 +1,5 @@
 package com.example.app_sample.ui.search;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -29,41 +17,49 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.Filter;
 import com.example.app_sample.data.local.models.Filters;
 import com.example.app_sample.data.local.models.Recipes;
-import com.example.app_sample.data.local.models.RecipesResults;
-import com.example.app_sample.ui.MainActivity;
 import com.example.app_sample.utils.Constants;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
+@SuppressWarnings({"FieldCanBeLocal", "unchecked"})
 public class SearchFragment extends Fragment {
 
-    EditText searchBar;
-    Button clearText;
-    TabLayout tabLayout;
-    ChipGroup filterChips;
-    SearchViewModel viewModel;
-    ArrayList<Filter> filters;
-    Filter diet, cuisine, mealType, sort;
-    ArrayList<Filter> intolerances;
-    String query;
-    boolean firstSpinnerSelection;
-    Toolbar toolbar;
-    ActivityResultLauncher<Intent> activityResultLaunch;
-    ResultsAdapter adapter;
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-    CircularProgressIndicator indicator;
-    TextView tv_filters, tv_sorting;
-    Spinner spinner;
-    ArrayAdapter<String> spinnerAdapter;
+    private EditText searchBar;
+    private Button clearText;
+    private ChipGroup filterChips;
+    private SearchViewModel viewModel;
+    private ArrayList<Filter> filters;
+    private Filter diet, cuisine, mealType, sort;
+    private ArrayList<Filter> intolerances;
+    private String query;
+    private boolean firstSpinnerSelection;
+    private Toolbar toolbar;
+    private ActivityResultLauncher<Intent> activityResultLaunch;
+    private ResultsAdapter adapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private CircularProgressIndicator indicator;
+    private TextView tv_filters, tv_sorting;
+    private Spinner spinner;
+    private ArrayAdapter<String> spinnerAdapter;
 
 
     public SearchFragment() {
@@ -80,7 +76,6 @@ public class SearchFragment extends Fragment {
         tv_filters = view.findViewById(R.id.tv_filters);
         toolbar = view.findViewById(R.id.toolbar);
         searchBar = view.findViewById(R.id.search_bar);
-        tabLayout = view.findViewById(R.id.tab_layout);
         filterChips = view.findViewById(R.id.chip_filters);
         recyclerView = view.findViewById(R.id.recycler_view);
         indicator = view.findViewById(R.id.indicator);
@@ -100,7 +95,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sort = Filters.Sort.valueOf(parent.getSelectedItem().toString());
-                tv_sorting.setText( sort.name() + ((Filters.Sort)sort).getOrder());
+                String str = sort.name() + ((Filters.Sort)sort).getOrder();
+                tv_sorting.setText(str);
                 if (firstSpinnerSelection)
                     firstSpinnerSelection = false;
                 else
@@ -181,32 +177,23 @@ public class SearchFragment extends Fragment {
         clearText.setOnClickListener(v -> searchBar.setText(""));
 
 
-        viewModel.getRecipes().observe(getViewLifecycleOwner(), new Observer<RecipesResults>() {
-            @Override
-            public void onChanged(RecipesResults recipesResults) {
-                if (recipesResults != null) {
-                    adapter.setRecipes(recipesResults.getRecipes());
-                }
+        viewModel.getRecipes().observe(getViewLifecycleOwner(), recipesResults -> {
+            if (recipesResults != null) {
+                adapter.setRecipes(recipesResults.getRecipes());
             }
         });
 
-        viewModel.getLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean value) {
-                if (value != null) {
-                    indicator.setVisibility(value ? View.VISIBLE : View.INVISIBLE);
-                    recyclerView.setVisibility(value ? View.INVISIBLE : View.VISIBLE);
-                }
+        viewModel.getLoading().observe(getViewLifecycleOwner(), value -> {
+            if (value != null) {
+                indicator.setVisibility(value ? View.VISIBLE : View.INVISIBLE);
+                recyclerView.setVisibility(value ? View.INVISIBLE : View.VISIBLE);
             }
         });
 
-        viewModel.getError().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if (s != null) {
-                    Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
-                    indicator.setVisibility(View.INVISIBLE);
-                }
+        viewModel.getError().observe(getViewLifecycleOwner(), s -> {
+            if (s != null) {
+                Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
+                indicator.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -217,7 +204,9 @@ public class SearchFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        query = getArguments().getString(Constants.QUERY_KEY);
+        if (getArguments() != null) {
+            query = getArguments().getString(Constants.QUERY_KEY);
+        }
         filters = (ArrayList<Filter>) getArguments().getSerializable(Constants.FILTER_KEY);
 
         if (query == null) query = "";
@@ -288,7 +277,7 @@ public class SearchFragment extends Fragment {
     public void goToRecipePage(Recipes.Recipe recipe) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.RECIPE_KEY, recipe);
-        NavHostFragment.findNavController(this).navigate(R.id.action_searchFragment_to_recipeFragment, bundle);
+        NavHostFragment.findNavController(this).navigate(R.id.global_to_recipeFragment_horizontal, bundle);
     }
 
 }

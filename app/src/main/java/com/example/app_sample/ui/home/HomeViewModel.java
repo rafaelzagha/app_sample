@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.data.remote.FirebaseManager;
 
 public class HomeViewModel extends AndroidViewModel {
 

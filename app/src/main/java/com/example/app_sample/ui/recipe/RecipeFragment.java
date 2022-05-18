@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,11 +33,10 @@ import com.example.app_sample.utils.MyViewModelFactory;
 import com.example.app_sample.utils.ZoomOutPageTransformer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.util.Random;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class RecipeFragment extends Fragment {
 
     private Recipes.Recipe recipe;
@@ -84,6 +82,7 @@ public class RecipeFragment extends Fragment {
         if (recipe.getColor() == 0) {
             int x = new Random().nextInt(7);
             recipe.setColor(requireContext().getResources().getColor(Filters.MealType.values()[x].color()));
+            viewModel.setColor(recipe.getColor());
         }
         mealType.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
         RecipeRepository.loadImage(requireContext(), recipe.getImage(), recipeImage);
@@ -128,28 +127,23 @@ public class RecipeFragment extends Fragment {
         ActionMenuItemView save = toolbar.findViewById(R.id.save);
         ActionMenuItemView groceries = toolbar.findViewById(R.id.groceries);
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.share) {
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("text/plain");
-                    i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
-                    String url = getString(R.string.host)+ "/recipe/" + recipe.getId();
-                    i.putExtra(Intent.EXTRA_TEXT, url);
-                    startActivity(Intent.createChooser(i, "Share recipe URL"));
-                    return true;
-                } else if (item.getItemId() == R.id.download) {
-                    Intent i = new Intent(getContext(), DownloadService.class).putExtra("id", recipe.getId());
-                    getContext().startService(i);
-                    return true;
-                } else if (item.getItemId() == R.id.cookbook) {
-                    openCookBooksDialog();
-                }
-                return false;
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.share) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                String url = getString(R.string.host)+ "/recipe/" + recipe.getId();
+                i.putExtra(Intent.EXTRA_TEXT, url);
+                startActivity(Intent.createChooser(i, "Share recipe URL"));
+                return true;
+            } else if (item.getItemId() == R.id.download) {
+                Intent i = new Intent(getContext(), DownloadService.class).putExtra("id", recipe.getId());
+                requireContext().startService(i);
+                return true;
+            } else if (item.getItemId() == R.id.cookbook) {
+                openCookBooksDialog();
             }
-
-
+            return false;
         });
 
         View.OnClickListener isSaved = v -> viewModel.removeRecipe(recipe.getId()).addOnCompleteListener(task -> snack(requireActivity().getString(R.string.recipe_unsaved)));

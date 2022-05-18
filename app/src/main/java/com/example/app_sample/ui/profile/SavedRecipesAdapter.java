@@ -1,8 +1,8 @@
 package com.example.app_sample.ui.profile;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,12 +32,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+@SuppressLint("NotifyDatasetChanged")
 public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapter.ViewHolder> {
 
     private List<Recipes.Recipe> recipes;
-    private Context context;
-    private SavedRecipesFragment fragment;
-    private SelectionTracker selectionTracker;
+    private final Context context;
+    private final SavedRecipesFragment fragment;
 
     public SavedRecipesAdapter(SavedRecipesFragment fragment) {
         this.fragment = fragment;
@@ -62,14 +61,6 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             RecipeRepository.loadImage(context, recipe.getImage(), holder.img);
             String time = recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
             holder.time.setText(time);
-
-            if (recipe.getColor() == 0) {
-                int x = new Random().nextInt(7);
-                int color = context.getResources().getColor(Filters.MealType.values()[x].color());
-                recipe.setColor(color);
-                fragment.setRecipeColor(recipe.getId(), color);
-
-            }
             holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
 
             holder.cardView.setOnClickListener(v -> {
@@ -93,34 +84,19 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
                 snack(fragment.getString(R.string.grocery_added));
             };
 
-            fragment.isInGroceries(recipe.getId()).observe(fragment.getViewLifecycleOwner(), new Observer<Boolean>() {
-                @Override
-                public void onChanged(Boolean saved) {
-                    if (saved) {
-                        holder.groceries.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)));
-                        holder.fix.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)));
-                        holder.groceriesIcon.setImageResource(R.drawable.ic_clear);
-                        holder.groceries.setOnClickListener(inGroceries);
-                    } else {
-                        holder.groceries.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sky)));
-                        holder.fix.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sky)));
-                        holder.groceriesIcon.setImageResource(R.drawable.ic_add);
-                        holder.groceries.setOnClickListener(notInGroceries);
-                    }
+            fragment.isInGroceries(recipe.getId()).observe(fragment.getViewLifecycleOwner(), saved -> {
+                if (saved) {
+                    holder.groceries.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)));
+                    holder.fix.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.green)));
+                    holder.groceriesIcon.setImageResource(R.drawable.ic_clear);
+                    holder.groceries.setOnClickListener(inGroceries);
+                } else {
+                    holder.groceries.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sky)));
+                    holder.fix.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.sky)));
+                    holder.groceriesIcon.setImageResource(R.drawable.ic_add);
+                    holder.groceries.setOnClickListener(notInGroceries);
                 }
             });
-
-            if(selectionTracker != null){
-                boolean selected = selectionTracker.hasSelection();
-
-                holder.checkBox.setVisibility(selected?View.VISIBLE : View.GONE);
-                holder.meal_type.setVisibility(selected?View.GONE : View.VISIBLE);
-                holder.time.setVisibility(selected?View.GONE : View.VISIBLE);
-                ((SwipeLayout)holder.itemView).setSwipeFlags(selected ? SwipeLayout.STATE_IDLE : SwipeLayout.RIGHT);
-
-                holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
-
-            }
 
         }
     }
@@ -143,7 +119,6 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
         TextView recipe_name, meal_type, time;
         CardView cardView;
         LinearLayout delete, groceries;
-        CustomCheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -157,20 +132,11 @@ public class SavedRecipesAdapter extends RecyclerView.Adapter<SavedRecipesAdapte
             groceries = itemView.findViewById(R.id.groceries);
             groceriesIcon = itemView.findViewById(R.id.icon);
             fix = itemView.findViewById(R.id.fix);
-            checkBox = itemView.findViewById(R.id.checkbox);
-        }
-
-        public ItemDetailsLookup.ItemDetails<Long> getItemDetails() {
-            return new MyItemDetail(getAdapterPosition(), recipes.get(getAdapterPosition()).getId());
         }
     }
 
     public void setRecipes(List<Recipes.Recipe> recipes) {
         this.recipes = recipes;
         notifyDataSetChanged();
-    }
-
-    public void setSelectionTracker(SelectionTracker selectionTracker) {
-        this.selectionTracker = selectionTracker;
     }
 }

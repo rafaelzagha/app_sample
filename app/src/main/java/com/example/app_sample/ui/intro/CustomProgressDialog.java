@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.app_sample.R;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class CustomProgressDialog extends DialogFragment {
 
     private String message;

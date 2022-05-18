@@ -3,29 +3,23 @@ package com.example.app_sample.ui.groceries;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aitsuki.swipe.SwipeLayout;
 import com.example.app_sample.R;
 import com.example.app_sample.data.local.models.GroceryList;
 import com.example.app_sample.data.local.models.Ingredient;
 import com.example.app_sample.data.local.models.Recipes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
+@SuppressLint("NotifyDataSetChanged")
 public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipeAdapter.ViewHolder>{
 
     Recipes.Recipe recipe;
@@ -47,7 +41,7 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
     @NonNull
     @Override
     public GroceriesRecipeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GroceriesRecipeAdapter.ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_grocery_ingredient, parent, false));
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_grocery_ingredient, parent, false));
     }
 
     @Override
@@ -67,17 +61,14 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
             updated = false;
         }
 
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(local.size() > position){
-                    local.set(position, isChecked);
-                    updated = true;
-                    fragment.updateGroceriesList(new GroceryList(recipe.getId(), recipe.getServings(), local));
-                }
-                holder.checkBox.setPaintFlags(isChecked? holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : holder.checkBox.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-                holder.checkBox.setTextColor(fragment.getResources().getColor(isChecked? R.color.grey : R.color.black));
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(local.size() > position){
+                local.set(position, isChecked);
+                updated = true;
+                fragment.updateGroceriesList(new GroceryList(recipe.getId(), recipe.getServings(), local));
             }
+            holder.checkBox.setPaintFlags(isChecked? holder.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG : holder.checkBox.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+            holder.checkBox.setTextColor(fragment.getResources().getColor(isChecked? R.color.grey : R.color.black));
         });
 
     }
@@ -87,7 +78,7 @@ public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipe
         return recipe.getIngredients().size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox checkBox;
         TextView amount;

@@ -1,21 +1,18 @@
 package com.example.app_sample.ui.profile.cookbooks;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aitsuki.swipe.SwipeLayout;
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Recipes;
@@ -24,13 +21,14 @@ import com.example.app_sample.utils.MyItemDetail;
 import net.igenius.customcheckbox.CustomCheckBox;
 
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 
+@SuppressLint("NotifyDataSetChanged")
 public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHolder> {
 
     private List<Recipes.Recipe> recipes;
-    private SelectionTracker selectionTracker;
-    private Context context;
+    private SelectionTracker<Long> selectionTracker;
+    private final Context context;
 
     public RecipesAdapter(Context context) {
         this.context = context;
@@ -50,10 +48,10 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         RecipeRepository.loadImage(context, recipe.getImage(), holder.img);
 
         holder.checkBox.setChecked(selectionTracker.isSelected(holder.getItemDetails().getSelectionKey()));
-        holder.checkBox.setOnClickListener(null);
+        holder.checkBox.setClickable(false);
 
         if(!selectionTracker.hasSelection()){
-            holder.itemView.setOnClickListener(v -> selectionTracker.select(holder.getItemDetails().getSelectionKey()));
+            holder.itemView.setOnClickListener(v -> selectionTracker.select(Objects.requireNonNull(holder.getItemDetails().getSelectionKey())));
         }
         else{
             holder.itemView.setOnClickListener(null);
@@ -95,7 +93,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public void setSelectionTracker(SelectionTracker selectionTracker) {
+    public void setSelectionTracker(SelectionTracker<Long> selectionTracker) {
         this.selectionTracker = selectionTracker;
     }
 }

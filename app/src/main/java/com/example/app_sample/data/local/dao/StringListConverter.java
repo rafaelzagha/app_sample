@@ -27,7 +27,6 @@ public class StringListConverter {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<String>>() {}.getType();
-        List<String> list = gson.fromJson(countryLangString, type);
-        return list;
+        return gson.fromJson(countryLangString, type);
     }
 }

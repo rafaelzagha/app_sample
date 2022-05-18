@@ -28,7 +28,6 @@ public class StepsConverter {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<Steps>>() {}.getType();
-        List<Steps> list = gson.fromJson(steps, type);
-        return list;
+        return gson.fromJson(steps, type);
     }
 }

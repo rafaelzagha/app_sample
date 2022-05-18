@@ -1,7 +1,6 @@
 package com.example.app_sample.ui.search;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -49,7 +48,6 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     public void addToRecipes(RecipesResults data){
-        Log.d("tag", "recipes added");
         if(data != null && recipes.getValue() != null){
             List<Recipes.Recipe> list= recipes.getValue().getRecipes();
             list.addAll(data.getRecipes());
@@ -77,7 +75,7 @@ public class SearchViewModel extends AndroidViewModel {
 
         recipeRepository.loadRecipesByQuery(query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset).enqueue(new Callback<RecipesResults>() {
             @Override
-            public void onResponse(Call<RecipesResults> call, Response<RecipesResults> response) {
+            public void onResponse(@NonNull Call<RecipesResults> call, @NonNull Response<RecipesResults> response) {
                 if (response.isSuccessful()) {
                     if(overwrite)
                         setRecipes(response.body());
@@ -90,7 +88,7 @@ public class SearchViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<RecipesResults> call, Throwable t) {
+            public void onFailure(@NonNull Call<RecipesResults> call, @NonNull Throwable t) {
                 error.setValue("Request Error " + t.getMessage());
             }
         });

@@ -10,14 +10,10 @@ public class Steps implements Serializable {
 
     @SerializedName("steps")
     @Expose
-    private List<Step> steps = null;
+    private List<Step> steps;
 
     public List<Step> getSteps() {
         return steps;
-    }
-
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
     }
 
     public static class Step implements Serializable{
@@ -36,24 +32,13 @@ public class Steps implements Serializable {
             return number;
         }
 
-        public void setNumber(Integer number) {
-            this.number = number;
-        }
-
         public String getStep() {
             return step;
-        }
-
-        public void setStep(String step) {
-            this.step = step;
         }
 
         public List<Equipment> getEquipment() {
             return equipment;
         }
 
-        public void setEquipment(List<Equipment> equipment) {
-            this.equipment = equipment;
-        }
     }
 }

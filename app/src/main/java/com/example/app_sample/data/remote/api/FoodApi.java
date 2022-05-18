@@ -1,12 +1,8 @@
 package com.example.app_sample.data.remote.api;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.app_sample.data.local.models.RecipeImage;
 import com.example.app_sample.data.local.models.Recipes;
 import com.example.app_sample.data.local.models.RecipesResults;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

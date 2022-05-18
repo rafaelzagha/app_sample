@@ -3,7 +3,6 @@ package com.example.app_sample.ui.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -84,12 +82,9 @@ public class ProfileFragment extends Fragment {
 
         email.setText(viewModel.getEmail());
 
-        viewModel.getPicture().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if (!s.equals("error"))
-                    RecipeRepository.loadImage(getContext(), s, picture);
-            }
+        viewModel.getPicture().observe(getViewLifecycleOwner(), s -> {
+            if (!s.equals("error"))
+                RecipeRepository.loadImage(getContext(), s, picture);
         });
 
         alertDialog = new MaterialAlertDialogBuilder(requireContext()).setMessage(R.string.signout_confirmation)
@@ -101,22 +96,19 @@ public class ProfileFragment extends Fragment {
                     startActivity(new Intent(requireActivity(), IntroActivity.class));
                 });
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.edit_profile) {
-                    NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.action_profileFragment_to_editProfileFragment);
-                    return true;
-                } else if (item.getItemId() == R.id.logout) {
-                    alertDialog.show();
-                    return true;
-                }
-                return false;
-
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.edit_profile) {
+                NavHostFragment.findNavController(ProfileFragment.this).navigate(R.id.global_to_editProfileFragment);
+                return true;
+            } else if (item.getItemId() == R.id.logout) {
+                alertDialog.show();
+                return true;
             }
+            return false;
+
         });
 
-        add.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.action_profileFragment_to_newCookbookFragment));
+        add.setOnClickListener(v -> NavHostFragment.findNavController(this).navigate(R.id.global_to_newCookbookFragment));
 
         return view;
     }

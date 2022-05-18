@@ -1,8 +1,5 @@
 package com.example.app_sample.ui.intro;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -17,30 +14,27 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.app_sample.R;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText inputUsername, inputEmail, inputPassword;
     private TextInputLayout usernameLayout, emailLayout, passwordLayout;
     private MaterialButton signup;
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference firebaseDatabase;
     private String username, email, password;
     private CustomProgressDialog progressDialog;
 
@@ -57,42 +51,30 @@ public class SignUpActivity extends AppCompatActivity {
         passwordLayout = findViewById(R.id.textfield_password);
         signup = findViewById(R.id.signup);
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         progressDialog = new CustomProgressDialog();
 
         addTextWatchers();
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!validateUsername() | !validateEmail() | !validatePassword()) {
-                    return;
-                }
-                progressDialog.show(getSupportFragmentManager(), "tag", "Signing up...");
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "User created Successfully", Toast.LENGTH_LONG).show();
-                            new FirebaseManager().setUsername(username).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    progressDialog.dismiss();
-                                    if (task.isSuccessful())
-                                        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                    else
-                                        Toast.makeText(getApplicationContext(), "Username save failure", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        } else {
-                            String errorMessage = task.getException().toString();
-                            errorMessage = errorMessage.substring(errorMessage.indexOf(" "));
-                            Snackbar.make(findViewById(android.R.id.content), errorMessage, BaseTransientBottomBar.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
+        signup.setOnClickListener(v -> {
+            if (!validateUsername() | !validateEmail() | !validatePassword()) {
+                return;
             }
+            progressDialog.show(getSupportFragmentManager(), "tag", "Signing up...");
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "User created Successfully", Toast.LENGTH_LONG).show();
+                    new FirebaseManager().setUsername(username).addOnCompleteListener(task1 -> {
+                        progressDialog.dismiss();
+                        if (!task1.isSuccessful())
+                            Toast.makeText(getApplicationContext(), "Username save failure", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                    });
+                } else {
+                    String errorMessage = Objects.requireNonNull(task.getException()).toString();
+                    Snackbar.make(findViewById(android.R.id.content), errorMessage, BaseTransientBottomBar.LENGTH_LONG).show();
+                }
+            });
+
         });
 
 
@@ -164,7 +146,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private boolean validateUsername() {
-        username = Objects.requireNonNull(inputUsername.getText().toString().trim());
+        username = Objects.requireNonNull(Objects.requireNonNull(inputUsername.getText()).toString().trim());
         if (TextUtils.isEmpty(username)) {
             usernameLayout.setError(getString(R.string.ui_required_field));
             return false;

@@ -15,10 +15,11 @@ import java.util.List;
 
 public class RecipeViewModel extends AndroidViewModel {
 
-    private RecipeRepository repo;
-    private LiveData<Boolean> isSaved, isInGroceries;
-    private Recipes.Recipe recipe;
-    private LiveData<List<Cookbook>> cookbooks;
+    private final RecipeRepository repo;
+    private final LiveData<Boolean> isSaved;
+    private final LiveData<Boolean> isInGroceries;
+    private final Recipes.Recipe recipe;
+    private final LiveData<List<Cookbook>> cookbooks;
 
     public RecipeViewModel(@NonNull Application application, Recipes.Recipe recipe) {
         super(application);
@@ -65,5 +66,9 @@ public class RecipeViewModel extends AndroidViewModel {
 
     public Task<Void> addToCookbook(String id, Recipes.Recipe recipe){
         return repo.addToCookbook(id, recipe);
+    }
+
+    public void setColor(int  color){
+        repo.setRecipeColor(recipe.getId(), color);
     }
 }

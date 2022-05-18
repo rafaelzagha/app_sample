@@ -12,9 +12,6 @@ public class Ingredient implements Serializable {
     @SerializedName("image")
     private String image;
 
-    @SerializedName("original")
-    private String original;
-
     @SerializedName("name")
     private String name;
 
@@ -36,40 +33,16 @@ public class Ingredient implements Serializable {
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getOriginal() {
-        return original;
-    }
-
-    public void setOriginal(String original) {
-        this.original = original;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
     public String getUnit() {
         return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
 }

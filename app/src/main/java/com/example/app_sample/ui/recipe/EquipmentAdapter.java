@@ -1,5 +1,6 @@
 package com.example.app_sample.ui.recipe;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
 import com.example.app_sample.data.local.models.Equipment;
-import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.Constants;
 
 import java.util.List;
 
+@SuppressLint("NotifyDataSetChanged")
 public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.ViewHolder> {
 
-    private Context context;
-    private List<Equipment> equipment;
+    private final Context context;
+    private final List<Equipment> equipment;
 
     public EquipmentAdapter(Context context, List<Equipment> equipment) {
         this.context = context;
@@ -46,7 +47,7 @@ public class EquipmentAdapter extends RecyclerView.Adapter<EquipmentAdapter.View
         return equipment.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img;
         TextView txt;

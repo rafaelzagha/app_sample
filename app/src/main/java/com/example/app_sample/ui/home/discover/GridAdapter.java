@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
-    private Context context;
-    private Filters.Cuisine[] cuisines;
+    private final Context context;
+    private final Filters.Cuisine[] cuisines;
     DiscoverFragment fragment;
 
     public GridAdapter(DiscoverFragment fragment) {
@@ -52,7 +52,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         return cuisines.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img;
         TextView name;
