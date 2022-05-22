@@ -24,15 +24,15 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
-    ViewPager2 viewPager;
-    TabLayout tabLayout;
-    ProfileAdapter adapter;
-    ProfileViewModel viewModel;
-    TextView recipesNum, cookbooksNum, name, email;
-    ImageView picture;
-    MaterialAlertDialogBuilder alertDialog;
-    Toolbar toolbar;
-    FloatingActionButton add;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private ProfileAdapter adapter;
+    private ProfileViewModel viewModel;
+    private TextView recipesNum, cookbooksNum, name, email;
+    private ImageView picture;
+    private MaterialAlertDialogBuilder alertDialog;
+    private Toolbar toolbar;
+    private FloatingActionButton add;
 
 
     @Override

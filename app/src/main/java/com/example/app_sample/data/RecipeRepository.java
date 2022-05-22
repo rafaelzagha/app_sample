@@ -26,13 +26,10 @@ import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.data.remote.KeyManager;
 import com.example.app_sample.data.remote.RecipesRemoteDataSource;
 import com.example.app_sample.utils.AppExecutors;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -205,14 +202,30 @@ public class RecipeRepository {
                     else {
                         try {
                             recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(snapshot.getKey())).execute().body();
-                            if (recipe.getColor() == 0) {
-                                int x = new Random().nextInt(7);
-                                int color = context.getResources().getColor(Filters.MealType.values()[x].color());
-                                recipe.setColor(color);
-                            }
+
+                            int x = new Random().nextInt(7);
+                            int color = context.getResources().getColor(Filters.MealType.values()[x].color());
+                            recipe.setColor(color);
+
                             recipeDao.insert(recipe);
                             list.add(recipe);
                         } catch (Exception e) {
+                            while (keyManager.incrementIndex()) {
+                                try {
+                                    recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(snapshot.getKey())).execute().body();
+
+                                    int x = new Random().nextInt(7);
+                                    int color = context.getResources().getColor(Filters.MealType.values()[x].color());
+                                    recipe.setColor(color);
+
+                                    recipeDao.insert(recipe);
+                                    list.add(recipe);
+                                    break;
+                                } catch (Exception ex) {
+                                    e.printStackTrace();
+                                }
+
+                            }
                             Looper.prepare();
                             Toast.makeText(context, "Request error", Toast.LENGTH_SHORT).show();
                         }
@@ -473,32 +486,30 @@ public class RecipeRepository {
         MutableLiveData<List<String>> images = new MutableLiveData<>();
         List<String> list = new ArrayList<>();
         images.setValue(list);
-        firebaseManager.getCookbook(id).get().addOnSuccessListener(dataSnapshot -> {
-            Cookbook cookbook = dataSnapshot.getValue(Cookbook.class);
+        firebaseManager.getCookbook(id).child("recipes").orderByValue().limitToFirst(3).get().addOnSuccessListener(dataSnapshot -> {
 
-            if (Objects.requireNonNull(cookbook).getRecipes() != null)
-                for (String id1 : cookbook.getRecipes().keySet()) {
-                    appExecutors.diskIO().execute(() -> {
-                        Recipes.Recipe recipe = recipeDao.getRecipe(Integer.parseInt(id1));
-                        if (recipe != null)
-                            list.add(recipe.getImage());
-                        else {
-                            try {
-                                recipe = recipesRemoteDataSource.getRecipeById(Integer.parseInt(id1)).execute().body();
-                                int x = new Random().nextInt(7);
-                                int color = Filters.MealType.values()[x].color();
-                                Objects.requireNonNull(recipe).setColor(color);
-                                recipeDao.insert(recipe);
-                                list.add(Objects.requireNonNull(recipe).getImage());
-                            } catch (Exception e) {
-                                Looper.prepare();
-                                Toast.makeText(context, "Request error", Toast.LENGTH_SHORT).show();
-                            }
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                appExecutors.diskIO().execute(() -> {
+                    int recipeId = Integer.parseInt(ds.getKey());
+                    Recipes.Recipe recipe = recipeDao.getRecipe(recipeId);
+                    if (recipe != null)
+                        list.add(recipe.getImage());
+                    else {
+                        try {
+                            recipe = recipesRemoteDataSource.getRecipeById(recipeId).execute().body();
+                            int x = new Random().nextInt(7);
+                            int color = Filters.MealType.values()[x].color();
+                            Objects.requireNonNull(recipe).setColor(color);
+                            recipeDao.insert(recipe);
+                            list.add(Objects.requireNonNull(recipe).getImage());
+                        } catch (Exception e) {
+                            Looper.prepare();
+                            Toast.makeText(context, "Request error", Toast.LENGTH_SHORT).show();
                         }
-                        images.postValue(list);
-                    });
-                    if (list.size() == 3) break;
-                }
+                    }
+                    images.postValue(list);
+                });
+            }
         });
         return images;
     }
@@ -620,7 +631,7 @@ public class RecipeRepository {
         return data;
     }
 
-    public Task<Void> removeFromCookbook(String bookId, int recipeId) {
+    public void removeFromCookbook(String bookId, int recipeId) {
 
         firebaseManager.isSaved(recipeId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -646,7 +657,7 @@ public class RecipeRepository {
 
             }
         });
-        return firebaseManager.removeFromCookbook(bookId, recipeId);
+        firebaseManager.removeFromCookbook(bookId, recipeId);
 
     }
 

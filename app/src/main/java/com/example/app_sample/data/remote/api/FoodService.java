@@ -40,7 +40,6 @@ public class FoodService {
     }
 
     public static void changeApiKey(String key){
-        Log.d("tag", "api key updated " + key);
         foodApi = retrofitBuilder.client(provideOkHttp(key)).build().create(FoodApi.class);
     }
 

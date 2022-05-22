@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ProfileAdapter extends FragmentStateAdapter {
 
-    ArrayList<Fragment> fragments;
+    private final ArrayList<Fragment> fragments;
 
     public ProfileAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);

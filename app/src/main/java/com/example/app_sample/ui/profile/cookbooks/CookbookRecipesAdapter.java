@@ -57,11 +57,9 @@ public class CookbookRecipesAdapter extends RecyclerView.Adapter<CookbookRecipes
             String time = recipe.getReadyInMinutes() + " " + context.getResources().getString(R.string.time);
             holder.time.setText(time);
 
-            try {
-                holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, recipe.getColor())));
-            } catch (Exception e) {
-                holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
-            }
+
+            holder.meal_type.setBackgroundTintList(ColorStateList.valueOf(recipe.getColor()));
+
 
             holder.cardView.setOnClickListener(v -> fragment.goToRecipePage(recipe));
 

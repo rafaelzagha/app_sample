@@ -61,19 +61,17 @@ public class FilterActivity extends AppCompatActivity {
         query = intent.getStringExtra(Constants.QUERY_KEY);
         if (filters == null) filters = new ArrayList<>();
 
-
         clear_all = findViewById(R.id.clear_all);
         show_results = findViewById(R.id.show_results);
         visible = false;
 
-        checked = new MutableLiveData<>();
-        checked.setValue(0);
+        checked = new MutableLiveData<>(0);
 
         setupChipGroups();
 
         checked.observe(FilterActivity.this, integer -> {
-            ArrayList<Filter> checked = getCheckedFilters();
-            setVisibility(!filters.equals(checked) && checked.size() > 0);
+            ArrayList<Filter> checkedFilters = getCheckedFilters();
+            setVisibility(!filters.equals(checkedFilters) && checkedFilters.size() > 0);
         });
 
         clear_all.setOnClickListener(v -> {
@@ -90,7 +88,6 @@ public class FilterActivity extends AppCompatActivity {
             setResult(Activity.RESULT_OK, new Intent().putExtra(Constants.QUERY_KEY, query).putExtra(Constants.FILTER_KEY, filters));
             finish();
         });
-
 
     }
 
@@ -196,7 +193,6 @@ public class FilterActivity extends AppCompatActivity {
         }
 
         return filters;
-
     }
 
     @Override
