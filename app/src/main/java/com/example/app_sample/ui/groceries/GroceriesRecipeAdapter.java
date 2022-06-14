@@ -22,12 +22,12 @@ import java.util.ArrayList;
 @SuppressLint("NotifyDataSetChanged")
 public class GroceriesRecipeAdapter extends RecyclerView.Adapter<GroceriesRecipeAdapter.ViewHolder>{
 
-    Recipes.Recipe recipe;
-    int servings;
-    GroceriesFragment fragment;
-    ArrayList<Boolean> local;
-    boolean updated;
-    Context context;
+    private Recipes.Recipe recipe;
+    private int servings;
+    private GroceriesFragment fragment;
+    private ArrayList<Boolean> local;
+    private boolean updated;
+    private Context context;
 
     public GroceriesRecipeAdapter(Recipes.Recipe recipe, GroceriesFragment fragment) {
         this.recipe = recipe;

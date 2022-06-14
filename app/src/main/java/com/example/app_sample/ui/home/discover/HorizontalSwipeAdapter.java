@@ -27,8 +27,7 @@ public class HorizontalSwipeAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private final Context context;
     private final LayoutInflater layoutInflater;
     private final int layout;
-    DiscoverFragment fragment;
-
+    private DiscoverFragment fragment;
     public static final int LAYOUT_RECIPE = 0;
     public static final int LAYOUT_MEALTYPE = 1;
     private static final int LAYOUT_LOAD_MORE = 2;

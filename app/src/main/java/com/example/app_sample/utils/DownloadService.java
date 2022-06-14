@@ -20,9 +20,9 @@ import com.example.app_sample.data.RecipeRepository;
 
 public class DownloadService extends Service {
 
-    RecipeRepository repo;
-    DownloadManager downloadManager;
-    long downloadId;
+    private RecipeRepository repo;
+    private DownloadManager downloadManager;
+    private long downloadId;
 
     @Override
     public void onCreate() {

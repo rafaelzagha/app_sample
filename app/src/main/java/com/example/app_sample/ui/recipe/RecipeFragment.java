@@ -46,7 +46,6 @@ public class RecipeFragment extends Fragment {
     private TextView recipeName, mealType, time, servings, shortInstructions;
     private IngredientsAdapter ingredientsAdapter;
     private InstructionsAdapter instructionsAdapter;
-    private RecyclerView.LayoutManager layoutManager;
     private ViewPager2 instructionsViewPager;
     private String typeString, timeString, servingsString;
     private RecipeViewModel viewModel;
@@ -93,9 +92,8 @@ public class RecipeFragment extends Fragment {
         setupMenu();
 
         ingredientsAdapter = new IngredientsAdapter(recipe.getIngredients(), requireContext());
-        layoutManager = new LinearLayoutManager(requireContext());
         ingredientsRV.setAdapter(ingredientsAdapter);
-        ingredientsRV.setLayoutManager(layoutManager);
+        ingredientsRV.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         if (recipe.getInstructions() != null && !recipe.getInstructions().isEmpty()) {
 

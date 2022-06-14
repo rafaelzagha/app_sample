@@ -18,9 +18,9 @@ import retrofit2.Response;
 
 public class DiscoverViewModel extends AndroidViewModel {
 
-    MutableLiveData<Recipes> recipes;
-    RecipeRepository recipeRepository;
-    MutableLiveData<String> error;
+    private MutableLiveData<Recipes> recipes;
+    private RecipeRepository recipeRepository;
+    private MutableLiveData<String> error;
 
     public DiscoverViewModel(@NonNull Application application) {
         super(application);
@@ -63,7 +63,7 @@ public class DiscoverViewModel extends AndroidViewModel {
 
     }
 
-    public MutableLiveData<String> getError() {
+    public LiveData<String> getError() {
         return error;
     }
 

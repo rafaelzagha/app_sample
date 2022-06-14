@@ -27,15 +27,15 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
 public class SwipeFragment extends Fragment implements CardStackListener {
 
-    MaterialButton retry;
-    TextView errorMessage;
-    LinearLayout errorLayout;
-    CardStackView csv;
-    CardStackAdapter cardStackAdapter;
-    CardStackLayoutManager cardStackLayoutManager;
-    SwipeViewModel viewModel;
-    CardView rewind, clear, save;
-    CircularProgressIndicator indicator;
+    private MaterialButton retry;
+    private TextView errorMessage;
+    private LinearLayout errorLayout;
+    private CardStackView csv;
+    private CardStackAdapter cardStackAdapter;
+    private CardStackLayoutManager cardStackLayoutManager;
+    private SwipeViewModel viewModel;
+    private CardView rewind, clear, save;
+    private CircularProgressIndicator indicator;
 
     public SwipeFragment() { }
 

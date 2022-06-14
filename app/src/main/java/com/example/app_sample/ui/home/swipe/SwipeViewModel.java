@@ -19,10 +19,10 @@ import retrofit2.Response;
 
 public class SwipeViewModel extends AndroidViewModel {
 
-    MutableLiveData<Recipes> recipes;
-    MutableLiveData<String> error;
-    RecipeRepository recipeRepository;
-    int position;
+    private MutableLiveData<Recipes> recipes;
+    private MutableLiveData<String> error;
+    private RecipeRepository recipeRepository;
+    private int position;
 
     public SwipeViewModel(@NonNull Application application) {
         super(application);

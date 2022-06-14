@@ -22,10 +22,10 @@ import retrofit2.Response;
 
 public class SearchViewModel extends AndroidViewModel {
 
-    MutableLiveData<RecipesResults> recipes;
-    MutableLiveData<String> error;
-    MutableLiveData<Boolean> loading;
-    RecipeRepository recipeRepository;
+    private MutableLiveData<RecipesResults> recipes;
+    private MutableLiveData<String> error;
+    private MutableLiveData<Boolean> loading;
+    private RecipeRepository recipeRepository;
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
@@ -47,29 +47,27 @@ public class SearchViewModel extends AndroidViewModel {
 
     }
 
-    public void addToRecipes(RecipesResults data){
-        if(data != null && recipes.getValue() != null){
-            List<Recipes.Recipe> list= recipes.getValue().getRecipes();
+    public void addToRecipes(RecipesResults data) {
+        if (data != null && recipes.getValue() != null) {
+            List<Recipes.Recipe> list = recipes.getValue().getRecipes();
             list.addAll(data.getRecipes());
             recipes.setValue(new RecipesResults(list));
-        }
-
-        else recipes.setValue(data);
+        } else recipes.setValue(data);
         this.loading.setValue(false);
     }
 
-    public void newRequest(boolean overwrite, String query, Filter diet, ArrayList<Filter> intolerances, Filter cuisine, Filter type, Filter sort){
-        String sdiet = diet == null?null : diet.tag();
-        String sintolerances = intolerances == null?null : Filters.listToString(intolerances);
-        String scuisine = cuisine == null?null : cuisine.tag();
-        String stype = type == null?null : type.tag();
-        String ssort = sort == null? null : sort.tag();
+    public void newRequest(boolean overwrite, String query, Filter diet, ArrayList<Filter> intolerances, Filter cuisine, Filter type, Filter sort) {
+        String sdiet = diet == null ? null : diet.tag();
+        String sintolerances = intolerances == null ? null : Filters.listToString(intolerances);
+        String scuisine = cuisine == null ? null : cuisine.tag();
+        String stype = type == null ? null : type.tag();
+        String ssort = sort == null ? null : sort.tag();
         int offset;
-        if(!overwrite)
-            offset= recipes.getValue() != null? recipes.getValue().getRecipes().size() : 0;
+        if (!overwrite)
+            offset = recipes.getValue() != null ? recipes.getValue().getRecipes().size() : 0;
         else offset = 0;
         String sortDirection;
-        if(sort == Filters.Sort.Popularity)
+        if (sort == Filters.Sort.Popularity)
             sortDirection = "desc";
         else sortDirection = "asc";
 
@@ -77,12 +75,30 @@ public class SearchViewModel extends AndroidViewModel {
             @Override
             public void onResponse(@NonNull Call<RecipesResults> call, @NonNull Response<RecipesResults> response) {
                 if (response.isSuccessful()) {
-                    if(overwrite)
+                    if (overwrite)
                         setRecipes(response.body());
                     else
                         addToRecipes(response.body());
-                }
-                else {
+                } else {
+                    if (recipeRepository.changeApiKey())
+                        recipeRepository.loadRecipesByQuery(query, sdiet, sintolerances, scuisine, stype, ssort, sortDirection, offset)
+                                .enqueue(new Callback<RecipesResults>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<RecipesResults> call, @NonNull Response<RecipesResults> response) {
+                                        if (response.isSuccessful()) {
+                                            if (overwrite)
+                                                setRecipes(response.body());
+                                            else
+                                                addToRecipes(response.body());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<RecipesResults> call, Throwable t) {
+                                        error.setValue("Request Error  " + response.code());
+
+                                    }
+                                });
                     error.setValue("Request Error  " + response.code());
                 }
             }

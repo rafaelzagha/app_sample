@@ -20,7 +20,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     private final Context context;
     private final Filters.Cuisine[] cuisines;
-    DiscoverFragment fragment;
+    private DiscoverFragment fragment;
 
     public GridAdapter(DiscoverFragment fragment) {
         this.context = fragment.getContext();

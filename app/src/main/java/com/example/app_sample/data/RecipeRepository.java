@@ -441,6 +441,20 @@ public class RecipeRepository {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+                if (previousChildName == null) {
+                    Cookbook tmp = list.get(0);
+                    tmp.setName(snapshot.child("name").getValue(String.class));
+                    list.set(0, tmp);
+                    cookbooks.setValue(list);
+                } else
+                    for (int i = 0; i < list.size(); i ++) {
+                        if(Objects.equals(list.get(i).getId(), previousChildName)){
+                            Cookbook tmp = list.get(i + 1);
+                            tmp.setName(snapshot.child("name").getValue(String.class));
+                            list.set(i+1, tmp);
+                            cookbooks.setValue(list);
+                        }
+                    }
             }
 
             @Override
@@ -514,7 +528,7 @@ public class RecipeRepository {
         return images;
     }
 
-    public MutableLiveData<Cookbook> getCookbook(String id) {
+    public LiveData<Cookbook> getCookbook(String id) {
         MutableLiveData<Cookbook> data = new MutableLiveData<>();
         Cookbook tmp = new Cookbook(null, id);
         List<Recipes.Recipe> recipes = new ArrayList<>();
@@ -591,7 +605,7 @@ public class RecipeRepository {
         return data;
     }
 
-    public MutableLiveData<Cookbook> getPublicCookbook(String uid, String id) {
+    public LiveData<Cookbook> getPublicCookbook(String uid, String id) {
         MutableLiveData<Cookbook> data = new MutableLiveData<>();
         List<Recipes.Recipe> recipes = new ArrayList<>();
 

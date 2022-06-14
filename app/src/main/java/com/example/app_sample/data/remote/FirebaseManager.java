@@ -16,9 +16,9 @@ import java.util.Objects;
 
 public class FirebaseManager {
 
-    DatabaseReference database;
-    FirebaseAuth auth;
-    StorageReference storage;
+    private final DatabaseReference database;
+    private final FirebaseAuth auth;
+    private final StorageReference storage;
 
     public FirebaseManager() {
         auth = FirebaseAuth.getInstance();

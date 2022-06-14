@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:background="@drawable/item_saved_menu"
+            android:background="@drawable/shape_saved_menu"
             android:backgroundTint="@color/red"
             android:foreground="?android:attr/selectableItemBackground"
             android:foregroundTint="@color/white"

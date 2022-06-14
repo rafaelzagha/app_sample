@@ -30,30 +30,6 @@ public class Recipes implements Serializable {
     @Entity(tableName = "recipes")
     public static class Recipe implements Serializable {
 
-        @ColumnInfo(name = "vegetarian")
-        @SerializedName("vegetarian")
-        private Boolean vegetarian;
-
-        @ColumnInfo(name = "vegan")
-        @SerializedName("vegan")
-        private Boolean vegan;
-
-        @ColumnInfo(name = "glutenFree")
-        @SerializedName("glutenFree")
-        private Boolean glutenFree;
-
-        @ColumnInfo(name = "dairyFree")
-        @SerializedName("dairyFree")
-        private Boolean dairyFree;
-
-        @ColumnInfo(name = "veryHealthy")
-        @SerializedName("veryHealthy")
-        private Boolean veryHealthy;
-
-        @ColumnInfo(name = "cheap")
-        @SerializedName("cheap")
-        private Boolean cheap;
-
         @ColumnInfo(name = "ingredients")
         @SerializedName("extendedIngredients")
         private List<Ingredient> ingredients = null;
@@ -75,17 +51,9 @@ public class Recipes implements Serializable {
         @SerializedName("servings")
         private Integer servings;
 
-        @ColumnInfo(name = "sourceUrl")
-        @SerializedName("sourceUrl")
-        private String sourceUrl;
-
         @ColumnInfo(name = "image")
         @SerializedName("image")
         private String image;
-
-        @ColumnInfo(name = "summary")
-        @SerializedName("summary")
-        private String summary;
 
         @ColumnInfo(name = "cuisines")
         @SerializedName("cuisines")
@@ -106,53 +74,6 @@ public class Recipes implements Serializable {
         @ColumnInfo(name = "color")
         private transient Integer color = 0;
 
-        public Boolean getVegetarian() {
-            return vegetarian;
-        }
-
-        public void setVegetarian(Boolean vegetarian) {
-            this.vegetarian = vegetarian;
-        }
-
-        public Boolean getVegan() {
-            return vegan;
-        }
-
-        public void setVegan(Boolean vegan) {
-            this.vegan = vegan;
-        }
-
-        public Boolean getGlutenFree() {
-            return glutenFree;
-        }
-
-        public void setGlutenFree(Boolean glutenFree) {
-            this.glutenFree = glutenFree;
-        }
-
-        public Boolean getDairyFree() {
-            return dairyFree;
-        }
-
-        public void setDairyFree(Boolean dairyFree) {
-            this.dairyFree = dairyFree;
-        }
-
-        public Boolean getVeryHealthy() {
-            return veryHealthy;
-        }
-
-        public void setVeryHealthy(Boolean veryHealthy) {
-            this.veryHealthy = veryHealthy;
-        }
-
-        public Boolean getCheap() {
-            return cheap;
-        }
-
-        public void setCheap(Boolean cheap) {
-            this.cheap = cheap;
-        }
 
         public List<Ingredient> getIngredients() {
             return ingredients;
@@ -194,28 +115,12 @@ public class Recipes implements Serializable {
             this.servings = servings;
         }
 
-        public String getSourceUrl() {
-            return sourceUrl;
-        }
-
-        public void setSourceUrl(String sourceUrl) {
-            this.sourceUrl = sourceUrl;
-        }
-
         public String getImage() {
             return image;
         }
 
         public void setImage(String image) {
             this.image = image;
-        }
-
-        public String getSummary() {
-            return summary;
-        }
-
-        public void setSummary(String summary) {
-            this.summary = summary;
         }
 
         public List<String> getCuisines() {

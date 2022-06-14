@@ -26,5 +26,4 @@ public interface RecipeDao {
     void setRecipeColor(int id, int color);
 
 
-
 }

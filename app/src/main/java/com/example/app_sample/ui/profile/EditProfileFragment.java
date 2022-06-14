@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.app_sample.R;
 import com.example.app_sample.data.RecipeRepository;
-import com.example.app_sample.ui.intro.CustomProgressDialog;
+import com.example.app_sample.utils.CustomProgressDialog;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -45,11 +45,6 @@ public class EditProfileFragment extends Fragment {
     public EditProfileFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

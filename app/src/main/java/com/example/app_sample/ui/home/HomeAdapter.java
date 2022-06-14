@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class HomeAdapter extends FragmentStateAdapter {
 
-    ArrayList<Fragment> fragments;
+    private ArrayList<Fragment> fragments;
 
     public HomeAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);

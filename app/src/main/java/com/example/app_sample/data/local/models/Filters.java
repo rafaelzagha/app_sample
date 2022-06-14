@@ -159,7 +159,6 @@ public class Filters {
         }
     }
 
-
     public static String listToString(ArrayList<Filter> list) {
         if(list!= null){
             String str = list.toString();

@@ -55,7 +55,6 @@ public class SearchFragment extends Fragment {
     private ActivityResultLauncher<Intent> activityResultLaunch;
     private ResultsAdapter adapter;
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
     private CircularProgressIndicator indicator;
     private TextView tv_filters, tv_sorting;
     private Spinner spinner;
@@ -82,11 +81,10 @@ public class SearchFragment extends Fragment {
         clearText = view.findViewById(R.id.clear_text);
         adapter = new ResultsAdapter(requireContext(), this);
         spinner = view.findViewById(R.id.spinner);
-        layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
         firstSpinnerSelection = true;
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, Filters.Sort.stringValues());
         spinner.setAdapter(spinnerAdapter);

@@ -10,7 +10,7 @@ import com.example.app_sample.data.RecipeRepository;
 
 public class HomeViewModel extends AndroidViewModel {
 
-    LiveData<String> username;
+    private LiveData<String> username;
 
     public HomeViewModel(@NonNull Application application) {
         super(application);

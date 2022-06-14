@@ -6,9 +6,6 @@ import java.io.Serializable;
 
 public class Ingredient implements Serializable {
 
-    @SerializedName("id")
-    private Integer id;
-
     @SerializedName("image")
     private String image;
 
@@ -20,14 +17,6 @@ public class Ingredient implements Serializable {
 
     @SerializedName("unit")
     private String unit;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getImage() {
         return image;

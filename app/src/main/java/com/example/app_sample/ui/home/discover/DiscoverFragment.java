@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class DiscoverFragment extends Fragment {
 
-    RecyclerView popular, categories, grid;
-    HorizontalSwipeAdapter ta, ta2;
-    DiscoverViewModel viewModel;
+    private RecyclerView popular, categories, grid;
+    private HorizontalSwipeAdapter ta, ta2;
+    private DiscoverViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.app_sample.R;
 import com.example.app_sample.data.remote.FirebaseManager;
 import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.utils.CustomProgressDialog;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -42,7 +43,6 @@ public class IntroActivity extends AppCompatActivity {
     private TextView login;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private CustomProgressDialog progressDialog;
-
     int RC_SIGN_IN;
 
     @Override

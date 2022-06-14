@@ -39,18 +39,17 @@ import java.util.Objects;
 public class GroceriesFragment extends Fragment {
 
 
-    RecyclerView recyclerView;
-    GroceriesAdapter adapter;
-    GroceriesViewModel viewModel;
-    LinearLayout empty;
-    MaterialButton discover;
-    Toolbar toolbar;
-    CollapsingToolbarLayout collapsingToolbar;
-    AppBarLayout appbar;
-    SelectionTracker<Long> selectionTracker;
-    MyItemKeyProvider itemKeyProvider;
-    ActionMode actionMode;
-    ActionMode.Callback actionModeCallback;
+    private RecyclerView recyclerView;
+    private GroceriesAdapter adapter;
+    private GroceriesViewModel viewModel;
+    private LinearLayout empty;
+    private MaterialButton discover;
+    private Toolbar toolbar;
+    private AppBarLayout appbar;
+    private SelectionTracker<Long> selectionTracker;
+    private MyItemKeyProvider itemKeyProvider;
+    private ActionMode actionMode;
+    private ActionMode.Callback actionModeCallback;
 
     public GroceriesFragment() {
     }
@@ -68,7 +67,6 @@ public class GroceriesFragment extends Fragment {
         discover = view.findViewById(R.id.discover);
         appbar = view.findViewById(R.id.appbar);
         adapter = new GroceriesAdapter(this);
-        collapsingToolbar = view.findViewById(R.id.collapsingToolbarLayout);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

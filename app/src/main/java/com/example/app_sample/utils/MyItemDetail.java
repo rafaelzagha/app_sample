@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.ItemDetailsLookup;
 
 public class MyItemDetail extends ItemDetailsLookup.ItemDetails<Long> {
+
     private final int adapterPosition;
     private final long selectionKey;
 

@@ -38,7 +38,7 @@ public class AddToCookbookFragment extends Fragment {
     private String bookId;
     private SelectionTracker<Long> selectionTracker;
     private MyItemKeyProvider itemKeyProvider;
-    private androidx.appcompat.view.ActionMode actionMode;
+    private ActionMode actionMode;
     private ActionMode.Callback actionModeCallback;
     private ExtendedFloatingActionButton add;
 

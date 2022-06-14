@@ -41,6 +41,7 @@ public class ProfileViewModel extends AndroidViewModel {
     public LiveData<Cookbook> getCookbook(String id) {
         return repo.getCookbook(id);
     }
+
     public LiveData<Cookbook> getPublicCookbook(String uid, String id){
         return repo.getPublicCookbook(uid, id);
     }
@@ -93,10 +94,6 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public void deleteRecipe(int id) {
         repo.removeRecipe(id);
-    }
-
-    public void setRecipeColor(int id, int color) {
-        repo.setRecipeColor(id, color);
     }
 
     public void addToGroceries(Recipes.Recipe recipe) {

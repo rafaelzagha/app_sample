@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app_sample.R;
 import com.example.app_sample.ui.MainActivity;
+import com.example.app_sample.utils.CustomProgressDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;

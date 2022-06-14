@@ -14,8 +14,8 @@ import java.util.List;
 
 public class GroceriesViewModel extends AndroidViewModel {
 
-    RecipeRepository repo;
-    LiveData<List<Recipes.Recipe>> recipes;
+    private RecipeRepository repo;
+    private LiveData<List<Recipes.Recipe>> recipes;
 
     public GroceriesViewModel(@NonNull Application application) {
         super(application);
